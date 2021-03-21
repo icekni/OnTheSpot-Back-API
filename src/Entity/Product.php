@@ -58,7 +58,6 @@ class Product
      */
     private $updatedAt;
 
-<<<<<<< HEAD
     /**
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
@@ -70,8 +69,6 @@ class Product
         $this->createdAt = new \DateTime();
     }
 
-=======
->>>>>>> parent of 6ebd413... UPDATE: Entity Product -> relation with Category
     public function getId(): ?int
     {
         return $this->id;
@@ -169,6 +166,18 @@ class Product
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory($category)
+    {
+        $this->category = $category;
 
         return $this;
     }

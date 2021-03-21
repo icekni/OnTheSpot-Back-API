@@ -77,15 +77,16 @@ class AppFixtures extends Fixture
             ]
         ];
 
-        //
+        // Creation of all the categories an products
         foreach ($catalog as $categoryName => $products) {
-            // Creation of the category
+            // Creation of a category
             $category = new Category();
             $category->setTitle($categoryName);
             
             $manager->persist($category);
 
             foreach ($products as $productName) {
+                // Creation of a product
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
