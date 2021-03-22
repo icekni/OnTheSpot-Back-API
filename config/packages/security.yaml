@@ -14,6 +14,27 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # JWT
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path:               /api/login
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+
+        # Checking all path begining by /api using ACL
+        api:
+            pattern:   ^/api
+            stateless: true
+            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        # Back Office
         main:
             anonymous: true
             lazy: true
@@ -21,6 +42,10 @@ security:
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # Login while in JSON
+            json_login:
+                check_path: /api/login
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -30,3 +55,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        # API
+        - { path: ^/api/user/([0-9]+|reset), roles: ROLE_USER }
+        - { path: ^/api/orders(/[0-9]+)?, roles: ROLE_USER }
+
+    role_hierarchy:
+        # ROLE_ADMIN inherit from ROLE_USER
+        ROLE_ADMIN: ROLE_USER    
