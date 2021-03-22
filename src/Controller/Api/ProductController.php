@@ -12,7 +12,7 @@ class ProductController extends AbstractController
     /**
      * Read one product
      * 
-     * @Route("/api/product/{id<\d+>}", name="api_read_one_product", methods={"GET"})
+     * @Route("/api/products/{id<\d+>}", name="api_read_one_product", methods={"GET"})
      */
     public function read(Product $product): Response
     {

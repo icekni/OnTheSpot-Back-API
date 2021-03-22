@@ -10,12 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DeliveryPointController extends AbstractController
 {
     /**
-     * @Route("/api/delivery-point", name="api_delivery_point")
+     * @Route("/api/delivery-points", name="api_delivery_point")
      */
     public function browse(DeliveryPointRepository $deliveryPointRepository): Response
     {
         $deliveryPoints = $deliveryPointRepository->findAll();
 
-        return $this->json($deliveryPoints);
+        return $this->json($deliveryPoints, 200);
     }
 }
