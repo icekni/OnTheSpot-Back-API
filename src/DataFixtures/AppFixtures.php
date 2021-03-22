@@ -8,10 +8,18 @@ use App\Entity\Product;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr-FR');
@@ -102,6 +110,34 @@ class AppFixtures extends Fixture
                 $manager->persist($product);
             }
         }
+
+        // Creation of an admin, cause we need at least one
+        $admin = new User();
+        $admin->setFirstname("Admin")
+            ->setLastname("Admin")
+            ->setEmail("admin@mail.com")
+            ->setPassword(
+                $this->encoder->encodePassword($admin, "admin")
+            )
+            ->setTelNumber("0000000000")
+            ->setRoles(["ROLE_ADMIN"])
+        ;
+
+        $manager->persist($admin);
+
+        // Creation of an admin, cause we need at least one
+        $user = new User();
+        $user->setFirstname("User")
+            ->setLastname("User")
+            ->setEmail("user@mail.com")
+            ->setPassword(
+                $this->encoder->encodePassword($user, "user")
+            )
+            ->setTelNumber("0000000000")
+            ->setRoles(["ROLE_USER"])
+        ;
+
+        $manager->persist($user);
 
         $manager->flush();
     }
