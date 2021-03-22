@@ -55,3 +55,11 @@ services:
                 event: 'preUpdate'
                 entity: 'App\Entity\Product'
                 method: 'updateSlug'
+
+    App\EventListener\UserEntityListener:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'prePersist'
+                entity: 'App\Entity\User'
+                method: 'prePersist'
