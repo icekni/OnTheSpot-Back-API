@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
+    /**
+     * @Route("/api/user", name="api_user_browse", methods="GET")
+     */
+    public function browse(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAll();
+
+        return $this->json(
+            $users, 
+            200
+        );
+    }
+
     /**
      * Registering of a user
      * 
