@@ -170,12 +170,12 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory()
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory($category)
     {
         $this->category = $category;
 

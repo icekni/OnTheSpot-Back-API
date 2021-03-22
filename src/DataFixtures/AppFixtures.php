@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\City;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -55,7 +57,7 @@ class AppFixtures extends Fixture
             ],
         ];
 
-        $deliveryPoints = [
+        $meetingPoints = [
             "Seignosses" => [
                 "Plage des Casernes",
                 "Plage de Lagreou",
@@ -85,15 +87,16 @@ class AppFixtures extends Fixture
             ]
         ];
 
-        //
+        // Creation of the catalog
         foreach ($catalog as $categoryName => $products) {
-            // Creation of the category
+            // Creation of a category
             $category = new Category();
             $category->setTitle($categoryName);
             
             $manager->persist($category);
 
             foreach ($products as $productName) {
+                // Creation of a product
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
@@ -110,6 +113,7 @@ class AppFixtures extends Fixture
                 $manager->persist($product);
             }
         }
+
 
         // Creation of an admin, cause we need at least one
         $admin = new User();
@@ -138,6 +142,32 @@ class AppFixtures extends Fixture
         ;
 
         $manager->persist($user);
+
+        // Creation of all the delivery points
+        foreach ($meetingPoints as $cityName => $deliveryPoints) {
+            // Creation of a city
+            $city = new City();
+            $city->setName($cityName);
+
+            $manager->persist($city);
+
+            foreach ($deliveryPoints as $deliveryPointName) {
+                // Creation of a delivery point
+                $deliveryPoint = new DeliveryPoint();
+                $deliveryPoint->setName($deliveryPointName)
+                    ->setCity($city)
+                    ->setDescription($faker->unique()->sentence())
+                    ->setLocation(
+                        $faker->unique()->latitude() . 
+                        ", " . 
+                        $faker->unique()->longitude())
+                ;
+
+                $manager->persist($deliveryPoint);
+            }
+        }
+
+        // TODO : Creer des fausses commandes, associées à des faux utilisateurs
 
         $manager->flush();
     }
