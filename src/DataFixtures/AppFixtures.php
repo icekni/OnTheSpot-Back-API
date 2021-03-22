@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
                 "Plage Hossegor La Nord",
                 "Plage Hossegor la Centrale",
                 "Plage Hossegor La Sud",
-                "Plage Hossgor Notre Dame",
+                "Plage Hossegor Notre Dame",
             ],
             "Cap Breton" => [
                 "Plage de l'Estacade",
