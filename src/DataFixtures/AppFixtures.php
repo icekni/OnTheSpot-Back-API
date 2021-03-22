@@ -120,9 +120,7 @@ class AppFixtures extends Fixture
         $admin->setFirstname("Admin")
             ->setLastname("Admin")
             ->setEmail("admin@mail.com")
-            ->setPassword(
-                $this->encoder->encodePassword($admin, "admin")
-            )
+            ->setPassword("admin")
             ->setTelNumber("0000000000")
             ->setRoles(["ROLE_ADMIN"])
         ;
@@ -134,9 +132,7 @@ class AppFixtures extends Fixture
         $user->setFirstname("User")
             ->setLastname("User")
             ->setEmail("user@mail.com")
-            ->setPassword(
-                $this->encoder->encodePassword($user, "user")
-            )
+            ->setPassword("user")
             ->setTelNumber("0000000000")
             ->setRoles(["ROLE_USER"])
         ;
