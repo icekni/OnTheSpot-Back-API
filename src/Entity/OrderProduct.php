@@ -7,6 +7,7 @@ use App\Repository\OrderProductRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraint as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OrderProductRepository::class)
@@ -24,6 +25,7 @@ class OrderProduct
      * @ORM\Column(type="integer")
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $quantity;
 
@@ -32,12 +34,14 @@ class OrderProduct
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $relatedToOrder;
 
