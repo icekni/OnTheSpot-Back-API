@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraint AS Assert;
+use Symfony\Component\Validator\Constraints AS Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -44,6 +44,7 @@ class User implements UserInterface
      * 
      * Min 1 uppercase, 1 lowercase, 1 digit, 1 special character and at least 8 chars in total
      * @Assert\Regex("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_\.!\?\-@~$€£µ,;:+\/])[a-zA-Z0-9_\.!\?\-@~$€£µ,;:+\/]{8,}/")
+     * @Assert\NotCompromisedPassword
      */
     private $password;
 

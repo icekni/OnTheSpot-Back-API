@@ -44,7 +44,15 @@ class UserController extends AbstractController
         // Turn it into an object User
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
-        // TODO validation
+        // Validation
+        $errors = $validator->validate($user);
+
+        // In case of error
+        if (count($errors) > 0) {
+            // Send a json containing all errors
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
         // TODO send a confirmation email
         
         // Saving into DB
