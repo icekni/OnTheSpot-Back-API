@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DeliveryPointRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DeliveryPointRepository::class)
@@ -24,6 +25,7 @@ class DeliveryPoint
      * @ORM\Column(type="string", length=128)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -31,6 +33,7 @@ class DeliveryPoint
      * @ORM\Column(type="text")
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $description;
 
@@ -38,6 +41,7 @@ class DeliveryPoint
      * @ORM\Column(type="string", length=255)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $location;
 
@@ -61,6 +65,7 @@ class DeliveryPoint
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $city;
 
