@@ -76,6 +76,9 @@ class Order
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
+
+        $this->status = 0;
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int

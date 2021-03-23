@@ -5,13 +5,14 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\City;
 use App\Entity\User;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -139,7 +140,25 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
+        // Creation of a few random user
+        $usersList = [];
+        for ($i=0; $i < 15; $i++) { 
+            $user = new User();
+            $user->setFirstname($faker->unique()->firstname())
+                ->setLastname($faker->unique()->lastname())
+                ->setEmail($faker->unique()->email())
+                ->setPassword("password")
+                ->setTelNumber($faker->unique()->phoneNumber())
+                ->setRoles(["ROLE_USER"])
+            ;
+
+            $usersList[] = $user;
+
+            $manager->persist($user);
+        }
+
         // Creation of all the delivery points
+        $deliveryPointsList = [];
         foreach ($meetingPoints as $cityName => $deliveryPoints) {
             // Creation of a city
             $city = new City();
@@ -159,11 +178,21 @@ class AppFixtures extends Fixture
                         $faker->unique()->longitude())
                 ;
 
+                $deliveryPointsList[] = $deliveryPoint;
+
                 $manager->persist($deliveryPoint);
             }
         }
 
-        // TODO : Creer des fausses commandes, associées à des faux utilisateurs
+        // fake orders
+        for ($i=0; $i < 50; $i++) { 
+            $order = new Order();
+
+            $order->setDeliveryTime("2021-03-23T12:45:35+00:00")
+                ->setUser($usersList[array_rand($usersList)])
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+            ;
+        }
 
         $manager->flush();
     }
