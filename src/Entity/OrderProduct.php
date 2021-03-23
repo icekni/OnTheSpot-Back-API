@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OrderProductRepository::class)
@@ -21,20 +22,24 @@ class OrderProduct
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class)
+     * @ORM\ManyToOne(targetEntity=Product::class)
+     * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_order_read_one")
+     */
+    private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $relatedToOrder;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Product::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $product;
 
     public function __construct()
     {
@@ -57,6 +62,18 @@ class OrderProduct
 
         return $this;
     }
+    
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }
 
     public function getRelatedToOrder(): ?Order
     {
@@ -66,18 +83,6 @@ class OrderProduct
     public function setRelatedToOrder(?Order $relatedToOrder): self
     {
         $this->relatedToOrder = $relatedToOrder;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }

@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\DeliveryPointRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DeliveryPointRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=DeliveryPointRepository::class)
@@ -19,16 +22,22 @@ class DeliveryPoint
 
     /**
      * @ORM\Column(type="string", length=128)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $location;
 
@@ -45,12 +54,20 @@ class DeliveryPoint
     /**
      * @ORM\ManyToOne(targetEntity=City::class)
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $city;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="deliveryPoint", orphanRemoval=true)
+     */
+    private $orders;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,6 +143,36 @@ class DeliveryPoint
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setDeliveryPoint($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getDeliveryPoint() === $this) {
+                $order->setDeliveryPoint(null);
+            }
+        }
 
         return $this;
     }
