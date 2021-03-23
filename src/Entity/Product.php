@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraint as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -23,16 +24,22 @@ class Product
      * @ORM\Column(type="string", length=128)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $description;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert/Url(
+     *    protocols = {"https"}
+     * )
      */
     private $picture;
 
@@ -40,11 +47,17 @@ class Product
      * @ORM\Column(type="decimal", precision=6, scale=2)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
+     * @Assert\Regex("/[0-9.]+/")
+     * @Assert\Positive
+     * 
      */
     private $price;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
+     * @Assert\type("bool")
      */
     private $availability;
 
@@ -66,6 +79,8 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Type("integer")
      */
     private $category;
 
