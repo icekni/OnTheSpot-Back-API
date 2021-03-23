@@ -42,7 +42,7 @@ class UserController extends AbstractController
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
 
         // TODO validation
-        // TODO sending confirmation email
+        // TODO send a confirmation email
         
         // Saving into DB
         $entityManager->persist($user);
