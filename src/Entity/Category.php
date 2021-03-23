@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CategoryRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -20,6 +21,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $title;
 
@@ -40,6 +42,7 @@ class Category
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank
      */
     private $picture;
 
