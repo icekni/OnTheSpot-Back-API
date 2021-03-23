@@ -19,7 +19,7 @@ class UserController extends AbstractController
     /**
      * Useless and dangerous route, for debug only
      * 
-     * @Route("/api/user", name="api_user_browse", methods="GET")
+     * @Route("/api/users", name="api_user_browse", methods="GET")
      */
     public function browse(UserRepository $userRepository): Response
     {
@@ -34,7 +34,7 @@ class UserController extends AbstractController
     /**
      * Registering of a user
      * 
-     * @Route("/api/user", name="api_user_add", methods="POST")
+     * @Route("/api/users", name="api_user_add", methods="POST")
      */
     public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserPasswordEncoderInterface $encoder): Response
     {
@@ -60,7 +60,7 @@ class UserController extends AbstractController
     /**
      * Deletion of an account
      * 
-     * @Route("/api/user", name="api_user_delete", methods="DELETE")
+     * @Route("/api/users", name="api_user_delete", methods="DELETE")
      */
     public function delete(Security $security, EntityManagerInterface $manager): Response
     {
