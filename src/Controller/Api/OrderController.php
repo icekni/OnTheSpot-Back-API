@@ -9,20 +9,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class OrderController extends AbstractController
 {
     /**
-     * Browse all the orders
+     * Browse the orders for the connected user
      * 
-     * @Route("/api/orders", name="api_order", methods={"GET"})
+     * @Route("/api/orders", name="api_order_browse", methods={"GET"})
      */
-    public function browse(OrderRepository $orderRepository): Response
+    public function browse(Security $security, OrderRepository $orderRepository): Response
     {
-        $orders = $orderRepository->findAll();
+        $customer = $security->getUser();
 
-        return $this->json($orders, 200);
+        $orders = $orderRepository->findBy([
+            'customer' => $customer,
+        ]);
+
+        return $this->json($orders, 200, [], ['groups' => [
+            'api_order_browse',
+        ]]);
     }
 
 
@@ -44,8 +51,11 @@ class OrderController extends AbstractController
             return $this->json($message, Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($order, 200);
+        return $this->json($order, 200, [], ['groups' => [
+            'api_order_read_one',
+        ]]);
     }
+
 
     /**
      * Post a new order
@@ -60,8 +70,8 @@ class OrderController extends AbstractController
 
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
-            $jsonContent, 
-            Order::class, 
+            $jsonContent,
+            Order::class,
             'json'
         );
 

@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderProductRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OrderProductRepository::class)
@@ -21,12 +22,16 @@ class OrderProduct
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $quantity;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class)
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $product;
 

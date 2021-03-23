@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
@@ -20,6 +21,8 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=128)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $name;
 
@@ -35,6 +38,8 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $price;
 
