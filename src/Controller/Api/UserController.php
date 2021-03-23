@@ -17,6 +17,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
+     * Useless and dangerous route, for debug only
+     * 
      * @Route("/api/user", name="api_user_browse", methods="GET")
      */
     public function browse(UserRepository $userRepository): Response
