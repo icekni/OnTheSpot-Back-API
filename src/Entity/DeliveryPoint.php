@@ -52,17 +52,17 @@ class DeliveryPoint
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class)
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="deliveryPoint", orphanRemoval=true)
+     */
+    private $orders;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="deliveryPoints")
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_order_read_one")
      */
     private $city;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="deliveryPoint", orphanRemoval=true)
-     */
-    private $orders;
 
     public function __construct()
     {
@@ -135,18 +135,6 @@ class DeliveryPoint
         return $this;
     }
 
-    public function getCity(): ?City
-    {
-        return $this->city;
-    }
-
-    public function setCity(?City $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Order[]
      */
@@ -173,6 +161,18 @@ class DeliveryPoint
                 $order->setDeliveryPoint(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
