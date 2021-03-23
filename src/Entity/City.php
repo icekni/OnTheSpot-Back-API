@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CityRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CityRepository::class)
@@ -19,6 +22,8 @@ class City
 
     /**
      * @ORM\Column(type="string", length=128)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $name;
 
@@ -32,9 +37,15 @@ class City
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DeliveryPoint::class, mappedBy="city", orphanRemoval=true)
+     */
+    private $deliveryPoints;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->deliveryPoints = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,6 +85,36 @@ class City
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DeliveryPoint[]
+     */
+    public function getDeliveryPoints(): Collection
+    {
+        return $this->deliveryPoints;
+    }
+
+    public function addDeliveryPoint(DeliveryPoint $deliveryPoint): self
+    {
+        if (!$this->deliveryPoints->contains($deliveryPoint)) {
+            $this->deliveryPoints[] = $deliveryPoint;
+            $deliveryPoint->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliveryPoint(DeliveryPoint $deliveryPoint): self
+    {
+        if ($this->deliveryPoints->removeElement($deliveryPoint)) {
+            // set the owning side to null (unless already changed)
+            if ($deliveryPoint->getCity() === $this) {
+                $deliveryPoint->setCity(null);
+            }
+        }
 
         return $this;
     }

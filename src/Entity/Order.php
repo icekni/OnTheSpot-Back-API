@@ -68,8 +68,6 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
-     * 
-     * @Groups("api_order_read_one")
      */
     private $user;
 

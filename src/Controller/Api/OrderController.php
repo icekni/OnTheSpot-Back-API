@@ -21,10 +21,10 @@ class OrderController extends AbstractController
      */
     public function browse(Security $security, OrderRepository $orderRepository): Response
     {
-        $customer = $security->getUser();
+        $user = $security->getUser();
 
         $orders = $orderRepository->findBy([
-            'customer' => $customer,
+            'user' => $user,
         ]);
 
         return $this->json($orders, 200, [], ['groups' => [
