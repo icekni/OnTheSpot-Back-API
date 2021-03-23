@@ -5,13 +5,15 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\City;
 use App\Entity\User;
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -95,6 +97,7 @@ class AppFixtures extends Fixture
             
             $manager->persist($category);
 
+            $productsList = [];
             foreach ($products as $productName) {
                 // Creation of a product
                 $product = new Product();
@@ -109,6 +112,8 @@ class AppFixtures extends Fixture
                     )
                     ->setCategory($category)
                 ;
+
+                $productsList[] = $product;
 
                 $manager->persist($product);
             }
@@ -139,7 +144,25 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
+        // Creation of a few random user
+        $usersList = [];
+        for ($i=0; $i < 15; $i++) { 
+            $user = new User();
+            $user->setFirstname($faker->unique()->firstname())
+                ->setLastname($faker->unique()->lastname())
+                ->setEmail($faker->unique()->email())
+                ->setPassword("password")
+                ->setTelNumber($faker->unique()->phoneNumber())
+                ->setRoles(["ROLE_USER"])
+            ;
+
+            $usersList[] = $user;
+
+            $manager->persist($user);
+        }
+
         // Creation of all the delivery points
+        $deliveryPointsList = [];
         foreach ($meetingPoints as $cityName => $deliveryPoints) {
             // Creation of a city
             $city = new City();
@@ -159,11 +182,33 @@ class AppFixtures extends Fixture
                         $faker->unique()->longitude())
                 ;
 
+                $deliveryPointsList[] = $deliveryPoint;
+
                 $manager->persist($deliveryPoint);
             }
         }
 
-        // TODO : Creer des fausses commandes, associées à des faux utilisateurs
+        // fake orders
+        for ($i=0; $i < 50; $i++) { 
+            $order = new Order();
+            
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks'))
+                ->setUser($usersList[array_rand($usersList)])
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+            ;
+
+            // Add a random amount of product
+            for ($j=0; $j < mt_rand(1,10); $j++) { 
+                $orderLine = new OrderProduct();
+                $orderLine->setQuantity(mt_rand(1,5))
+                    ->setProduct($productsList[array_rand($productsList)])
+                ;
+
+                $order->addOrderProduct($orderLine);
+            }
+
+            $manager->persist($order);
+        }
 
         $manager->flush();
     }
