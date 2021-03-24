@@ -33,7 +33,9 @@ API Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public/api
 ----
 For example, an image could be at : https://onthespot.apotheoz.tech/back/public/assets/images/beignet-choconoisette.png
 
-Property `picture` is `assets/images/beignet-choconoisette.png`
+Here, the `picture` property is `assets/images/beignet-choconoisette.png`
+
+Property is a relative path from the Server Base URI
 
 So you should concatenate from the Server Base URI to have the absolute URL of the picture to display.
 
