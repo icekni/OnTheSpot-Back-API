@@ -44,9 +44,7 @@ class Product
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotBlank
-     * @Assert\Regex("/[0-9.]+/")
-     * @Assert\Positive
-     * 
+     * @Assert\Regex("/^[0-9]{1,4}([,.][0-9]{0,2})?$/") 
      */
     private $price;
 
@@ -76,7 +74,6 @@ class Product
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Assert\Type("integer")
      */
     private $category;
 

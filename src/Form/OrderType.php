@@ -13,9 +13,16 @@ class OrderType extends AbstractType
     {
         $builder
             ->add('deliveryTime')
-            ->add('status')
+            ->add('status', ChoiceType::class, [
+                'label' => 'Statut',
+                'choices' => [
+                    'Non acceptée' => 0,
+                    'Non acceptée' => 0,
+                    'Non acceptée' => 0,
+                    'Non acceptée' => 0,
+                ]
+            ])
             ->add('createdAt')
-            ->add('updatedAt')
             ->add('deliveryPoint')
             ->add('user')
         ;
