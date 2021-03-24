@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeliveryPoint index{% endblock %}
+
+{% block body %}
+    <h1>DeliveryPoint index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for delivery_point in delivery_points %}
+            <tr>
+                <td>{{ delivery_point.id }}</td>
+                <td>{{ delivery_point.name }}</td>
+                <td>{{ delivery_point.description }}</td>
+                <td>{{ delivery_point.location }}</td>
+                <td>{{ delivery_point.createdAt ? delivery_point.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ delivery_point.updatedAt ? delivery_point.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('delivery_point_show', {'id': delivery_point.id}) }}">show</a>
+                    <a href="{{ path('delivery_point_edit', {'id': delivery_point.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('delivery_point_new') }}">Create new</a>
+{% endblock %}
