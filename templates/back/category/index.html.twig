@@ -3,41 +3,44 @@
 {% block title %}Category index{% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+<h1>Toutes les categories</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Slug</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Picture</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.title }}</td>
-                <td>{{ category.slug }}</td>
-                <td>{{ category.createdAt ? category.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ category.picture }}</td>
-                <td>
-                    <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
+<a type="button" href="{{ path('category_new') }}" class="btn btn-success m-3">Nouvelle categorie</a>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th></th>
+            <th>Nom</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories|sort((a, b) => a.title <=> b.title) %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td><img src="{{ category.picture }}_th.png" alt="Image de {{ category.title}}"></td>
+            <td class="position-relative"><a href="{{ path('category_show', {'id': category.id}) }}" class=" stretched-link">{{ category.title }}</td><a></td>
+            <td class="d-flex">
+                <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                
+                <div class="dropdown mx-2">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ path('category_delete', {'id': category.id}) }}">Confirmer</a>
+                        <a class="dropdown-item" href="#">Annuler</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="10">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('category_new') }}">Create new</a>
+    </tbody>
+</table>
 {% endblock %}
