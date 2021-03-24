@@ -41,7 +41,6 @@ class Category
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank
      */
     private $picture;
 

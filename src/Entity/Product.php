@@ -36,9 +36,6 @@ class Product
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
-     * @Assert/Url(
-     *    protocols = {"https"}
-     * )
      */
     private $picture;
 
