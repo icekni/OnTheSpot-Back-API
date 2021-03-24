@@ -1,16 +1,17 @@
 **Table of contents**
 ===============
-* [Api](#API)
-    * [Login](#login)
-    * [Registering a user](#registering)
-    * [Deleting your account](#delete-user)
-    * [Browse all categories](#browse-categories)
-    * [Browse all products from a specified category](#browse-products)
-    * [Read a specified product](#read-products)
-    * [Browse all Delivery Points](#browse-deliveryPoints)
-    * [Send an order](#post-orders)
-    * [Browse all orders from a logged user](#browse-orders)
-    * [Read a specified orders from a logged user](#read-orders)
+- [**Table of contents**](#table-of-contents)
+- [**API**](#api)
+  - [**Login**](#login)
+  - [**Registering**](#registering)
+  - [**Delete User**](#delete-user)
+  - [**Browse Categories**](#browse-categories)
+  - [**Browse Products**](#browse-products)
+  - [**Read Product**](#read-product)
+  - [**Browse DeliveryPoints**](#browse-deliverypoints)
+  - [**Post Orders**](#post-orders)
+  - [**Browse Orders**](#browse-orders)
+  - [**Read Orders**](#read-orders)
 
 **API**
 ===============
@@ -413,7 +414,22 @@
     **Content:** 
     ```json
     {
-        ... TODO
+      "deliveryTime": "2021-03-22T18:10:07+01:00",
+      "status": 0,
+      "user": 2,
+      "deliveryPoint": 12,
+      "createdAt": "2021-03-22T18:10:07+01:00",
+      "updatedAt": null,
+      "orderProducts": [
+        {
+        "product": 5,
+        "quantity": 3
+        },
+        {
+        "product": 15,
+        "quantity": 7
+        }
+      ]
     }
     ```
  
@@ -423,8 +439,15 @@
     **Content:** 
     ```json
     {
-        ... TODO
+        ...
+        "violations": [
+            {
+            "propertyPath": "<property>",
+            "title": "<error message>",
+            ...
+        ]
     }
+    ```
 
 **Browse Orders**
 ----
@@ -451,9 +474,18 @@
   * **Code:** 200 <br />
     **Content:** 
     ```json
-    {
-        ... TODO
-    }
+    [
+      {
+        "id": 51,
+        "deliveryTime": "2021-03-22T18:10:07+01:00",
+        "status": 0
+      },
+      {
+        "id": 52,
+        "deliveryTime": "2021-03-22T18:10:07+01:00",
+        "status": 0
+      }
+    ]
     ```
  
 * **Error Response:**
@@ -462,7 +494,8 @@
     **Content:** 
     ```json
     {
-        ... TODO
+      "code": 401,
+      "message": "Credentials invalid."
     }
     ```
 
@@ -492,7 +525,34 @@
     **Content:** 
     ```json
     {
-        ... TODO
+      "id": 53,
+      "deliveryTime": "2021-03-22T18:10:07+01:00",
+      "status": 0,
+      "createdAt": "2021-03-22T18:10:07+01:00",
+      "orderProducts": [
+        {
+          "quantity": 3,
+          "product": {
+            "name": "Cornet Chocolat",
+            "price": "5.00"
+          }
+        },
+        {
+          "quantity": 7,
+          "product": {
+            "name": "Orangina 33cL",
+            "price": "2.00"
+          }
+        }
+      ],
+      "deliveryPoint": {
+        "name": "Plage de l'Estacade",
+        "description": "Asperiores maiores commodi ut est qui nulla.",
+        "location": "-82.348974, 37.062855",
+        "city": {
+          "name": "Cap Breton"
+        }
+      }
     }
     ```
  
@@ -502,6 +562,7 @@
     **Content:** 
     ```json
     {
-        ... TODO
+      "status": 404,
+      "error": "Commande non trouvée."
     }
     ```
