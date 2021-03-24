@@ -21,6 +21,7 @@ class ProductEntityListener
             $this->slugger->slug(
                     $product->getName()
                 )
+                ->lower()
         );
     }
 }
