@@ -3,41 +3,42 @@
 {% block title %}DeliveryPoint index{% endblock %}
 
 {% block body %}
-    <h1>DeliveryPoint index</h1>
+<h1>Tous les points de retrait</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for delivery_point in delivery_points %}
-            <tr>
-                <td>{{ delivery_point.id }}</td>
-                <td>{{ delivery_point.name }}</td>
-                <td>{{ delivery_point.description }}</td>
-                <td>{{ delivery_point.location }}</td>
-                <td>{{ delivery_point.createdAt ? delivery_point.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ delivery_point.updatedAt ? delivery_point.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('delivery_point_show', {'id': delivery_point.id}) }}">show</a>
-                    <a href="{{ path('delivery_point_edit', {'id': delivery_point.id}) }}">edit</a>
-                </td>
-            </tr>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ville</th>
+            <th>Point de retrait</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deliveryPoint in delivery_points|sort((a, b) => a.city.name <=> b.city.name) %}
+        <tr>
+            <td>{{ deliveryPoint.id }}</td>
+            <td>{{ deliveryPoint.city.name }}</td>
+            <td class="position-relative"><a href="{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}" class="stretched-link">{{ deliveryPoint.name }}</td><a></td>
+            <td class="d-flex">
+                <a type="button" href="{{ path('delivery_point_edit', {'id': deliveryPoint.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                
+                <div class="dropdown mx-2">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ path('delivery_point_delete', {'id': deliveryPoint.id}) }}">Confirmer</a>
+                        <a class="dropdown-item" href="#">Annuler</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="10">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('delivery_point_new') }}">Create new</a>
+    </tbody>
+</table>
 {% endblock %}
