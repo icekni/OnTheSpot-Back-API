@@ -3,35 +3,27 @@
 {% block title %}Product index{% endblock %}
 
 {% block body %}
-    <h1>Product index</h1>
+    <h1>Tous les produits</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Picture</th>
-                <th>Price</th>
-                <th>Availability</th>
-                <th>Slug</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <th>#</th>
+                <th></th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Disponibilité</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {% for product in products|sort((a, b) => a.name <=> b.name) %}
             <tr>
                 <td>{{ product.id }}</td>
+                <td><img src="{{ product.picture }}_th.png" alt="Image de {{ product.name}}"></td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.picture }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.availability ? 'Yes' : 'No' }}</td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.price }} €</td>
+                <td>{{ product.availability ? 'En stock' : 'Hors stock' }}</td>
                 <td>
                     <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
