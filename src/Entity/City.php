@@ -24,7 +24,7 @@ class City
     /**
      * @ORM\Column(type="string", length=128)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $name;
