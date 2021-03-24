@@ -22,9 +22,11 @@
 **Accessing the API**
 ----
 Server Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public
+
 Server Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public
 
 API Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public/api
+
 API Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public/api
 
 **Image path**
