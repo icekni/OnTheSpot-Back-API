@@ -3,36 +3,40 @@
 {% block title %}Order{% endblock %}
 
 {% block body %}
-    <h1>Order</h1>
+<h1>Commande #{{ order.id }}</h1>
 
-    <table class="table">
+<a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i> Modifier</a>
+
+<div class="row">
+    minimap
+</div>
+<div class="row border-top">
+    <table class="table table-borderless">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ order.id }}</td>
+                <th scope="row">Statut</th>
+                <td>
+                    {% if order.status == 0 %}En attente{% endif %}
+                    {% if order.status == 1 %}En préparation{% endif %}
+                    {% if order.status == 2 %}En livraison{% endif %}
+                    {% if order.status == 3 %}Livrée{% endif %}
+                </td>
             </tr>
             <tr>
-                <th>DeliveryTime</th>
-                <td>{{ order.deliveryTime ? order.deliveryTime|date('Y-m-d H:i:s') : '' }}</td>
+                <th scope="row">Heure de livraison</th>
+                <td>{{ order.deliveryTime|date("d-m-Y - H:i") }}</td>
             </tr>
             <tr>
-                <th>Status</th>
-                <td>{{ order.status }}</td>
+                <th scope="row">Point de retrait</th>
+                <td>{{ order.deliveryPoint.city.name }} - {{ order.deliveryPoint.name }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
-                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <th scope="row">Client</th>
+                <td>{{ order.user.firstname }} {{ order.user.lastname }}</td>
             </tr>
         </tbody>
     </table>
+</div>
 
     <a href="{{ path('order_index') }}">back to list</a>
-
-    <a href="{{ path('order_edit', {'id': order.id}) }}">edit</a>
-
-    {{ include('back/order/_delete_form.html.twig') }}
 {% endblock %}
