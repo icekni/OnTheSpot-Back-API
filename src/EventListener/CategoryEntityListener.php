@@ -21,6 +21,7 @@ class CategoryEntityListener
             $this->slugger->slug(
                     $category->getTitle()
                 )
+                ->lower()
         );
     }
 }
