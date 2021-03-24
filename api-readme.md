@@ -35,7 +35,7 @@ For example, an image could be at : https://onthespot.apotheoz.tech/back/public/
 
 Here, the `picture` property is `assets/images/beignet-choconoisette.png`
 
-Property is a relative path from the Server Base URI
+The picture property is a relative path from the Server Base URI
 
 So you should concatenate from the Server Base URI to have the absolute URL of the picture to display.
 
