@@ -55,7 +55,7 @@ class AppFixtures extends Fixture
                         "picture" => "cornet-vanille-chocolat"
                     ],
                     "Calipso Citron" => [
-                        "picture" => "calipso-citron"
+                        "picture" => "calipo-citron"
                     ],
                     "Fusée" => [
                         "picture" => "fusee"
@@ -81,7 +81,7 @@ class AppFixtures extends Fixture
                         "picture" => "praline"
                     ],
                 ],
-                "picture" => "categorie-glace",
+                "picture" => "categorie-snack",
             ],
             "Boissons" => [
                 "products" => [
@@ -107,7 +107,7 @@ class AppFixtures extends Fixture
                         "picture" => "bouteille-eau"
                     ],
                 ],
-                "picture" => "categorie-glace",
+                "picture" => "categorie-boisson",
             ],
         ];
 
@@ -146,7 +146,7 @@ class AppFixtures extends Fixture
             // Creation of a category
             $category = new Category();
             $category->setTitle($categoryName)
-                ->setPicture('../assets/images/products/' . $categoryDetails['picture']);
+                ->setPicture('../assets/images/' . $categoryDetails['picture']);
 
             $manager->persist($category);
 
@@ -156,7 +156,7 @@ class AppFixtures extends Fixture
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
-                    ->setPicture('../assets/images/products/' . $productDetails['picture'])
+                    ->setPicture('../assets/images/' . $productDetails['picture'])
                     ->setPrice(mt_rand(0, 10))
                     ->setAvailability(
                         round(
