@@ -11,8 +11,10 @@ use App\Entity\Category;
 use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Asset\UrlPackage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -27,35 +29,85 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr-FR');
-        
+
         // We use the fixtures in the dev version of the application to avoid having to load them on each developer's computer
 
         // Filling of the database with the data given by the product owner 
         $catalog = [
             "Glaces" => [
-                "Magnum Vanille",
-                "Magnum Chocolat",
-                "Magnum Amande",
-                "Cornet Vanille",
-                "Cornet Chocolat",
-                "Calipso Citron",
-                "Fusée",
-                "Glace en pot",
+                "products" => [
+                    "Magnum Vanille" => [
+                        "picture" => "magnum-vanille"
+                    ],
+                    "Magnum Chocolat" => [
+                        "picture" => "magnum-chocolat"
+                    ],
+                    "Magnum Amande" => [
+                        "picture" => "magnum-amande"
+                    ],
+                    "Cornet Vanille" => [
+                        "picture" => "cornet-vanille"
+                    ],
+                    "Cornet Chocolat" => [
+                        "picture" => "cornet-chocolat"
+                    ],
+                    "Cornet Vanille-Chocolat" => [
+                        "picture" => "cornet-vanille-chocolat"
+                    ],
+                    "Calipso Citron" => [
+                        "picture" => "calipso-citron"
+                    ],
+                    "Fusée" => [
+                        "picture" => "fusee"
+                    ],
+                    "Glace en pot" => [
+                        "picture" => "glace-pot"
+                    ],
+                ],
+                "picture" => "categorie-glace",
             ],
             "Snack" => [
-                "Beignet Pomme",
-                "Beignet Cocholat-Noisette",
-                "Beignet Sucre",
-                "Chouchou/pralines",
+                "products" => [
+                    "Beignet Pomme" => [
+                        "picture" => "beignet-pomme"
+                    ],
+                    "Beignet Cocholat-Noisette" => [
+                        "picture" => "beignet-choconoisette"
+                    ],
+                    "Beignet Sucre" => [
+                        "picture" => "beignet-sucre"
+                    ],
+                    "Chouchou/pralines" => [
+                        "picture" => "praline"
+                    ],
+                ],
+                "picture" => "categorie-glace",
             ],
             "Boissons" => [
-                "Coca Cola 33cL",
-                "Orangina 33cL",
-                "Sprite 33cL",
-                "Fanta 33cL",
-                "Pepsi 33cL",
-                "Perrier 33cL",
-                "Vittel 50cL",
+                "products" => [
+                    "Coca Cola 33cL" => [
+                        "picture" => "can-coca"
+                    ],
+                    "Orangina 33cL" => [
+                        "picture" => "can-orangina"
+                    ],
+                    "Sprite 33cL" => [
+                        "picture" => "can-sprite"
+                    ],
+                    "Fanta 33cL" => [
+                        "picture" => "can-fanta"
+                    ],
+                    "Pepsi 33cL" => [
+                        "picture" => "can-pepsi"
+                    ],
+                    "Perrier 33cL" => [
+                        "picture" => "can-perrier"
+                    ],
+                    "Vittel 50cL" => [
+                        "picture" => "bouteille-eau"
+                    ],
+                ],
+                "picture" => "categorie-glace",
             ],
         ];
 
@@ -90,28 +142,28 @@ class AppFixtures extends Fixture
         ];
 
         // Creation of the catalog
-        foreach ($catalog as $categoryName => $products) {
+        foreach ($catalog as $categoryName => $categoryDetails) {
             // Creation of a category
             $category = new Category();
-            $category->setTitle($categoryName);
-            
+            $category->setTitle($categoryName)
+                ->setPicture('../assets/images/products/' . $categoryDetails['picture']);
+
             $manager->persist($category);
 
             $productsList = [];
-            foreach ($products as $productName) {
+            foreach ($categoryDetails['products'] as $productName => $productDetails) {
                 // Creation of a product
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
-                    ->setPicture("https://baconmockup.com/300/200")
+                    ->setPicture('../assets/images/products/' . $productDetails['picture'])
                     ->setPrice(mt_rand(0, 10))
                     ->setAvailability(
                         round(
-                            mt_rand(0,1)
+                            mt_rand(0, 1)
                         )
                     )
-                    ->setCategory($category)
-                ;
+                    ->setCategory($category);
 
                 $productsList[] = $product;
 
@@ -127,8 +179,7 @@ class AppFixtures extends Fixture
             ->setEmail("admin@mail.com")
             ->setPassword("admin")
             ->setTelNumber("0000000000")
-            ->setRoles(["ROLE_ADMIN"])
-        ;
+            ->setRoles(["ROLE_ADMIN"]);
 
         $manager->persist($admin);
 
@@ -139,22 +190,20 @@ class AppFixtures extends Fixture
             ->setEmail("user@mail.com")
             ->setPassword("user")
             ->setTelNumber("0000000000")
-            ->setRoles(["ROLE_USER"])
-        ;
+            ->setRoles(["ROLE_USER"]);
 
         $manager->persist($user);
 
         // Creation of a few random user
         $usersList = [];
-        for ($i=0; $i < 15; $i++) { 
+        for ($i = 0; $i < 15; $i++) {
             $user = new User();
             $user->setFirstname($faker->unique()->firstname())
                 ->setLastname($faker->unique()->lastname())
                 ->setEmail($faker->unique()->email())
                 ->setPassword("password")
                 ->setTelNumber($faker->unique()->phoneNumber())
-                ->setRoles(["ROLE_USER"])
-            ;
+                ->setRoles(["ROLE_USER"]);
 
             $usersList[] = $user;
 
@@ -177,10 +226,10 @@ class AppFixtures extends Fixture
                     ->setCity($city)
                     ->setDescription($faker->unique()->sentence())
                     ->setLocation(
-                        $faker->unique()->latitude() . 
-                        ", " . 
-                        $faker->unique()->longitude())
-                ;
+                        $faker->unique()->latitude() .
+                            ", " .
+                            $faker->unique()->longitude()
+                    );
 
                 $deliveryPointsList[] = $deliveryPoint;
 
@@ -189,20 +238,18 @@ class AppFixtures extends Fixture
         }
 
         // fake orders
-        for ($i=0; $i < 50; $i++) { 
+        for ($i = 0; $i < 50; $i++) {
             $order = new Order();
-            
+
             $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks'))
                 ->setUser($usersList[array_rand($usersList)])
-                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
-            ;
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)]);
 
             // Add a random amount of product
-            for ($j=0; $j < mt_rand(1,10); $j++) { 
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
                 $orderLine = new OrderProduct();
-                $orderLine->setQuantity(mt_rand(1,5))
-                    ->setProduct($productsList[array_rand($productsList)])
-                ;
+                $orderLine->setQuantity(mt_rand(1, 5))
+                    ->setProduct($productsList[array_rand($productsList)]);
 
                 $order->addOrderProduct($orderLine);
             }
