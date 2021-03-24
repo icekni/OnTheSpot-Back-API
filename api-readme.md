@@ -1,7 +1,10 @@
 **Table of contents**
 ===============
 - [**Table of contents**](#table-of-contents)
-- [**API**](#api)
+- [**Usage**](#Usage)
+  - [**Accessing the API**](#accessing-the-API)
+  - [**Image path**](#image-path)
+- [**Routes**](#api)
   - [**Login**](#login)
   - [**Registering**](#registering)
   - [**Delete User**](#delete-user)
@@ -13,7 +16,26 @@
   - [**Browse Orders**](#browse-orders)
   - [**Read Orders**](#read-orders)
 
-**API**
+**Usage**
+===============
+
+**Accessing the API**
+----
+Server Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public
+Server Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public
+
+API Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public/api
+API Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public/api
+
+**Image path**
+----
+For example, an image could be at : https://onthespot.apotheoz.tech/back/public/assets/images/beignet-choconoisette.png
+
+Property `picture` is `assets/images/beignet-choconoisette.png`
+
+So you should concatenate from the Server Base URI to have the absolute URL of the picture to display.
+
+**Routes**
 ===============
 
 **Login**
