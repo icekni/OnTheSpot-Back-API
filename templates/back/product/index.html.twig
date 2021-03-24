@@ -3,47 +3,50 @@
 {% block title %}Product index{% endblock %}
 
 {% block body %}
-    <h1>Product index</h1>
+<h1>Tous les produits</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Picture</th>
-                <th>Price</th>
-                <th>Availability</th>
-                <th>Slug</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.picture }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.availability ? 'Yes' : 'No' }}</td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+<a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th></th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Disponibilité</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products|sort((a, b) => a.name <=> b.name) %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td><img src="{{ product.picture }}_th.png" alt="Image de {{ product.name}}"></td>
+            <td class="position-relative"><a href="{{ path('product_show', {'id': product.id}) }}" class=" stretched-link">{{ product.name }}</td><a></td>
+                <td>{{ product.price }} €</td>
+                <td>{{ product.availability ? 'En stock' : 'Hors stock' }}</td>
+                <td class="d-flex">
+                    <a type="button" href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                    
+                    <div class="dropdown mx-2">
+                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ path('product_delete', {'id': product.id}) }}">Confirmer</a>
+                            <a class="dropdown-item" href="#">Annuler</a>
+                        </div>
+                    </div>
                 </td>
-            </tr>
+        </tr>
         {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
+        <tr>
+            <td colspan="10">no records found</td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
-    <a href="{{ path('product_new') }}">Create new</a>
 {% endblock %}
+

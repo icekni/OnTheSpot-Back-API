@@ -24,7 +24,7 @@ class DeliveryPoint
     /**
      * @ORM\Column(type="string", length=128)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $name;
@@ -32,7 +32,7 @@ class DeliveryPoint
     /**
      * @ORM\Column(type="text")
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $description;
@@ -40,7 +40,7 @@ class DeliveryPoint
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $location;
@@ -64,7 +64,7 @@ class DeliveryPoint
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="deliveryPoints")
      * @ORM\JoinColumn(nullable=false)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $city;
