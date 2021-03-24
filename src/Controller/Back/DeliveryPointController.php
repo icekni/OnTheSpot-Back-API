@@ -20,7 +20,7 @@ class DeliveryPointController extends AbstractController
      */
     public function index(DeliveryPointRepository $deliveryPointRepository): Response
     {
-        return $this->render('delivery_point/index.html.twig', [
+        return $this->render('back/delivery_point/index.html.twig', [
             'delivery_points' => $deliveryPointRepository->findAll(),
         ]);
     }
@@ -42,7 +42,7 @@ class DeliveryPointController extends AbstractController
             return $this->redirectToRoute('delivery_point_index');
         }
 
-        return $this->render('delivery_point/new.html.twig', [
+        return $this->render('back/delivery_point/new.html.twig', [
             'delivery_point' => $deliveryPoint,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class DeliveryPointController extends AbstractController
      */
     public function show(DeliveryPoint $deliveryPoint): Response
     {
-        return $this->render('delivery_point/show.html.twig', [
+        return $this->render('back/delivery_point/show.html.twig', [
             'delivery_point' => $deliveryPoint,
         ]);
     }
@@ -72,7 +72,7 @@ class DeliveryPointController extends AbstractController
             return $this->redirectToRoute('delivery_point_index');
         }
 
-        return $this->render('delivery_point/edit.html.twig', [
+        return $this->render('back/delivery_point/edit.html.twig', [
             'delivery_point' => $deliveryPoint,
             'form' => $form->createView(),
         ]);
