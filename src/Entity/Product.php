@@ -34,8 +34,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @ORM\Column(type="string")
      */
     private $picture;
 

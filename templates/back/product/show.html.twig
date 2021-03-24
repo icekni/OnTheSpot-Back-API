@@ -9,7 +9,7 @@
 
     <div class="row mt-3">
         <div class="col-4">
-            <img src="{{ asset('public/' ~ product.picture) }}.png" alt="Image de {{ product.name}}" class="mx-auto d-block">
+            <img src="{{ asset(product.picture) }}" alt="Image de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block">
         </div>
         <div class="col-8 border-left">
             <table class="table table-borderless">
