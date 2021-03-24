@@ -49,7 +49,6 @@ class Product
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
      * @Assert\Type("bool")
      */
     private $availability;

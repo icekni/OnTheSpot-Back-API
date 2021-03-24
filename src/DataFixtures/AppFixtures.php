@@ -156,7 +156,7 @@ class AppFixtures extends Fixture
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
-                    ->setPicture('assets/images/' . $productDetails['picture'])
+                    ->setPicture('assets/images/' . $productDetails['picture'] . '.png')
                     ->setPrice(mt_rand(0, 10))
                     ->setAvailability(
                         round(

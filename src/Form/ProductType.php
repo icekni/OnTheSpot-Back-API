@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,12 +56,13 @@ class ProductType extends AbstractType
                 $form = $event->getForm();
 
                 // If $product is null, it's a add and the picture field is required
-                if (null === $product) {
+                if (null === $product->getId()) {
                     $form->add('picture', FileType::class,[
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => true,
                         'constraints' => [
+                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [
