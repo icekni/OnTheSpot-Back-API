@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints AS Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email")
  */
 class User implements UserInterface
 {
@@ -22,32 +25,45 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank
+     * @Assert\Count(min=1)
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
+     * 
+     * Min 1 uppercase, 1 lowercase, 1 digit, 1 special character and at least 8 chars in total
+     * @Assert\Regex("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_\.!\?\-@~$€£µ,;:+\/])[a-zA-Z0-9_\.!\?\-@~$€£µ,;:+\/]{8,}/")
+     * @Assert\NotCompromisedPassword
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank
+     * @Assert\Regex("/[0-9\+]{5,}/")
      */
     private $telNumber;
 

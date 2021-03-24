@@ -8,6 +8,7 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OrderRepository::class)
@@ -28,6 +29,7 @@ class Order
      * @ORM\Column(type="datetime")
      * 
      * @Groups({"api_order_browse", "api_order_read_one"})
+     * @Assert\NotBlank
      */
     private $deliveryTime;
 
@@ -62,6 +64,7 @@ class Order
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $deliveryPoint;
 

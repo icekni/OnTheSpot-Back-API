@@ -7,6 +7,7 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CityRepository::class)
@@ -24,6 +25,7 @@ class City
      * @ORM\Column(type="string", length=128)
      * 
      * @Groups("api_order_read_one")
+     * @Assert\NotBlank
      */
     private $name;
 
