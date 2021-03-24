@@ -1,16 +1,16 @@
 **Table of contents**
 ===============
-* [API] (#api)
-    * [Login] (#login)
-    * [Registering a user] (#registering)
-    * [Deleting your account] (#delete-user)
-    * [Browse all categories] (#browse-categories)
+* [Api](#API)
+    * [Login](#login)
+    * [Registering a user](#registering)
+    * [Deleting your account](#delete-user)
+    * [Browse all categories](#browse-categories)
     * [Browse all products from a specified category](#browse-products)
     * [Read a specified product](#read-products)
-    * [Browse all Delivery Points] (#browse-deliveryPoints)
-    * [Send an order] (#post-orders)
-    * [Browse all orders from a logged user] (#browse-orders)
-    * [Read a specified orders from a logged user] (#read-orders)
+    * [Browse all Delivery Points](#browse-deliveryPoints)
+    * [Send an order](#post-orders)
+    * [Browse all orders from a logged user](#browse-orders)
+    * [Read a specified orders from a logged user](#read-orders)
 
 **API**
 ===============
