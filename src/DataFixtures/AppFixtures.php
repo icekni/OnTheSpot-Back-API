@@ -219,17 +219,13 @@ class AppFixtures extends Fixture
 
             $manager->persist($city);
 
-            foreach ($deliveryPoints as $deliveryPointName) {
+            foreach ($deliveryPoints as $deliveryPointName => $deliveryPointlocation) {
                 // Creation of a delivery point
                 $deliveryPoint = new DeliveryPoint();
                 $deliveryPoint->setName($deliveryPointName)
                     ->setCity($city)
                     ->setDescription($faker->unique()->sentence())
-                    ->setLocation(
-                        $faker->unique()->latitude() .
-                            ", " .
-                            $faker->unique()->longitude()
-                    );
+                    ->setLocation($deliveryPointlocation);
 
                 $deliveryPointsList[] = $deliveryPoint;
 
