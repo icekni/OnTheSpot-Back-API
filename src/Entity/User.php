@@ -27,6 +27,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $email;
 
@@ -51,12 +52,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $lastname;
 
@@ -64,6 +67,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank
      * @Assert\Regex("/[0-9\+]{5,}/")
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $telNumber;
 
