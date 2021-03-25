@@ -15,7 +15,7 @@ class ProductEntityListener
         $this->slugger = $slugger;
     }
 
-    public function updateSlug(Product $product, LifecycleEventArgs $event)
+    public function updateProduct(Product $product, LifecycleEventArgs $event)
     {
         $product->setSlug(
             $this->slugger->slug(
@@ -23,5 +23,10 @@ class ProductEntityListener
                 )
                 ->lower()
         );
+
+        $price = str_replace(",", ".", $product->getPrice());
+        $product->setPrice($price);
     }
+
+
 }

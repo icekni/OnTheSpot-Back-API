@@ -46,6 +46,13 @@ security:
             # Login while in JSON
             json_login:
                 check_path: /api/login
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -59,6 +66,9 @@ security:
         # API
         - { path: ^/api/user/([0-9]+|reset), roles: ROLE_USER }
         - { path: ^/api/orders(/[0-9]+)?, roles: ROLE_USER }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }
 
     role_hierarchy:
         # ROLE_ADMIN inherit from ROLE_USER

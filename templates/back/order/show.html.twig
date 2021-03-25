@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+<h1>Commande #{{ order.id }}</h1>
+
+<a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i> Modifier</a>
+
+<div class="row">
+    minimap
+</div>
+<div class="row border-top">
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <th scope="row">Statut</th>
+                <td>
+                    {% if order.status == 0 %}En attente{% endif %}
+                    {% if order.status == 1 %}En préparation{% endif %}
+                    {% if order.status == 2 %}En livraison{% endif %}
+                    {% if order.status == 3 %}Livrée{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Heure de livraison</th>
+                <td>{{ order.deliveryTime|date("d-m-Y - H:i") }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Point de retrait</th>
+                <td>{{ order.deliveryPoint.city.name }} - {{ order.deliveryPoint.name }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Client</th>
+                <td>{{ order.user.firstname }} {{ order.user.lastname }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+    <a href="{{ path('order_index') }}">back to list</a>
+{% endblock %}

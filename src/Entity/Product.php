@@ -34,8 +34,7 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @ORM\Column(type="string")
      */
     private $picture;
 
@@ -44,15 +43,12 @@ class Product
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotBlank
-     * @Assert\Regex("/[0-9.]+/")
-     * @Assert\Positive
-     * 
+     * @Assert\Regex("/^[0-9]{1,4}([,.][0-9]{0,2})?$/") 
      */
     private $price;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
      * @Assert\Type("bool")
      */
     private $availability;
@@ -76,7 +72,6 @@ class Product
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Assert\Type("integer")
      */
     private $category;
 

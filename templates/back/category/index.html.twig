@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+<h1>Toutes les categories</h1>
+
+<a type="button" href="{{ path('category_new') }}" class="btn btn-success m-3">Nouvelle categorie</a>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th></th>
+            <th>Nom</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in categories|sort((a, b) => a.title <=> b.title) %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td><img src="{{ category.picture }}_th.png" alt="Image de {{ category.title}}"></td>
+            <td class="position-relative"><a href="{{ path('category_show', {'id': category.id}) }}" class=" stretched-link">{{ category.title }}</td><a></td>
+            <td class="d-flex">
+                <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                
+                <div class="dropdown mx-2">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ path('category_delete', {'id': category.id}) }}">Confirmer</a>
+                        <a class="dropdown-item" href="#">Annuler</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="10">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
