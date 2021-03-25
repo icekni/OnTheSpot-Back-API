@@ -113,31 +113,31 @@ class AppFixtures extends Fixture
 
         $meetingPoints = [
             "Seignosses" => [
-                "Plage des Casernes",
-                "Plage de Lagreou",
-                "Plage du Penou",
-                "Plage des Bourdaines-Nord",
-                "Plage des Bourdaines-Sud",
-                "Plage des Estagnots",
+                "Plage des Casernes" => "43.72361165179431, -1.432630019417613",
+                "Plage de Lagreou" => "43.712451317216235, -1.4350826442892204",
+                "Plage du Penon" => "43.70953930898296, -1.4366136613003513",
+                "Plage des Bourdaines-Nord" => "43.69785017286851, -1.4392117801825937",
+                "Plage des Bourdaines-Sud" => "43.69461227541181, -1.4398114441658492",
+                "Plage des Estagnots" => "43.68740581040465, -1.4408497733984424",
             ],
             "Hossegor" => [
-                "Plage des culs Nuls",
-                "Plage Hossegor La Nord",
-                "Plage Hossegor la Centrale",
-                "Plage Hossegor La Sud",
-                "Plage Hossegor Notre Dame",
+                "Plage des culs Nuls" => "43.680159017323774, -1.4405783656418432",
+                "Plage Hossegor La Nord" => "43.673992938118744, -1.4408603808962261",
+                "Plage Hossegor la Centrale" => "43.66783271771156, -1.4417445211966518",
+                "Plage Hossegor La Sud" => "43.66191141632739, -1.4442080885322892",
+                "Plage Hossegor Notre Dame" => "43.659953393680404, -1.4454350587472817",
             ],
             "Cap Breton" => [
-                "Plage de l'Estacade",
-                "Plage du Prévent",
-                "Plage du Santocha",
-                "Plage de la Piste",
-                "Plage des Océanides",
-                "Plage de la Pointe",
+                "Plage de l'Estacade" => "43.65486900205929, -1.4454652786890418",
+                "Plage du Prévent" => "43.65002695464368, -1.44611033054185",
+                "Plage du Santocha" => "43.64654214106528, -1.4452473292332608",
+                "Plage de la Piste" => "43.639024694104016, -1.4476847749852522",
+                "Plage des Océanides" => "43.63619852971307, -1.4492846813513702",
+                "Plage de la Pointe" => "43.62504717766695, -1.4528466549311978",
             ],
             "Labenne" => [
-                "Plage Centrale",
-                "Plage Casanova",
+                "Plage Centrale" => "43.599928389547934, -1.4724902051007294",
+                "Plage Casanova" => "43.594662130566554, -1.4753794215477962",
             ]
         ];
 

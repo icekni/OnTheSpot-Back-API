@@ -10,16 +10,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use App\Repository\DeliveryPointRepository;
 
 class MainController extends AbstractController
 {
     /**
      * @Route("/", name="back_main")
      */
-    public function index(): Response
+    public function index(DeliveryPointRepository $deliveryPointRepository): Response
     {
+        $deliveryPoints = $deliveryPointRepository->findAll();
+
+        $markers = [];
+        foreach ($deliveryPoints as $deliveryPoint) {
+            $markers[$deliveryPoint->getLocation()] = count($deliveryPoint->getOrders());
+        }
+
         return $this->render('back/main/index.html.twig', [
             'controller_name' => 'MainController',
+            'markers' => $markers,
         ]);
     }
 
