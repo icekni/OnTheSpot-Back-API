@@ -38,7 +38,7 @@ class OrderController extends AbstractController
      *
      * @Route("/api/orders/{id<\d+>}", name="api_order_read_one", methods={"GET"})
      */
-    public function read(Order $order = null): Response
+    public function read(Security $security, Order $order = null): Response
     {
         // We send a custom message if order not found (404)
         if ($order === null) {
@@ -51,9 +51,26 @@ class OrderController extends AbstractController
             return $this->json($message, Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($order, 200, [], ['groups' => [
-            'api_order_read_one',
-        ]]);
+        // We get the connected user's id
+        $user = $security->getUser();
+        $userId = $user->getId();
+
+        // We get the the user's id of the order
+        $orderUserId = $order->getUser()->getId();
+
+        // If the requested order is not the one of the connected user, he won't be able to see it
+        if ($userId === $orderUserId) {
+            return $this->json($order, 200, [], ['groups' => [
+                'api_order_read_one',
+            ]]);
+        } else {
+            $message = [
+                'status' => Response::HTTP_NOT_FOUND,
+                'error' => 'Ce n\'est pas votre commande !',
+            ];
+
+            return $this->json($message, Response::HTTP_NOT_FOUND);
+        }      
     }
 
 
@@ -62,7 +79,7 @@ class OrderController extends AbstractController
      * 
      * @Route("/api/orders", name="api_order_create", methods={"POST"})
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager)
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security)
     {
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
@@ -75,19 +92,40 @@ class OrderController extends AbstractController
             'json'
         );
 
+        // We get the connected user's id
+        $user = $security->getUser();
+        $userId = $user->getId();
+
+        // We get the the user's id of the order
+        $orderUserId = $order->getUser()->getId();
+
+        
+
+        // If 
+        if ($userId === $orderUserId) {
+            // Saving the order
+            $entityManager->persist($order);
+
+            // Creating the order in the database
+            $entityManager->flush();
+
+            // After the creation, we redirect to the route "api_order_read_one" of the created order
+            return $this->redirectToRoute(
+                'api_order_read_one',
+                ['id' => $order->getId()],
+                Response::HTTP_CREATED
+            );
+        } else {
+            $message = [
+                'status' => Response::HTTP_NOT_FOUND,
+                'error' => 'Pas le droit d\'ajouter des commandes aux autres !',
+            ];
+
+            return $this->json($message, Response::HTTP_NOT_FOUND);
+        }      
+
         // TODO validation
 
-        // Saving the order
-        $entityManager->persist($order);
-
-        // Creating the order in the database
-        $entityManager->flush();
-
-        // After the creation, we redirect to the route "api_order_read_one" of the created order
-        return $this->redirectToRoute(
-            'api_order_read_one',
-            ['id' => $order->getId()],
-            Response::HTTP_CREATED
-        );
+        
     }
 }
