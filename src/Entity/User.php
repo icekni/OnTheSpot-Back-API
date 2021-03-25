@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints AS Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -27,6 +28,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank
      * @Assert\Email
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $email;
 
@@ -51,12 +53,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $lastname;
 
@@ -64,6 +68,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank
      * @Assert\Regex("/[0-9\+]{5,}/")
+     * @Groups({"api_user_browse", "api_user_read"})
      */
     private $telNumber;
 
