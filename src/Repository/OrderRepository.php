@@ -19,6 +19,25 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findAll()
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.orderProducts', 'op')
+            ->innerJoin('op.product', 'p')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('o.user', 'u')
+            ->innerJoin('d.city', 'c')
+            ->addSelect('op')
+            ->addSelect('p')
+            ->addSelect('d')
+            ->addSelect('u')
+            ->addSelect('c')
+            ->orderBy('o.deliveryTime', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */
