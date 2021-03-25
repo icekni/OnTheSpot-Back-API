@@ -32,19 +32,18 @@ class MainController extends AbstractController
      */
     public function mail(MailerInterface $mailer): Response
     {
-        dd($random = bin2hex(random_bytes(10)));
-        // $email = (new Email())
-        //     ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
-        //     ->to('cjosso@gmail.com')
-        //     ->subject('Time for Symfony Mailer!')
-        //     ->text('Sending emails is fun again!')
-        //     ->html('<p>See Twig integration for better HTML integration!</p>');
+        $email = (new Email())
+            ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
+            ->to('cjosso@gmail.com')
+            ->subject('Time for Symfony Mailer!')
+            ->text($random = bin2hex(random_bytes(10)))
+            ->html('<p>See Twig integration for better HTML integration!</p>');
 
-        // try {
-        //     $mailer->send($email);
-        // } catch (TransportExceptionInterface $e) {
-        //     // Nothing
-        // }
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // Nothing
+        }
 
         return $this->redirectToRoute('back_main');
     }
