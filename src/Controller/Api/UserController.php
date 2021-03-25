@@ -71,12 +71,13 @@ class UserController extends AbstractController
             ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
             ->to($user->getEmail())
             ->subject('Confirmation d\'inscription sur le site OnTheSpot')
-            ->html('<p>Bonjour' . $user->getFirstname() . '</p><p Pour confirmer votre inscription, veuillez cliquer sur ce lien : <a href="https://onthespot.apotheoz.tech/confirm/'.$token.'">');
+            ->text('Bonjour' . $user->getFirstname() . '\nPour confirmer votre inscription, veuillez cliquer sur ce lien : https://onthespot.apotheoz.tech/confirm/' . $token)
+            ->html('<p>Bonjour' . $user->getFirstname() . '</p><p> Pour confirmer votre inscription, veuillez cliquer sur ce lien : <a href="https://onthespot.apotheoz.tech/confirm/' . $token . '">Confirmation email</a>');
         
         try {
             $mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            $user->setStatus(true);
+            // $user->setStatus(true);
         }
         
         // Saving into DB
