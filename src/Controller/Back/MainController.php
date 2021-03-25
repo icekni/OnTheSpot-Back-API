@@ -3,6 +3,7 @@
 namespace App\Controller\Back;
 
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,23 +29,24 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="back_test")
+     * Confirm a user after he received a confirmation mail containing a token
+     * 
+     * @Route("/confirm/{token}", name="back_confirm")
      */
-    public function mail(MailerInterface $mailer): Response
+    public function confirm($token, UserRepository $userRepository): Response
     {
-        $email = (new Email())
-            ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
-            ->to('cjosso@gmail.com')
-            ->subject('Time for Symfony Mailer!')
-            ->text($random = bin2hex(random_bytes(10)))
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+        // Find if a user matches with the token
+        $user = $userRepository->findByToken($token);
 
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // Nothing
+        // If no user has this token, then it's an error
+        if (null === $user) {
+            dd("Aucun utilisateur ne correspond a ce token.");
         }
 
-        return $this->redirectToRoute('back_main');
+        // Change the status to true (= active)
+        $user->setStatus(true);
+
+        dd($user->getUsername() . " a verifié son compte");
+        // TODO redirect to the front
     }
 }
