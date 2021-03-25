@@ -75,6 +75,11 @@ class Product
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $thumbnail;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -189,6 +194,18 @@ class Product
     public function setCategory($category)
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(string $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
