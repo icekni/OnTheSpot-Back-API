@@ -27,7 +27,11 @@ class UserController extends AbstractController
 
         return $this->json(
             $users, 
-            200
+            200, 
+            [], 
+            ['groups' => [
+                'api_user_read'
+            ]]
         );
     }
 
@@ -92,5 +96,31 @@ class UserController extends AbstractController
         $manager->flush();
 
         return $this->json($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Read user's details 
+     * 
+     * @Route("/api/users/{id<\d+>}", name="api_user_read", methods="GET")
+     */
+    public function read(User $user = null): Response
+    {
+        // We send a custom message if order not found (404)
+        if ($user === null) {
+
+            $message = [
+                'status' => Response::HTTP_NOT_FOUND,
+                'error' => 'Utilisateur non existant.',
+            ];
+
+            return $this->json($message, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json(
+            $user, 
+            200,
+            [],
+
+        );
     }
 }
