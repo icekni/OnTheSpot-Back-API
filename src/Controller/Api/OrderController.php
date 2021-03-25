@@ -110,8 +110,9 @@ class OrderController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // If 
+        // If the user adding the order isn't the owner of the order, he won't be able able to post it
         if ($userId === $orderUserId) {
+
             try {
                 // Saving the order
                 $entityManager->persist($order);
@@ -119,8 +120,7 @@ class OrderController extends AbstractController
                 $entityManager->flush();
             } catch (NotNullConstraintViolationException $e) {
                 return $this->json($e->getMessage());
-            }
-            
+            }            
 
             // After the creation, we redirect to the route "api_order_read_one" of the created order
             return $this->redirectToRoute(
@@ -136,9 +136,5 @@ class OrderController extends AbstractController
 
             return $this->json($message, Response::HTTP_NOT_FOUND);
         }      
-
-        // TODO validation
-
-        
     }
 }
