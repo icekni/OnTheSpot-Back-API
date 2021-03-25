@@ -79,7 +79,7 @@ class OrderController extends AbstractController
      * 
      * @Route("/api/orders", name="api_order_create", methods={"POST"})
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security)
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security, ValidatorInterface $validator)
     {
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
@@ -99,7 +99,14 @@ class OrderController extends AbstractController
         // We get the the user's id of the order
         $orderUserId = $order->getUser()->getId();
 
-        
+        // Validation
+        $errors = $validator->validate($user);
+
+        // In case of error
+        if (count($errors) > 0) {
+            // Send a json containing all errors
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         // If 
         if ($userId === $orderUserId) {
