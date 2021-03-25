@@ -61,6 +61,22 @@ class ProductType extends AbstractType
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => true,
+                        'help' => 'Image principale du produit, affichée sur la page de detail du produit',
+                        'constraints' => [
+                            new NotBlank(),
+                            new File([
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpeg'
+                                ],
+                            ])
+                        ]
+                    ])->add('thumbnail', FileType::class,[
+                        'label' => 'Vignette',
+                        'mapped' => false,
+                        'required' => true,
+                        'help' => 'Vignette du produit, affichée sur les listes de produits',
                         'constraints' => [
                             new NotBlank(),
                             new File([
@@ -78,6 +94,21 @@ class ProductType extends AbstractType
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => false,
+                        'help' => 'Image principale du produit, affichée sur la page de detail du produit',
+                        'constraints' => [
+                            new File([
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpeg'
+                                ],
+                            ])
+                        ]
+                    ])->add('thumbnail', FileType::class,[
+                        'label' => 'Vignette',
+                        'mapped' => false,
+                        'required' => false,
+                        'help' => 'Vignette du produit, affichée sur les listes de produits',
                         'constraints' => [
                             new File([
                                 'maxSize' => '1024k',

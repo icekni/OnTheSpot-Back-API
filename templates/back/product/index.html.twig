@@ -22,7 +22,7 @@
         {% for product in products|sort((a, b) => a.name <=> b.name) %}
         <tr>
             <td>{{ product.id }}</td>
-            <td><img src="{{ asset(product.picture) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
+            <td><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
             <td class="position-relative"><a href="{{ path('product_show', {'id': product.id}) }}" class=" stretched-link">{{ product.name }}</td><a></td>
                 <td>{{ product.price }} €</td>
                 <td>{{ product.availability ? 'En stock' : 'Hors stock' }}</td>

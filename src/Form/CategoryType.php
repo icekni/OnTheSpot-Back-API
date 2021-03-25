@@ -32,6 +32,22 @@ class CategoryType extends AbstractType
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => true,
+                        'help' => 'Image principale de la catégorie, affichée sur la page de detail de la catégorie',
+                        'constraints' => [
+                            new NotBlank(),
+                            new File([
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpeg'
+                                ],
+                            ])
+                        ]
+                    ])->add('thumbnail', FileType::class,[
+                        'label' => 'Vignette',
+                        'mapped' => false,
+                        'required' => true,
+                        'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
                         'constraints' => [
                             new NotBlank(),
                             new File([
@@ -49,7 +65,23 @@ class CategoryType extends AbstractType
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => false,
+                        'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
                         'constraints' => [
+                            new File([
+                                'maxSize' => '1024k',
+                                'mimeTypes' => [
+                                    'image/png',
+                                    'image/jpeg'
+                                ],
+                            ])
+                        ]
+                    ])->add('thumbnail', FileType::class,[
+                        'label' => 'Vignette',
+                        'mapped' => false,
+                        'required' => false,
+                        'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
+                        'constraints' => [
+                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [
