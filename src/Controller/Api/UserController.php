@@ -76,8 +76,7 @@ class UserController extends AbstractController
         try {
             $mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            // Nothing
-            // We have a timeout error but the mail is sent so it's ok, but I don't want to display the error
+            $user->setStatus(true);
         }
         
         // Saving into DB
