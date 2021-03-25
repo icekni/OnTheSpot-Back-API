@@ -26,11 +26,11 @@ class UserController extends AbstractController
         $users = $userRepository->findAll();
 
         return $this->json(
-            $users, 
-            200, 
-            [], 
+            $users,
+            200,
+            [],
             ['groups' => [
-                'api_user_read'
+                'api_user_browse_and_read'
             ]]
         );
     }
@@ -56,9 +56,9 @@ class UserController extends AbstractController
             // Send a json containing all errors
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        
+
         // TODO send a confirmation email
-        
+
         // Saving into DB
         $entityManager->persist($user);
         $entityManager->flush();
@@ -117,10 +117,12 @@ class UserController extends AbstractController
         }
 
         return $this->json(
-            $user, 
+            $user,
             200,
             [],
-
+            ['groups' => [
+                'api_user_browse_and_read'
+            ]]
         );
     }
 }
