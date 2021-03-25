@@ -84,7 +84,7 @@
     let ordersNumber;
 </script>
 
-{% for marker in markers %}    
+{% for marker in markers|sort((b, a) => a.ordersNumber <=> b.ordersNumber) %}    
 <script>
     marker = "{{ marker.location|json_encode|trim('\"') }}".split(', ');
     ordersNumber = "{{ marker.ordersNumber }}";
@@ -93,7 +93,7 @@
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
-        radius: 50 * ordersNumber
+        radius: 100 * ordersNumber
     }).bindPopup("<h5>{{ marker.beach.name }}</h5><p>{{ marker.ordersNumber }} commandes</p><a href='{{ path('back_main', {id: marker.beach.id}) }}'>Voir les commandes</a>").addTo(map);
     </script>
 {% endfor %}
