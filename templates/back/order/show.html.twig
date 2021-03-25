@@ -38,5 +38,36 @@
     </table>
 </div>
 
+<div class="row border-top">
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Produits</th>
+                <th>Quantité</th>
+                <th>Prix unit.</th>
+                <th>Prix Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set total = 0 %}
+            {% for orderLine in order.orderProducts %}
+            <tr>
+                <td>{{ orderLine.product.name }}</td>
+                <td>{{ orderLine.quantity }}</td>
+                <td>{{ orderLine.product.price }}</td>
+                <td>{{ orderLine.product.price|format_number * orderLine.quantity|format_number }}</td>
+                {% set total = total + orderLine.quantity|format_number * orderLine.product.price|format_number %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <th>Total</th>
+                <th>{{ total }}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
     <a href="{{ path('order_index') }}">back to list</a>
 {% endblock %}

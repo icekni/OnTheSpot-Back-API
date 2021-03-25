@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,11 +31,11 @@ class UserController extends AbstractController
         $users = $userRepository->findAll();
 
         return $this->json(
-            $users, 
-            200, 
-            [], 
+            $users,
+            200,
+            [],
             ['groups' => [
-                'api_user_read'
+                'api_user_browse_and_read'
             ]]
         );
     }
@@ -124,8 +125,10 @@ class UserController extends AbstractController
      * 
      * @Route("/api/users/{id<\d+>}", name="api_user_read", methods="GET")
      */
-    public function read(User $user = null): Response
-    {
+    public function read(
+        Security $security,
+        User $user = null
+    ): Response {
         // We send a custom message if order not found (404)
         if ($user === null) {
 
@@ -137,11 +140,95 @@ class UserController extends AbstractController
             return $this->json($message, Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json(
-            $user, 
-            200,
-            [],
+        // We get the id of the user we want to see the details
+        $idUserToDetail = $user->getId();
+        // We get the connected user's id
+        $connectedUser = $security->getUser();
+        $userId = $connectedUser->getId();
 
+        // If the connected user's id is the same than one from the user we want to see the details 
+        if ($userId === $idUserToDetail) {
+            return $this->json(
+                $user,
+                200,
+                [],
+                ['groups' => [
+                    'api_user_browse_and_read'
+                ]]
+            );
+        } else {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
+    }
+
+
+    /**
+     * Edit User's details
+     *
+     * @Route("/api/users/{id<\d+>}", name="api_user_edit", methods={"PATCH"})
+     */
+    public function edit(
+        Security $security,
+        User $user = null,
+        Request $request,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        EntityManagerInterface $entityManager
+    ): Response {
+        // We send a custom message if order not found (404)
+        if ($user === null) {
+
+            $message = [
+                'status' => Response::HTTP_NOT_FOUND,
+                'error' => 'Utilisateur non existant.',
+            ];
+
+            return $this->json($message, Response::HTTP_NOT_FOUND);
+        }
+
+        // Getting the JSON content of the request
+        $jsonContent = $request->getContent();
+
+        $serializer->deserialize(
+            $jsonContent,
+            User::class,
+            'json',
+            // We indicate the serializer which entity to modify
+            [AbstractNormalizer::OBJECT_TO_POPULATE => $user]
         );
+
+        // Validation   
+        $errors = $validator->validate($user);
+        // In case of error
+        if (count($errors) > 0) {
+            // Send a json containing all errors
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // We get the id of the user we want to modify
+        $idUserToModify = $user->getId();
+        // We get the connected user's id
+        $connectedUser = $security->getUser();
+        $userId = $connectedUser->getId();
+
+        // If the connected user's id is the same than one from the user we want to modify 
+        if ($userId === $idUserToModify) {
+            // Then we can save the details in the database
+            $entityManager->flush();
+
+            return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK);
+        } else {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
     }
 }
