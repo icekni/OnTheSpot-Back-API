@@ -5,12 +5,14 @@ namespace App\Controller\Api;
 use App\Entity\Order;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
 {
@@ -99,7 +101,7 @@ class OrderController extends AbstractController
         // We get the the user's id of the order
         $orderUserId = $order->getUser()->getId();
 
-        // Validation
+        // Validation        
         $errors = $validator->validate($user);
 
         // In case of error
@@ -110,11 +112,15 @@ class OrderController extends AbstractController
 
         // If 
         if ($userId === $orderUserId) {
-            // Saving the order
-            $entityManager->persist($order);
-
-            // Creating the order in the database
-            $entityManager->flush();
+            try {
+                // Saving the order
+                $entityManager->persist($order);
+                // Creating the order in the database
+                $entityManager->flush();
+            } catch (NotNullConstraintViolationException $e) {
+                return $this->json($e->getMessage());
+            }
+            
 
             // After the creation, we redirect to the route "api_order_read_one" of the created order
             return $this->redirectToRoute(
