@@ -10,16 +10,42 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use App\Repository\DeliveryPointRepository;
 
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="back_main")
+     * @Route("/{id<\d+>}", name="back_main")
      */
-    public function index(): Response
+    public function index($id = null, DeliveryPointRepository $deliveryPointRepository): Response
     {
+        $deliveryPoints = $deliveryPointRepository->findAll();
+        // TODO one request to rule them all
+
+        // We need to get all orders by deliveryPoint to display them in the map
+        $markers = [];
+        foreach ($deliveryPoints as $beach) {
+            $markers[] = [
+                'beach' => $beach,
+                'location' => $beach->getLocation(),
+                'ordersNumber' => count($beach->getOrders()),
+            ];
+        }
+
+        // If there is an id in the url, we will display all orders for this DeliveryPoint
+        $deliveryPoint = null;
+        if ($id) {
+            $deliveryPoint = $deliveryPointRepository->find($id);
+
+            return $this->render('back/main/index.html.twig', [
+                'markers' => $markers,
+                'orders' => $deliveryPoint->getOrders(),
+                'deliveryPoint' => $deliveryPoint,
+            ]);
+        }
+
         return $this->render('back/main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'markers' => $markers,
         ]);
     }
 
