@@ -68,6 +68,7 @@ security:
         - { path: ^/api/orders(/[0-9]+)?, roles: ROLE_USER }
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/confirm, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }
 
     role_hierarchy:

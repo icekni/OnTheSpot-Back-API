@@ -87,10 +87,21 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->orders = new ArrayCollection();
+        $this->status = 0;
     }
 
     public function getId(): ?int
@@ -260,6 +271,30 @@ class User implements UserInterface
                 $order->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

@@ -3,9 +3,12 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +16,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
@@ -41,13 +45,18 @@ class UserController extends AbstractController
      * 
      * @Route("/api/users", name="api_user_add", methods="POST")
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserPasswordEncoderInterface $encoder): Response
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, MailerInterface $mailer): Response
     {
         // Read the content of the request
         $jsonContent = $request->getContent();
 
         // Turn it into an object User
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
+
+        // We need a random token to confirm user email
+        $token = bin2hex(random_bytes(10));
+        // Store the token in $user
+        $user->setToken($token);
 
         // Validation
         $errors = $validator->validate($user);
@@ -57,9 +66,21 @@ class UserController extends AbstractController
             // Send a json containing all errors
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-        // TODO send a confirmation email
-
+        
+        // Send a confirmation email
+        $email = (new Email())
+            ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
+            ->to($user->getEmail())
+            ->subject('Confirmation d\'inscription sur le site OnTheSpot')
+            ->text('Bonjour' . $user->getFirstname() . '\nPour confirmer votre inscription, veuillez cliquer sur ce lien : https://onthespot.apotheoz.tech/confirm/' . $token)
+            ->html('<p>Bonjour' . $user->getFirstname() . '</p><p> Pour confirmer votre inscription, veuillez cliquer sur ce lien : <a href="https://onthespot.apotheoz.tech/confirm/' . $token . '">Confirmation email</a>');
+        
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // $user->setStatus(true);
+        }
+        
         // Saving into DB
         $entityManager->persist($user);
         $entityManager->flush();
