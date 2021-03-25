@@ -20,7 +20,7 @@
         {% for category in categories|sort((a, b) => a.title <=> b.title) %}
         <tr>
             <td>{{ category.id }}</td>
-            <td><img src="{{ category.picture }}_th.png" alt="Image de {{ category.title}}"></td>
+            <td><img src="{{ asset(category.picture) }}" style="max-width: 77px;" alt="Image de {{ category.title}}"></td>
             <td class="position-relative"><a href="{{ path('category_show', {'id': category.id}) }}" class=" stretched-link">{{ category.title }}</td><a></td>
             <td class="d-flex">
                 <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>

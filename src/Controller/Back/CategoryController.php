@@ -4,11 +4,12 @@ namespace App\Controller\Back;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Service\FileUploader;
 use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/category")
@@ -28,7 +29,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="category_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryType::class, $category);
@@ -36,6 +37,12 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // Handling the picture
+            $picture = $form->get('picture')->getData();
+            $newPicture = $fileUploader->upload($picture);
+            $category->setPicture($newPicture);
+
             $entityManager->persist($category);
             $entityManager->flush();
 
@@ -61,12 +68,21 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Category $category): Response
+    public function edit(Request $request, Category $category, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Handling the picture
+            $picture = $form->get('picture')->getData();
+            // If a picture has been send
+            if ($picture) {
+                $newPicture = $fileUploader->upload($picture);
+                $category->setPicture($newPicture);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('category_index');
