@@ -5,10 +5,11 @@ namespace App\Controller\Back;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Repository\OrderRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/order")
@@ -50,6 +51,7 @@ class OrderController extends AbstractController
 
     /**
      * @Route("/{id}", name="order_show", methods={"GET"})
+     * @Entity("order", expr="repository.findOne(id)")
      */
     public function show(Order $order): Response
     {

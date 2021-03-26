@@ -19,10 +19,31 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findOne($id)
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('o.orderProducts', 'op')
+            ->innerJoin('op.product', 'p')
+            ->innerJoin('d.city', 'c')
+            ->innerJoin('o.user', 'u')
+            ->addSelect('op')
+            ->addSelect('p')
+            ->addSelect('d')
+            ->addSelect('u')
+            ->addSelect('c')
+            ->where('o.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+
+    }
+
     public function findAll()
     {
         return $this->createQueryBuilder('o')
-            ->innerJoin('o.orderProducts', 'op')
+            ->innerJoin('o.orderProduct', 'op')
             ->innerJoin('op.product', 'p')
             ->innerJoin('o.deliveryPoint', 'd')
             ->innerJoin('o.user', 'u')
@@ -32,6 +53,45 @@ class OrderRepository extends ServiceEntityRepository
             ->addSelect('d')
             ->addSelect('u')
             ->addSelect('c')
+            ->orderBy('o.deliveryTime', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function countAllOrderOnDeliveryPoint()
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('d.city', 'c')
+            ->select('d.name')
+            ->addSelect('d.id')
+            ->addSelect('d.location')
+            // ->addSelect('c.name')
+            ->addselect('COUNT(o.id)')
+            // ->where('o.status < 3')
+            ->groupBy('o.deliveryPoint')
+            ->orderBy('COUNT(o.id)')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    public function findAllActive($deliveryPoint = null)
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('d.city', 'c')
+            ->addSelect('d')
+            ->addSelect('c')
+        ;
+
+        if ($deliveryPoint) {
+            $qb->where('o.deliveryPoint = :deliveryPoint')
+                ->setParameter('deliveryPoint', $deliveryPoint);
+        }
+            
+        return $qb->andWhere('o.status < 3')
             ->orderBy('o.deliveryTime', 'DESC')
             ->getQuery()
             ->getResult()
