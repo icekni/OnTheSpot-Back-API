@@ -4,33 +4,23 @@ namespace App\Controller\Back;
 
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
+use App\Repository\OrderRepository;
 use Symfony\Component\Mime\Address;
+use App\Repository\DeliveryPointRepository;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use App\Repository\DeliveryPointRepository;
 
 class MainController extends AbstractController
 {
     /**
      * @Route("/{id<\d+>}", name="back_main")
      */
-    public function index($id = null, DeliveryPointRepository $deliveryPointRepository): Response
+    public function index($id = null, DeliveryPointRepository $deliveryPointRepository, OrderRepository $orderRepository): Response
     {
-        $deliveryPoints = $deliveryPointRepository->findAll();
-        // TODO one request to rule them all
-
-        // We need to get all orders by deliveryPoint to display them in the map
-        $markers = [];
-        foreach ($deliveryPoints as $beach) {
-            $markers[] = [
-                'beach' => $beach,
-                'location' => $beach->getLocation(),
-                'ordersNumber' => count($beach->getOrders()),
-            ];
-        }
+        $ordersCount = $orderRepository->countAllOrderOnDeliveryPoint();
 
         // If there is an id in the url, we will display all orders for this DeliveryPoint
         $deliveryPoint = null;
@@ -38,14 +28,15 @@ class MainController extends AbstractController
             $deliveryPoint = $deliveryPointRepository->find($id);
 
             return $this->render('back/main/index.html.twig', [
-                'markers' => $markers,
-                'orders' => $deliveryPoint->getOrders(),
+                'markers' => $ordersCount,
                 'deliveryPoint' => $deliveryPoint,
+                'orders' => $orderRepository->findAllActive($deliveryPoint),
             ]);
         }
 
         return $this->render('back/main/index.html.twig', [
-            'markers' => $markers,
+            'markers' => $ordersCount,
+            'orders' => $orderRepository->findAllActive(),
         ]);
     }
 

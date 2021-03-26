@@ -38,6 +38,45 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function countAllOrderOnDeliveryPoint()
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('d.city', 'c')
+            ->select('d.name')
+            ->addSelect('d.id')
+            ->addSelect('d.location')
+            // ->addSelect('c.name')
+            ->addselect('COUNT(o.id)')
+            // ->where('o.status < 3')
+            ->groupBy('o.deliveryPoint')
+            ->orderBy('COUNT(o.id)')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    public function findAllActive($deliveryPoint = null)
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('d.city', 'c')
+            ->addSelect('d')
+            ->addSelect('c')
+        ;
+
+        if ($deliveryPoint) {
+            $qb->where('o.deliveryPoint = :deliveryPoint')
+                ->setParameter('deliveryPoint', $deliveryPoint);
+        }
+            
+        return $qb->andWhere('o.status < 3')
+            ->orderBy('o.deliveryTime', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */
