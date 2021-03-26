@@ -3,11 +3,60 @@
 {% block title %}Edit DeliveryPoint{% endblock %}
 
 {% block body %}
-    <h1>Edit DeliveryPoint</h1>
+<h1>Édition de {{ delivery_point.name }}</h1>
+
+<div id="map" style="width: 100%; height: 400px;">
+    
+{# Carte Leaflet #}
+<script>
+    //Appel et configuration carte
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+			osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+
+    var rotation = Math.PI/4;
+    var map = L
+        .map('map', {rotate: true})
+        .setView("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), 13)
+        .addLayer(osm)
+        // .setBearing("90")
+    ;
+
+    var marker = L.marker("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), {
+        draggable: true
+    }).on('drag', function (e) {
+            document.getElementById('delivery_point_location').value = e.latlng.lat + ', ' + e.latlng.lng;
+        }).addTo(map);
+
+    map.setBearing("90");
+    // map.on('mousemove', logMouse);
+
+    // Fonds de carte
+
+    // Ajout marqueurs
+    // var plages = new L.LayerGroup();
+
+    // function onMapClick(e) {
+    //     alert("You clicked the map at " + e.latlng);
+    // }
+
+    // map.on('click', onMapClick);
+</script>
+</div>
 
     {{ include('back/delivery_point/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('delivery_point_index') }}">back to list</a>
 
     {{ include('back/delivery_point/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock %}
+
+{% block javascripts %}
+{# <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script> #}
+
+<script src="{{ asset('assets/js/leaflet-src.js') }}"></script>
 {% endblock %}
