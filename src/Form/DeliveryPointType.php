@@ -16,6 +16,7 @@ class DeliveryPointType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('location')
             ->add('name', TextType::class, [
                 'label' => 'Nom',
             ])
@@ -30,7 +31,7 @@ class DeliveryPointType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
             ])
-            ->add('description',)
+            ->add('description')
         ;
     }
 
