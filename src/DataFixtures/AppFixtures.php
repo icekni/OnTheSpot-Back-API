@@ -146,7 +146,8 @@ class AppFixtures extends Fixture
             // Creation of a category
             $category = new Category();
             $category->setTitle($categoryName)
-                ->setPicture('assets/images/' . $categoryDetails['picture']);
+                ->setPicture('assets/images/' . $categoryDetails['picture'])
+                ->setThumbnail('assets/images/' . $categoryDetails['picture'] . '_th.png');
 
             $manager->persist($category);
 
@@ -157,6 +158,7 @@ class AppFixtures extends Fixture
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
                     ->setPicture('assets/images/' . $productDetails['picture'] . '.png')
+                    ->setThumbnail('assets/images/' . $productDetails['picture'] . '_th.png')
                     ->setPrice(mt_rand(0, 10))
                     ->setAvailability(
                         round(
