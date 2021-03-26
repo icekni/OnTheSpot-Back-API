@@ -5,7 +5,20 @@
 {% block body %}
 <h1>Tous les produits</h1>
 
-<a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
+<div class="row d-flex align-items-baseline">
+    <div class="col-4">
+        <a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
+    </div>
+    
+    <div class="col-8 d-flex justify-content-end">
+        <form autocomplete="off" action="/action_page.php">
+          <div class="autocomplete" style="width:300px;">
+            <input id="myInput" type="text" name="product" placeholder="Produit">
+            <input class="btn btn-secondary" type="submit">
+          </div>
+        </form>
+    </div>
+</div>
 
 <table class="table table-hover table-striped">
     <thead>
