@@ -19,10 +19,31 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function findOne($id)
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.deliveryPoint', 'd')
+            ->innerJoin('o.orderProducts', 'op')
+            ->innerJoin('op.product', 'p')
+            ->innerJoin('d.city', 'c')
+            ->innerJoin('o.user', 'u')
+            ->addSelect('op')
+            ->addSelect('p')
+            ->addSelect('d')
+            ->addSelect('u')
+            ->addSelect('c')
+            ->where('o.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+
+    }
+
     public function findAll()
     {
         return $this->createQueryBuilder('o')
-            ->innerJoin('o.orderProducts', 'op')
+            ->innerJoin('o.orderProduct', 'op')
             ->innerJoin('op.product', 'p')
             ->innerJoin('o.deliveryPoint', 'd')
             ->innerJoin('o.user', 'u')
