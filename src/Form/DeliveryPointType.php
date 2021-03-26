@@ -26,10 +26,10 @@ class DeliveryPointType extends AbstractType
                 'label' => 'Ville',
                 'class' => City::class,
                 'choice_label' => 'name',
-                'query_builder' => function (CityRepository $cr) {
-                    return $cr->createQueryBuilder('c')
-                        ->orderBy('c.name', 'ASC');
-                },
+                // 'query_builder' => function (CityRepository $cr) {
+                //     return $cr->createQueryBuilder('c')
+                //         ->orderBy('c.name', 'ASC');
+                // },
                 'multiple' => false,
                 'expanded' => false,
             ])
