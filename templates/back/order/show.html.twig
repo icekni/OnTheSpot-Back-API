@@ -5,18 +5,18 @@
 {% block body %}
 
 <div class="row">
-    <h1 class='mx-auto'>Commande #{{ order.id }}</h1>
+    <h1 class='mx-auto'>Commande #{{ order.id }} <a href="{{ path('delivery_point_index') }}" class="h6">Retour à la liste des commandes</a></h1>
 </div>
 
 <div class="row">
 
-    <div id="map" class="col-4" style="height: 80vh;">
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 80vh;">
     </div>
 
-    <div class="col-8 row">
-        <div class="col-4">
+    <div class="col col-lg-8 row">
+        <div class="col-lg-4">
 
-            <div class="col-4">
+            <div class="col-lg-4">
                 <table class="table table-borderless border-left">
                     <tbody>
                         <tr>
@@ -48,7 +48,7 @@
             </a>
         </div>
 
-        <div class="col-8">
+        <div class="col">
 
             <table class="table table-borderless border-left">
                 <thead>
