@@ -1,11 +1,15 @@
 <div class="row col-12">
-    {% if product.picture is not null or product.thumbnail is not null %}
-    <div class="col-12 col-lg-4">
+    {% if product.name is not empty %}
+    <div class="col-12 col-lg-4 d-flex flex-column align-items-center">
         {% if product.picture is not null %}
         <img src="{{ asset(product.picture) }}" alt="Image de {{ product.title}}" style="max-width: 200px;" class="mx-auto d-block" id="product_imageUrl">
+        {% else %}
+        <p>Pas d'image principale</p>
         {% endif %}
         {% if product.thumbnail is not null %}
         <img src="{{ asset(product.thumbnail) }}" alt="Thumbnail de {{ product.title}}" style="max-width: 200px;" class="mx-auto d-block" id="product_thumbnailUrl">
+        {% else %}
+        <p>Pas de vignette</p>
         {% endif %}
     </div>
     <div class="col-12 col-lg-8 border-left">

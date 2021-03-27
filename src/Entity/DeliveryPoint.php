@@ -61,11 +61,9 @@ class DeliveryPoint
     private $orders;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="deliveryPoints")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      * 
      * @Groups({"api_order_read_one", "api_delivery_point"})
-     * @Assert\NotBlank
      */
     private $city;
 
@@ -170,12 +168,12 @@ class DeliveryPoint
         return $this;
     }
 
-    public function getCity(): ?City
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity(?City $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 

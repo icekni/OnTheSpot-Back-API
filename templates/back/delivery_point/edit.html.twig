@@ -19,7 +19,6 @@
         .map('map', {rotate: true})
         .setView("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), 13)
         .addLayer(osm)
-        // .setBearing("90")
     ;
 
     var marker = L.marker("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), {
@@ -29,18 +28,6 @@
         }).addTo(map);
 
     map.setBearing("90");
-    // map.on('mousemove', logMouse);
-
-    // Fonds de carte
-
-    // Ajout marqueurs
-    // var plages = new L.LayerGroup();
-
-    // function onMapClick(e) {
-    //     alert("You clicked the map at " + e.latlng);
-    // }
-
-    // map.on('click', onMapClick);
 </script>
 </div>
 

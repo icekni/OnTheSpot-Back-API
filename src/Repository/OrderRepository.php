@@ -25,13 +25,11 @@ class OrderRepository extends ServiceEntityRepository
             ->innerJoin('o.deliveryPoint', 'd')
             ->innerJoin('o.orderProducts', 'op')
             ->innerJoin('op.product', 'p')
-            ->innerJoin('d.city', 'c')
             ->innerJoin('o.user', 'u')
             ->addSelect('op')
             ->addSelect('p')
             ->addSelect('d')
             ->addSelect('u')
-            ->addSelect('c')
             ->where('o.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
@@ -47,12 +45,10 @@ class OrderRepository extends ServiceEntityRepository
             ->innerJoin('op.product', 'p')
             ->innerJoin('o.deliveryPoint', 'd')
             ->innerJoin('o.user', 'u')
-            ->innerJoin('d.city', 'c')
             ->addSelect('op')
             ->addSelect('p')
             ->addSelect('d')
             ->addSelect('u')
-            ->addSelect('c')
             ->orderBy('o.deliveryTime', 'DESC')
             ->getQuery()
             ->getResult()
@@ -63,7 +59,6 @@ class OrderRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.deliveryPoint', 'd')
-            ->innerJoin('d.city', 'c')
             ->select('d.name')
             ->addSelect('d.id')
             ->addSelect('d.location')
@@ -80,9 +75,7 @@ class OrderRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('o')
             ->innerJoin('o.deliveryPoint', 'd')
-            ->innerJoin('d.city', 'c')
             ->addSelect('d')
-            ->addSelect('c')
         ;
 
         if ($deliveryPoint) {

@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\City;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Product;
@@ -11,10 +10,7 @@ use App\Entity\Category;
 use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Asset\UrlPackage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -215,17 +211,11 @@ class AppFixtures extends Fixture
         // Creation of all the delivery points
         $deliveryPointsList = [];
         foreach ($meetingPoints as $cityName => $deliveryPoints) {
-            // Creation of a city
-            $city = new City();
-            $city->setName($cityName);
-
-            $manager->persist($city);
-
             foreach ($deliveryPoints as $deliveryPointName => $deliveryPointlocation) {
                 // Creation of a delivery point
                 $deliveryPoint = new DeliveryPoint();
                 $deliveryPoint->setName($deliveryPointName)
-                    ->setCity($city)
+                    ->setCity($cityName)
                     ->setDescription($faker->unique()->sentence())
                     ->setLocation($deliveryPointlocation);
 
