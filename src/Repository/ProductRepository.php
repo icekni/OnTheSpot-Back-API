@@ -19,6 +19,26 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    /**
+     * Find all products or the one typed in the search bar
+     * 
+     * @return Products[] Returns an array of Product objects
+     */
+    public function findSearchedOrClicked($search = null)
+    {
+        // Requête de base
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC');
+
+        // Si mot-clé présent, on ajoute la condition WHERE
+        if (null !== $search) {
+            $qb->where('m.name LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

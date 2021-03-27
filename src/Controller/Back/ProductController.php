@@ -19,8 +19,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Request $request): Response
     {
+
         return $this->render('back/product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
@@ -69,6 +70,22 @@ class ProductController extends AbstractController
             'product' => $product,
         ]);
     }
+
+
+    /**
+     * @Route("/one", name="product_searched_show", methods={"GET"})
+     */
+    public function showSearched(ProductRepository $productRepository, Request $request): Response
+    {
+        $search = $request->query->get('search');
+        dd('caca');
+        $product = $productRepository->findSearchedOrClicked($search);
+
+        return $this->render('back/product/show.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
 
     /**
      * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
