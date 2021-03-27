@@ -12,8 +12,10 @@
 </div>
 
 <script type="text/javascript">
-    document.querySelector('[type="file"]')
-        .addEventListener('change', function(e) {
-            e.currentTarget.closest('.custom-file').querySelector('label').textContent += e.currentTarget.value;
-        })
+    document.querySelectorAll('[type="file"]')
+        .forEach(function(input) {
+            input.addEventListener("change", function(e) {
+                e.currentTarget.closest('.custom-file').querySelector('label').textContent = e.currentTarget.value;
+            });
+        });
 </script>
