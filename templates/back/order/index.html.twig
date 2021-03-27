@@ -33,7 +33,7 @@
                 {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>Livrée{% endif %}
             </td>
             <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}<a></td>
-            <td>{{ order.deliveryPoint.city.name }} - {{ order.deliveryPoint.name }}</td>
+            <td>{{ order.deliveryPoint.city }} - {{ order.deliveryPoint.name }}</td>
             <td class="d-none d-xl-table-cell">{{ order.user.firstname }} {{ order.user.lastname }}</td>
             {# <td>test</td> #}
             <td>

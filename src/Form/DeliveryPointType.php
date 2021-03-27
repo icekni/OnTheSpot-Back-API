@@ -17,21 +17,11 @@ class DeliveryPointType extends AbstractType
     {
         $builder
             ->add('location', null, [
-                'help' => 'Vous pouvez deplacer le marqueur sur la carte pour positionner le point de retrait'
+                'label' => 'Coordonnées',
+                'help' => 'Deplacez le marqueur sur la carte pour positionner le point de retrait'
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
-            ])
-            ->add('city', EntityType::class, [
-                'label' => 'Ville',
-                'class' => City::class,
-                'choice_label' => 'name',
-                // 'query_builder' => function (CityRepository $cr) {
-                //     return $cr->createQueryBuilder('c')
-                //         ->orderBy('c.name', 'ASC');
-                // },
-                'multiple' => false,
-                'expanded' => false,
             ])
             ->add('description')
         ;
