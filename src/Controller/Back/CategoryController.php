@@ -40,12 +40,17 @@ class CategoryController extends AbstractController
 
             // Handling the picture
             $picture = $form->get('picture')->getData();
-            $newPicture = $fileUploader->upload($picture);
-            $category->setPicture($newPicture);
+            // If a picture has been send
+            if ($picture) {
+                $newPicture = $fileUploader->upload($picture);
+                $category->setPicture($newPicture);
+            }
             // Same for the thumbnail
-            $picture = $form->get('thumbnail')->getData();
-            $newThumbnail = $fileUploader->upload($picture);
-            $category->setThumbnail($newThumbnail);
+            $thumbnail = $form->get('thumbnail')->getData();
+            if ($thumbnail) {
+                $newThumbnail = $fileUploader->upload($picture);
+                $category->setThumbnail($newThumbnail);
+            }
 
             $entityManager->persist($category);
             $entityManager->flush();
