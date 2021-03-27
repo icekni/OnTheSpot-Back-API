@@ -81,7 +81,6 @@ class CategoryType extends AbstractType
                         'required' => false,
                         'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
                         'constraints' => [
-                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [

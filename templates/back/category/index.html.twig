@@ -13,7 +13,9 @@
             <th>#</th>
             <th></th>
             <th>Nom</th>
-            <th>actions</th>
+            <th>
+                <div class="d-flex justify-content-end">actions</div>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -22,16 +24,13 @@
             <td>{{ category.id }}</td>
             <td><img src="{{ asset(category.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ category.title}}"></td>
             <td class="position-relative"><a href="{{ path('category_show', {'id': category.id}) }}" class=" stretched-link">{{ category.title }}</td><a></td>
-            <td class="d-flex">
-                <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
-                
-                <div class="dropdown mx-2">
-                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="far fa-trash-alt"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ path('category_delete', {'id': category.id}) }}">Confirmer</a>
-                        <a class="dropdown-item" href="#">Annuler</a>
+
+            <td>
+                <div class="d-flex justify-content-end">
+                    <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+
+                    <div class="dropdown mx-2">
+                        {{ include('back/category/_delete_form.html.twig') }}
                     </div>
                 </div>
             </td>
