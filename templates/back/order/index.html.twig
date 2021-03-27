@@ -13,18 +13,18 @@
 <table class="table table-hover table-striped">
     <thead>
         <tr>
-            <th class="d-none d-xl-block mb-0">#</th>
+            <th class="d-none d-xl-table-cell mb-0">#</th>
             <th>Statut</th>
             <th>Heure de livraison</th>
             <th>Point de RDV</th>
-            <th class="d-none d-xl-block mb-0">Client</th>
+            <th class="d-none d-xl-table-cell mb-0">Client</th>
             <th>actions</th>
         </tr>
     </thead>
     <tbody>
         {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
         <tr>
-            <td class="d-none d-xl-block">{{ order.id }}</td>
+            <td class="d-none d-xl-table-cell">{{ order.id }}</td>
             <td>
                 {% if order.status == 0 %}En attente{% endif %}
                 {% if order.status == 1 %}En préparation{% endif %}
@@ -33,16 +33,15 @@
             </td>
             <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}<a></td>
             <td>{{ order.deliveryPoint.city.name }} - {{ order.deliveryPoint.name }}</td>
-            <td class="d-none d-xl-block">{{ order.user.firstname }} {{ order.user.lastname }}</td>
+            <td class="d-none d-xl-table-cell">{{ order.user.firstname }} {{ order.user.lastname }}</td>
             {# <td>test</td> #}
             <td>
                 <div class="d-flex">
-                <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
-                
-                <div class="dropdown mx-2">
-                    {{ include('back/order/_delete_form.html.twig') }}
-                </div>
+                    <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
 
+                    <div class="dropdown mx-2">
+                        {{ include('back/order/_delete_form.html.twig') }}
+                    </div>
                 </div>
             </td>
         </tr>
