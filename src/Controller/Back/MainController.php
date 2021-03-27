@@ -66,13 +66,4 @@ class MainController extends AbstractController
         dd($user->getUsername() . " a verifié son compte");
         // TODO redirect to the front
     }
-
-    /**
-     * @Route("/test", name="test")
-     */
-    public function test()
-    {
-        $result = file_get_contents('https://api-adresse.data.gouv.fr/reverse/?lon=-1.4413976669311523&lat=43.67876671584565');
-        dd(json_decode($result)->features[0]->properties->city);
-    }
 }

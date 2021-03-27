@@ -239,7 +239,8 @@ class AppFixtures extends Fixture
                 $orderLine->setQuantity(mt_rand(1, 5))
                     ->setProduct($productsList[array_rand($productsList)]);
 
-                $order->addOrderProduct($orderLine);
+                $order->addOrderProduct($orderLine)
+                    ->setStatus(mt_rand(0, 3));
             }
 
             $manager->persist($order);

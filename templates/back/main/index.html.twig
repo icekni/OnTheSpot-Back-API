@@ -30,9 +30,9 @@
                     <td>
                         {% if order.status == 0 %}
                         <span class="badge badge-danger">En attente</span>{% endif %}
-                        {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>En préparation{% endif %}
-                        {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>En livraison{% endif %}
-                        {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>Livrée{% endif %}
+                        {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>{% endif %}
+                        {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
+                        {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
                     </td>
                     <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
                     <td>{{ order.deliveryPoint.name }}</td>
