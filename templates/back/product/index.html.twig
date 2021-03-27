@@ -11,9 +11,9 @@
     </div>
     
     <div class="col-8 d-flex justify-content-end">
-        <form autocomplete="off" action="/action_page.php">
+        <form autocomplete="off" action="{{ path('product_searched_show') }}">
           <div class="autocomplete" style="width:300px;">
-            <input id="myInput" type="text" name="product" placeholder="Produit">
+            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="Search">
             <input class="btn btn-secondary" type="submit">
           </div>
         </form>
