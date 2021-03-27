@@ -23,7 +23,7 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class,[
+            ->add('name', TextType::class, [
                 'label' => 'Nom',
             ])
             ->add('description')
@@ -57,7 +57,7 @@ class ProductType extends AbstractType
 
                 // If $product is null, it's a add and the picture field is required
                 if (null === $product->getId()) {
-                    $form->add('picture', FileType::class,[
+                    $form->add('picture', FileType::class, [
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => true,
@@ -72,7 +72,7 @@ class ProductType extends AbstractType
                                 ],
                             ])
                         ]
-                    ])->add('thumbnail', FileType::class,[
+                    ])->add('thumbnail', FileType::class, [
                         'label' => 'Vignette',
                         'mapped' => false,
                         'required' => true,
@@ -90,7 +90,7 @@ class ProductType extends AbstractType
                     ]);
                 } else {
                     // If it's a edit, the picture field is not required
-                    $form->add('picture', FileType::class,[
+                    $form->add('picture', FileType::class, [
                         'label' => 'Photo',
                         'mapped' => false,
                         'required' => false,
@@ -104,7 +104,7 @@ class ProductType extends AbstractType
                                 ],
                             ])
                         ]
-                    ])->add('thumbnail', FileType::class,[
+                    ])->add('thumbnail', FileType::class, [
                         'label' => 'Vignette',
                         'mapped' => false,
                         'required' => false,
@@ -120,8 +120,7 @@ class ProductType extends AbstractType
                         ]
                     ]);
                 }
-            })
-        ;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

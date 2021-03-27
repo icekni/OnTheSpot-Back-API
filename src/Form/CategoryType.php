@@ -31,10 +31,9 @@ class CategoryType extends AbstractType
                     $form->add('picture', FileType::class,[
                         'label' => 'Photo',
                         'mapped' => false,
-                        'required' => true,
+                        'required' => false,
                         'help' => 'Image principale de la catégorie, affichée sur la page de detail de la catégorie',
                         'constraints' => [
-                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [
@@ -46,10 +45,9 @@ class CategoryType extends AbstractType
                     ])->add('thumbnail', FileType::class,[
                         'label' => 'Vignette',
                         'mapped' => false,
-                        'required' => true,
+                        'required' => false,
                         'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
                         'constraints' => [
-                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [
@@ -81,7 +79,6 @@ class CategoryType extends AbstractType
                         'required' => false,
                         'help' => 'Vignette de la catégorie, affichée sur liste de catégories',
                         'constraints' => [
-                            new NotBlank(),
                             new File([
                                 'maxSize' => '1024k',
                                 'mimeTypes' => [

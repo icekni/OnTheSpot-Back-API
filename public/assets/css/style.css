@@ -1,0 +1,27 @@
+html {
+  font-size: 2rem;
+}
+
+.list-group-item:not(.disabled):nth-of-type(2n) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.list-group-item:not(.disabled):hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+@media screen and (min-width: 992px) {
+  html {
+    font-size: 1rem;
+  }
+
+  #map {
+    height: 40vh;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #map {
+    height: 80vh;
+  }
+}
