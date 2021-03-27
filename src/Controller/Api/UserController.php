@@ -57,6 +57,7 @@ class UserController extends AbstractController
         $token = bin2hex(random_bytes(10));
         // Store the token in $user
         $user->setToken($token);
+        $user->setRoles('["ROLE_USER"]');
 
         // Validation
         $errors = $validator->validate($user);
