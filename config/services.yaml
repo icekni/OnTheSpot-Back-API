@@ -61,19 +61,6 @@ services:
                 entity: 'App\Entity\Product'
                 method: 'updateProduct'
 
-    App\EventListener\DeliveryPointEntityListener:
-        tags:
-            -
-                name: 'doctrine.orm.entity_listener'
-                event: 'prePersist'
-                entity: 'App\Entity\DeliveryPoint'
-                method: 'updateDeliveryPoint'
-            -
-                name: 'doctrine.orm.entity_listener'
-                event: 'preUpdate'
-                entity: 'App\Entity\DeliveryPoint'
-                method: 'updateDeliveryPoint'
-
     App\EventListener\UserEntityListener:
         tags:
             -
