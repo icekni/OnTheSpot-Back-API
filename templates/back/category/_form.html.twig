@@ -1,11 +1,15 @@
 <div class="row col-12">
-    {% if category.picture is not null or category.thumbnail is not null %}
-    <div class="col-12 col-lg-4">
+    {% if category.title is not empty %}
+    <div class="col-12 col-lg-4 d-flex flex-column align-items-center">
         {% if category.picture is not null %}
         <img src="{{ asset(category.picture) }}" alt="Image de {{ category.title}}" style="max-width: 200px;" class="mx-auto d-block" id="category_imageUrl">
+        {% else %}
+        <p>Pas d'image principale</p>
         {% endif %}
         {% if category.thumbnail is not null %}
         <img src="{{ asset(category.thumbnail) }}" alt="Thumbnail de {{ category.title}}" style="max-width: 200px;" class="mx-auto d-block" id="category_thumbnailUrl">
+        {% else %}
+        <p>Pas de vignette</p>
         {% endif %}
     </div>
     <div class="col-12 col-lg-8 border-left">
