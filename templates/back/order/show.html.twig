@@ -5,7 +5,8 @@
 {% block body %}
 
 <div class="row">
-    <h1 class='mx-auto'>Commande #{{ order.id }} <a href="{{ path('delivery_point_index') }}" class="h6">Retour à la liste des commandes</a></h1>
+    {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+    <h1 class='mx-auto'>Commande #{{ order.id }} <a href="{{ referer }}" class="h6">Retour à la liste des commandes</a></h1>
 </div>
 
 <div class="row">
