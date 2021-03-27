@@ -2,6 +2,11 @@
 
 {% block title %}Order index{% endblock %}
 
+{% block meta %}
+{# Refresh every minutes to display new orders #}
+<meta http-equiv="refresh" content="60">
+{% endblock %}
+
 {% block body %}
 <h1>Toutes les commandes</h1>
 

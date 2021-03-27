@@ -16,11 +16,13 @@
                 {% for orderLine in form.orderProducts %}
                 <tr class="order-line">
                     <td>
+                        <span class="sr-only">{{ form_label(orderLine.product) }}</span>
                         {{ form_errors(orderLine.product) }}
                         {{ form_widget(orderLine.product) }}
                         {{ form_help(orderLine.product) }}
                     </td>
                     <td>
+                        <span class="sr-only">{{ form_label(orderLine.quantity) }}</span>
                         {{ form_errors(orderLine.quantity) }}
                         {{ form_widget(orderLine.quantity) }}
                         {{ form_help(orderLine.quantity) }}
