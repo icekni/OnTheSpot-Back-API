@@ -433,6 +433,23 @@ So you should concatenate from the Server Base URI to have the absolute URL of t
 * **Data Params**
 
    **required**
+   ```json
+   {
+     "deliveryTime": "2021-03-22T18:10:07+01:00",
+     "user": 148, // Uder ID
+     "deliveryPoint": 154, // Delivery Point ID
+     "orderProducts": [
+       {
+          "product": 141, // Product ID
+          "quantity": 3
+       },
+       {
+          "product": 150, // Product ID
+          "quantity": 7
+       }
+     ]
+   }
+   ```
 
 * **Success Response:**
 
