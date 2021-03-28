@@ -432,19 +432,19 @@ So you should concatenate from the Server Base URI to have the absolute URL of t
 
 * **Data Params**
 
-   **required**
+   **required:**
    ```json
    {
      "deliveryTime": "2021-03-22T18:10:07+01:00",
-     "user": 148, // Uder ID
-     "deliveryPoint": 154, // Delivery Point ID
+     "user": 148,
+     "deliveryPoint": 154,
      "orderProducts": [
        {
-          "product": 141, // Product ID
+          "product": 141,
           "quantity": 3
        },
        {
-          "product": 150, // Product ID
+          "product": 150,
           "quantity": 7
        }
      ]
