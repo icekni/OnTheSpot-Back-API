@@ -8,37 +8,43 @@
 {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
 <h1 class='mx-auto'>{{ block('title') }} <a href="{{ referer }}" class="h6">Retour</a></h1>
 
-<div id="map" style="width: 100%; height: 400px;">
-    
+<div class="row">
+
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 80vh;">
+    </div>
+
+    <div class="col col-lg-8 row">
+        <div class="col-12">
+
+
+            {{ include('back/delivery_point/_form.html.twig') }}
+        </div>
+
+    </div>
+</div>
+
 {# Carte Leaflet #}
 <script>
     //Appel et configuration carte
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-			osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+            maxZoom: 18,
+            attribution: osmAttrib
+        });
 
-    var rotation = Math.PI/4;
     var map = L
-        .map('map', {rotate: true})
+        .map('map')
         .setView("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), 13)
-        .addLayer(osm)
-    ;
+        .addLayer(osm);
 
     var marker = L.marker("{{ delivery_point.location|json_encode|trim('\"') }}".split(', '), {
         draggable: true
-    }).on('drag', function (e) {
-            document.getElementById('delivery_point_location').value = e.latlng.lat + ', ' + e.latlng.lng;
-        }).addTo(map);
-
-    map.setBearing("90");
+    }).on('drag', function(e) {
+        document.getElementById('delivery_point_location').value = e.latlng.lat + ', ' + e.latlng.lng;
+    }).addTo(map);
 </script>
 </div>
-
-    {{ include('back/delivery_point/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('delivery_point_index') }}">back to list</a>
-
-    {{ include('back/delivery_point/_delete_form.html.twig') }}
 {% endblock %}
 
 {% block stylesheets %}
