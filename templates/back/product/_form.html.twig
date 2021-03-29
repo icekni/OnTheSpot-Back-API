@@ -2,7 +2,7 @@
     {% if product.name is not empty %}
     <div class="col-12 col-lg-4 d-flex flex-column align-items-center">
         {% if product.picture is not null %}
-        <img src="{{ asset(product.picture) }}" alt="Image de {{ product.title}}" style="max-width: 200px;" class="mx-auto d-block" id="product_imageUrl">
+        <img src="{{ asset(product.picture) }}" alt="Image de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block" id="product_imageUrl">
         {% else %}
         <p>Pas d'image principale</p>
         {% endif %}
