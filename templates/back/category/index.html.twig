@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Toutes les catégories{% endblock %}
+
+{% block category %}active{% endblock %}
 
 {% block body %}
-<h1>Toutes les categories</h1>
+<h1>{{ block('title') }}</h1>
 
 <a type="button" href="{{ path('category_new') }}" class="btn btn-success m-3">Nouvelle categorie</a>
 

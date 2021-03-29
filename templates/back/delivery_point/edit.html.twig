@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit DeliveryPoint{% endblock %}
+{% block title %}Modification {{ delivery_point.name }}{% endblock %}
+
+{% block delivery_point %}active{% endblock %}
 
 {% block body %}
-<h1>Édition de {{ delivery_point.name }}</h1>
+{% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ referer }}" class="h6">Retour</a></h1>
 
 <div id="map" style="width: 100%; height: 400px;">
     

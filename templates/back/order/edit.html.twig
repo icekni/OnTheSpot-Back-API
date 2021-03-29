@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Order{% endblock %}
+{% block title %}Modification commande #{{ order.id }}{% endblock %}
+
+{% block order %}active{% endblock %}
 
 {% block body %}
 <div class="row">
     {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
-    <h1 class='mx-auto'>Commande #{{ order.id }} <a href="{{ path('order_show', {'id': order.id}) }}" class="h6">Retour</a></h1>
+    <h1 class='mx-auto'>{{ block('title') }} <a href="{{ referer }}" class="h6">Retour</a></h1>
     
 </div>
 
