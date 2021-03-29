@@ -13,14 +13,19 @@
         <a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
     </div>
     
+   
     <div class="col-8 d-flex justify-content-end">
-        <form autocomplete="off" action="{{ path('product_searched_show') }}">
+         {% for product in products %}
+        <form autocomplete="off" action="{{ path('product_searched_show', {'id': product.id}) }}" method="post">
+        {% endfor %}
           <div class="autocomplete" style="width:300px;">
-            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="Search">
+            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="search">
             <input class="btn btn-secondary" type="submit">
           </div>
         </form>
     </div>
+    
+
 </div>
 <div class="row">
     <div class="col">
