@@ -32,11 +32,31 @@ class ProductRepository extends ServiceEntityRepository
 
         // Si mot-clé présent, on ajoute la condition WHERE
         if (null !== $search) {
-            $qb->where('m.name LIKE :search')
+            $qb->where('m.id LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+
+
+
+
+
+
+
+    public function findProduct($search = null)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.id = :search'
+        )->setParameter('search', $search);
+
+        return $query->getResult();
     }
 
     // /**

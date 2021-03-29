@@ -9,6 +9,7 @@ use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -68,13 +69,14 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/one", name="product_searched_show", methods={"GET"})
+     * @Route("/search/{id}", name="product_searched_show", methods="POST")
+     * @Entity("product", expr="repository.findProduct(id)")
      */
     public function showSearched(ProductRepository $productRepository, Request $request): Response
     {
         $search = $request->query->get('search');
-        dd('caca');
-        $product = $productRepository->findSearchedOrClicked($search);
+        $product = $productRepository->findProduct($search);
+        dd($request);
 
         return $this->render('back/product/show.html.twig', [
             'product' => $product,
