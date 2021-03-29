@@ -17,10 +17,10 @@
         </tr>
     </thead>
     <tbody>
-        {% for deliveryPoint in delivery_points|sort((a, b) => a.city.name <=> b.city.name) %}
+        {% for deliveryPoint in delivery_points|sort((a, b) => a.city <=> b.city) %}
         <tr>
             <td>{{ deliveryPoint.id }}</td>
-            <td>{{ deliveryPoint.city.name }}</td>
+            <td>{{ deliveryPoint.city }}</td>
             <td class="position-relative"><a href="{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}" class="stretched-link">{{ deliveryPoint.name }}</td><a></td>
             <td class="d-flex">
                 <a type="button" href="{{ path('delivery_point_edit', {'id': deliveryPoint.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>

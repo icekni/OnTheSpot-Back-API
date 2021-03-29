@@ -43,6 +43,7 @@ class OrderType extends AbstractType
                 'label' => '<h2>Détail de la commande</h2>',
                 'label_html' => true,
                 'entry_type' => OrderProductType::class,
+                'allow_delete' => true,
                 'entry_options' => [
                     'label' => '--------------',
                 ]

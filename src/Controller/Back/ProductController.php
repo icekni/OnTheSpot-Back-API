@@ -87,6 +87,12 @@ class ProductController extends AbstractController
                 $newPicture = $fileUploader->upload($picture);
                 $product->setPicture($newPicture);
             }
+            // Same for the thumbnail
+            $thumbnail = $form->get('thumbnail')->getData();
+            if ($thumbnail) {
+                $newThumbnail = $fileUploader->upload($picture);
+                $product->setThumbnail($newThumbnail);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 

@@ -40,8 +40,17 @@ class CategoryController extends AbstractController
 
             // Handling the picture
             $picture = $form->get('picture')->getData();
-            $newPicture = $fileUploader->upload($picture);
-            $category->setPicture($newPicture);
+            // If a picture has been send
+            if ($picture) {
+                $newPicture = $fileUploader->upload($picture);
+                $category->setPicture($newPicture);
+            }
+            // Same for the thumbnail
+            $thumbnail = $form->get('thumbnail')->getData();
+            if ($thumbnail) {
+                $newThumbnail = $fileUploader->upload($picture);
+                $category->setThumbnail($newThumbnail);
+            }
 
             $entityManager->persist($category);
             $entityManager->flush();
@@ -79,6 +88,7 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump("coucou");
 
             // Handling the picture
             $picture = $form->get('picture')->getData();
@@ -86,6 +96,12 @@ class CategoryController extends AbstractController
             if ($picture) {
                 $newPicture = $fileUploader->upload($picture);
                 $category->setPicture($newPicture);
+            }
+            // Same for the thumbnail
+            $thumbnail = $form->get('thumbnail')->getData();
+            if ($thumbnail) {
+                $newThumbnail = $fileUploader->upload($picture);
+                $category->setThumbnail($newThumbnail);
             }
 
             $this->getDoctrine()->getManager()->flush();
@@ -109,7 +125,7 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
             $entityManager->flush();

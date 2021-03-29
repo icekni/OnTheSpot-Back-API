@@ -5,7 +5,7 @@
 {% block body %}
 <div class="row">
 
-    <div id="map" class="col-4" style="height: 90vh;">
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 90vh;">
     </div>
 
     <div class="col border-left m-3">
@@ -28,10 +28,11 @@
                 {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
                 <tr>
                     <td>
-                        {% if order.status == 0 %}En attente{% endif %}
-                        {% if order.status == 1 %}En préparation{% endif %}
-                        {% if order.status == 2 %}En livraison{% endif %}
-                        {% if order.status == 3 %}Livrée{% endif %}
+                        {% if order.status == 0 %}
+                        <span class="badge badge-danger">En attente</span>{% endif %}
+                        {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>{% endif %}
+                        {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
+                        {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
                     </td>
                     <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
                     <td>{{ order.deliveryPoint.name }}</td>

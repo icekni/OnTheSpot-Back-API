@@ -98,7 +98,7 @@ class OrderController extends AbstractController
         $user = $security->getUser();
         $userId = $user->getId();
 
-        // We get the the user's id of the order
+        // We get the user's id of the order
         $orderUserId = $order->getUser()->getId();
 
         // Validation        

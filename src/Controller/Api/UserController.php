@@ -57,6 +57,7 @@ class UserController extends AbstractController
         $token = bin2hex(random_bytes(10));
         // Store the token in $user
         $user->setToken($token);
+        $user->setRoles(["ROLE_USER"]);
 
         // Validation
         $errors = $validator->validate($user);
@@ -72,8 +73,8 @@ class UserController extends AbstractController
             ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
             ->to($user->getEmail())
             ->subject('Confirmation d\'inscription sur le site OnTheSpot')
-            ->text('Bonjour' . $user->getFirstname() . '\nPour confirmer votre inscription, veuillez cliquer sur ce lien : https://onthespot.apotheoz.tech/confirm/' . $token)
-            ->html('<p>Bonjour' . $user->getFirstname() . '</p><p> Pour confirmer votre inscription, veuillez cliquer sur ce lien : <a href="https://onthespot.apotheoz.tech/confirm/' . $token . '">Confirmation email</a>');
+            ->text('Bonjour ' . $user->getFirstname() . '\nPour confirmer votre inscription, veuillez cliquer sur ce lien : https://onthespot.link/back/public/confirm/' . $token)
+            ->html('<p>Bonjour ' . $user->getFirstname() . '</p><p> Pour confirmer votre inscription, veuillez cliquer sur ce lien : <a href="https://onthespot.link/back/public/confirm/' . $token . '">Confirmation email</a>');
         
         try {
             $mailer->send($email);

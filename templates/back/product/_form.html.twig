@@ -1,4 +1,33 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="row col-12">
+    {% if product.name is not empty %}
+    <div class="col-12 col-lg-4 d-flex flex-column align-items-center">
+        {% if product.picture is not null %}
+        <img src="{{ asset(product.picture) }}" alt="Image de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block" id="product_imageUrl">
+        {% else %}
+        <p>Pas d'image principale</p>
+        {% endif %}
+        {% if product.thumbnail is not null %}
+        <img src="{{ asset(product.thumbnail) }}" alt="Thumbnail de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block" id="product_thumbnailUrl">
+        {% else %}
+        <p>Pas de vignette</p>
+        {% endif %}
+    </div>
+    <div class="col-12 col-lg-8 border-left">
+    {% else %}
+        <div class="col-12 border-left">
+    {% endif %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.querySelectorAll('[type="file"]')
+            .forEach(function(input) {
+                input.addEventListener("change", function(e) {
+                    e.currentTarget.closest('.custom-file').querySelector('label').textContent = e.currentTarget.value;
+                });
+            });
+    </script>

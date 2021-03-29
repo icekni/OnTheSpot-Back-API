@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\City;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Product;
@@ -11,10 +10,7 @@ use App\Entity\Category;
 use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Asset\UrlPackage;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -215,17 +211,11 @@ class AppFixtures extends Fixture
         // Creation of all the delivery points
         $deliveryPointsList = [];
         foreach ($meetingPoints as $cityName => $deliveryPoints) {
-            // Creation of a city
-            $city = new City();
-            $city->setName($cityName);
-
-            $manager->persist($city);
-
             foreach ($deliveryPoints as $deliveryPointName => $deliveryPointlocation) {
                 // Creation of a delivery point
                 $deliveryPoint = new DeliveryPoint();
                 $deliveryPoint->setName($deliveryPointName)
-                    ->setCity($city)
+                    ->setCity($cityName)
                     ->setDescription($faker->unique()->sentence())
                     ->setLocation($deliveryPointlocation);
 
@@ -239,9 +229,10 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 50; $i++) {
             $order = new Order();
 
-            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks'))
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks', '-1 days'))
                 ->setUser($usersList[array_rand($usersList)])
-                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)]);
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+                ->setStatus(3);
 
             // Add a random amount of product
             for ($j = 0; $j < mt_rand(1, 10); $j++) {
@@ -250,6 +241,28 @@ class AppFixtures extends Fixture
                     ->setProduct($productsList[array_rand($productsList)]);
 
                 $order->addOrderProduct($orderLine);
+                    
+            }
+
+            $manager->persist($order);
+        }
+        // Fake non delivered order
+        for ($i = 0; $i < 30; $i++) {
+            $order = new Order();
+
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 hours'))
+                ->setUser($usersList[array_rand($usersList)])
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+                ->setStatus(mt_rand(0,2));
+
+            // Add a random amount of product
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
+                $orderLine = new OrderProduct();
+                $orderLine->setQuantity(mt_rand(1, 5))
+                    ->setProduct($productsList[array_rand($productsList)]);
+
+                $order->addOrderProduct($orderLine);
+                    
             }
 
             $manager->persist($order);

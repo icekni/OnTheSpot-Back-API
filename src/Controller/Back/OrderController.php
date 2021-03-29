@@ -80,8 +80,7 @@ class OrderController extends AbstractController
                 'success',
                 'Modifications de la commande #' . $order->getId() . ' Enregistrées.'
             );
-
-            return $this->redirectToRoute('order_index');
+            return $this->redirectToRoute('order_show', ['id' => $order->getId()]);
         }
 
         return $this->render('back/order/edit.html.twig', [
