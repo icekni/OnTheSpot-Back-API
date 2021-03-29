@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Category{% endblock %}
+{% block title %}Modification {{ category.title }}{% endblock %}
+
+{% block category %}active{% endblock %}
 
 {% block body %}
-    <h1>Edit Category</h1>
+{% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ referer }}" class="h6">Retour</a></h1>
 
     {{ include('back/category/_form.html.twig', {'button_label': 'Update'}) }}
 

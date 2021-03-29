@@ -33,19 +33,19 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item {% block main %}{% endblock %}">
                         <a class="nav-link" href="{{ path('back_main') }}">Accueil</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% block order %}{% endblock %}">
                         <a class="nav-link" href="{{ path('order_index') }}">Commandes</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% block product %}{% endblock %}">
                         <a class="nav-link" href="{{ path('product_index') }}">Produits</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% block category %}{% endblock %}">
                         <a class="nav-link" href="{{ path('category_index') }}">Categories</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {% block delivery_point %}{% endblock %}">
                         <a class="nav-link" href="{{ path('delivery_point_index') }}">Points de RDV</a>
                     </li>
                 </ul>
