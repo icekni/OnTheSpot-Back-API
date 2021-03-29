@@ -15,13 +15,15 @@ class CategoryEntityListener
         $this->slugger = $slugger;
     }
 
-    public function updateSlug(Category $category, LifecycleEventArgs $event)
+    public function update(Category $category, LifecycleEventArgs $event)
     {
         $category->setSlug(
             $this->slugger->slug(
                     $category->getTitle()
                 )
                 ->lower()
-        );
+            )
+            ->setUpdatedAt(new \datetime())
+        ;
     }
 }
