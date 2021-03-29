@@ -20,13 +20,12 @@ class ProductEntityListener
         $product->setSlug(
             $this->slugger->slug(
                     $product->getName()
-                )
-                ->lower()
-        );
+                )->lower()
+            )
+            ->setUpdatedAt(new \datetime())
+        ;
 
         $price = str_replace(",", ".", $product->getPrice());
         $product->setPrice($price);
     }
-
-
 }
