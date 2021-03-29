@@ -39,6 +39,11 @@ class DeliveryPointController extends AbstractController
             $entityManager->persist($deliveryPoint);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Création du point de retrait "' . $deliveryPoint->getName() . '" effectuée.'
+            );
+
             return $this->redirectToRoute('delivery_point_index');
         }
 
@@ -69,6 +74,11 @@ class DeliveryPointController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash(
+                'success',
+                'Modifications du point de retrait "' . $deliveryPoint->getName() . '" enregistrées.'
+            );
+
             return $this->redirectToRoute('delivery_point_index');
         }
 
@@ -87,6 +97,11 @@ class DeliveryPointController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($deliveryPoint);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Suppression du point de retrait "' . $deliveryPoint->getName() . '" effectuée.'
+            );
         }
 
         return $this->redirectToRoute('delivery_point_index');

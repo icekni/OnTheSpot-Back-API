@@ -46,6 +46,11 @@ class ProductController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Création de "' . $product->getName() . '" effectuée.'
+            );
+
             return $this->redirectToRoute('product_index');
         }
 
@@ -85,6 +90,11 @@ class ProductController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash(
+                'success',
+                'Modifications de "' . $product->getName() . '" enregistrées.'
+            );
+
             return $this->redirectToRoute('product_index');
         }
 
@@ -103,6 +113,11 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Suppression du produit "' . $product->getName() . '" effectuée.'
+            );
         }
 
         return $this->redirectToRoute('product_index');
