@@ -10,14 +10,17 @@
         <a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
     </div>
     
+   
     <div class="col-8 d-flex justify-content-end">
-        <form autocomplete="off" action="{{ path('product_searched_show') }}">
+        <form autocomplete="off" action="{{ path('product_searched_show') }}" method="post">
           <div class="autocomplete" style="width:300px;">
-            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="Search">
+            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="search">
             <input class="btn btn-secondary" type="submit">
           </div>
         </form>
     </div>
+    
+
 </div>
 
 <table class="table table-hover table-striped">
@@ -36,7 +39,7 @@
         <tr>
             <td>{{ product.id }}</td>
             <td><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
-            <td class="position-relative"><a href="{{ path('product_show', {'id': product.id}) }}" class=" stretched-link">{{ product.name }}</td><a></td>
+            <td class="position-relative"><a href="{{ path('product_show', {id:product.id}) }}" class=" stretched-link">{{ product.name }}</td><a></td>
                 <td>{{ product.price }} €</td>
                 <td>{{ product.availability ? 'En stock' : 'Hors stock' }}</td>
                 <td class="d-flex">

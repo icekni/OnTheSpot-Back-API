@@ -20,23 +20,21 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find all products or the one typed in the search bar
+     * Find the product typed in the search bar
      * 
      * @return Products[] Returns an array of Product objects
      */
-    public function findSearchedOrClicked($search = null)
+    public function findProduct($search = null)
     {
-        // Requête de base
-        $qb = $this->createQueryBuilder('p')
-            ->orderBy('p.name', 'ASC');
+        $entityManager = $this->getEntityManager();
 
-        // Si mot-clé présent, on ajoute la condition WHERE
-        if (null !== $search) {
-            $qb->where('m.name LIKE :search')
-                ->setParameter('search', '%'.$search.'%');
-        }
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.name = :search'
+        )->setParameter('search', $search);
 
-        return $qb->getQuery()->getResult();
+        return $query->getSingleResult();
     }
 
     // /**

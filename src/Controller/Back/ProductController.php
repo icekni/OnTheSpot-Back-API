@@ -68,13 +68,16 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/one", name="product_searched_show", methods={"GET"})
+     * 
+     * @Route("/search", name="product_searched_show", methods="POST")
      */
     public function showSearched(ProductRepository $productRepository, Request $request): Response
     {
-        $search = $request->query->get('search');
-        dd('caca');
-        $product = $productRepository->findSearchedOrClicked($search);
+        // We get the result of the request search bar form 
+        $search = $request->request->get('search');
+
+        // We get the requested object with our custom request
+        $product = $productRepository->findProduct($search);
 
         return $this->render('back/product/show.html.twig', [
             'product' => $product,
