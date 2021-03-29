@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block product %}active{% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('product_index') }}" class="h6">Retour à la liste des produits</a></h1>
 
     <a type="button" href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i> Modifier</a>
 
@@ -36,6 +38,5 @@
     </div>
 
 
-<a href="{{ path('product_index') }}">Retour à l'accueil</a>
 
 {% endblock %}
