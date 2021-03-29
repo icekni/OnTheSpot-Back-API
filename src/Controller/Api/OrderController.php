@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\Order;
+use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,11 +82,10 @@ class OrderController extends AbstractController
      * 
      * @Route("/api/orders", name="api_order_create", methods={"POST"})
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security, ValidatorInterface $validator)
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security, ValidatorInterface $validator, UserRepository $userRepository)
     {
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
-
 
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
@@ -95,14 +95,29 @@ class OrderController extends AbstractController
         );
 
         // We get the connected user's id
-        $user = $security->getUser();
-        $userId = $user->getId();
+        $connectedUser = $security->getUser();
+        $connectedUserId = $connectedUser->getId();
+        // We get the connected user's token
+        $connectedUserToken = $security->getToken();
+        dump($connectedUserToken);
+
 
         // We get the user's id of the order
-        $orderUserId = $order->getUser()->getId();
+        $orderUser = $order->getUser();
+        $orderUserId = $orderUser->getId();
+        // dd($security->getToken());
+        // We get the user's token of the order
+        $orderUserToken = $orderUser->getToken();
+
+        // ! Tentative de récupérer le token , mais entrée vide
+        dd($userRepository->find($orderUserId));
+
+        // We set order's user as the connected 
+        $order->setUser($connectedUser);
+
 
         // Validation        
-        $errors = $validator->validate($user);
+        $errors = $validator->validate($order);
 
         // In case of error
         if (count($errors) > 0) {
@@ -111,7 +126,7 @@ class OrderController extends AbstractController
         }
 
         // If the user adding the order isn't the owner of the order, he won't be able able to post it
-        if ($userId === $orderUserId) {
+        if ($connectedUserToken === $orderUserToken) {  
 
             try {
                 // Saving the order
@@ -128,13 +143,16 @@ class OrderController extends AbstractController
                 ['id' => $order->getId()],
                 Response::HTTP_CREATED
             );
+
         } else {
+
             $message = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'error' => 'Pas le droit d\'ajouter des commandes aux autres !',
             ];
 
-            return $this->json($message, Response::HTTP_NOT_FOUND);
+            return $this->json($message, Response::HTTP_NOT_FOUND); 
+
         }      
     }
 }
