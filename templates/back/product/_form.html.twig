@@ -7,7 +7,7 @@
         <p>Pas d'image principale</p>
         {% endif %}
         {% if product.thumbnail is not null %}
-        <img src="{{ asset(product.thumbnail) }}" alt="Thumbnail de {{ product.title}}" style="max-width: 200px;" class="mx-auto d-block" id="product_thumbnailUrl">
+        <img src="{{ asset(product.thumbnail) }}" alt="Thumbnail de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block" id="product_thumbnailUrl">
         {% else %}
         <p>Pas de vignette</p>
         {% endif %}
