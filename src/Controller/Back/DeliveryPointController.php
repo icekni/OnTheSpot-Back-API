@@ -84,6 +84,19 @@ class DeliveryPointController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // We need to find the city matching this location
+            // First we need to explode location to have real latitude and longitude
+            $coord = explode(', ', $deliveryPoint->getLocation());
+            // Call to an gouv API
+            $result = file_get_contents('https://api-adresse.data.gouv.fr/reverse/?lon=' . $coord[1] . '&lat=' . $coord[0] . '');
+            $deliveryPoint->setCity(
+                json_decode($result)
+                    ->features[0]
+                    ->properties
+                    ->city
+            );
+            
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash(
