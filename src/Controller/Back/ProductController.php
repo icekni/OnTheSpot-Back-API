@@ -86,7 +86,7 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="product_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Product $product, FileUploader $fileUploader): Response
     {
