@@ -37,20 +37,20 @@
                         {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
                     </td>
                     <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
-                    <td>{{ order.deliveryPoint.name }}</td>
-                    <td class="d-flex">
-                        <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                        <td>{{ order.deliveryPoint.name }}</td>
+                        <td class="d-flex">
+                            <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
 
-                        <div class="dropdown mx-2">
-                            <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ path('order_delete', {'id': order.id}) }}">Confirmer</a>
-                                <a class="dropdown-item" href="#">Annuler</a>
+                            <div class="dropdown mx-2">
+                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ path('order_delete', {'id': order.id}) }}">Confirmer</a>
+                                    <a class="dropdown-item" href="#">Annuler</a>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
                 </tr>
                 {% else %}
                 <tr>

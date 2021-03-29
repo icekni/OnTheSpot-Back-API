@@ -59,12 +59,11 @@
 
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <p class="dropdown-item">Roles :</p>
+                            {# <p class="dropdown-item">Roles :</p>
                             {% for role in app.user.roles %}
                             <p class="dropdown-item disabled">{{ role }}</p>
-                            {% endfor %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter</a>
+                            {% endfor %} #}
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a>
                         </div>
                     </div>
                 </div>
