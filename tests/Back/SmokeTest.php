@@ -77,7 +77,7 @@ class SmokeTest extends WebTestCase
     {
         $client = self::createClient();
 
-        // Login as user
+        // Login as admin
         $userRepository = static::$container->get(UserRepository::class);
         $user = $userRepository->findOneByEmail('admin@mail.com');
         $client->loginUser($user);
