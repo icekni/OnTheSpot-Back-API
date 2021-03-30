@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}404{% endblock %}
+{% block title %}403{% endblock %}
 
 {% block body %}
 <div class="error">
   <img class="error-picture" src="{{ asset('assets/images/1349.jpg') }}" alt="">
 
   <div class="error-message">
-    <h1>{{ block('title') }} <span class="error-type">La ressource n'existe pas</span></h1>
-    <p>Rien à voir par ici !</p>
-    <a href="{{ app.request.headers.get('referer') }}"><p>Retour à la page précédente ?</p></a>
+    <h1>{{ block('title') }} <span class="error-type">Utilisateur non autorisé</span></h1>
+    <h2>Rien à voir par ici !</h2>
+    <a href="{{ path('app_logout') }}"><p>Veuillez vous connecter</p></a>
   </div>
   <a class="reference-img" href="http://www.freepik.com">Designed by upklyak / Freepik</a>
 </div>

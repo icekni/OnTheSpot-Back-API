@@ -10,6 +10,41 @@ html {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
+.error {
+  position: relative;
+}
+
+.error-picture {
+  max-width: -webkit-fill-available;
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(80, 80, 80);
+  text-align: center;
+  border: solid 0.4px rgba(125, 125, 125, 0.7);
+  padding: 3%;
+  border-radius: 10px;
+  background-color: rgb(231, 231, 231, 0.7);
+  box-shadow: 12px 12px 10px rgba(145, 145, 145);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.error-type {
+  font-size: small;
+}
+
+.error-message {
+  font-size: initial;
+}
+
+.reference-img {
+  font-size: 0.6em;
+}
+
 @media screen and (min-width: 992px) {
   html {
     font-size: 1rem;
@@ -25,3 +60,4 @@ html {
     height: 80vh;
   }
 }
+

@@ -13,8 +13,6 @@ class ErrorController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('back/error/index.html.twig', [
-            'controller_name' => 'ErrorController',
-        ]);
+        return $this->render('back/error/index.html.twig');
     }
 }
