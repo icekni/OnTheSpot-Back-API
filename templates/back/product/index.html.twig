@@ -56,6 +56,26 @@
                                 {{ include('back/product/_delete_form.html.twig') }}
                             </div>
 
+<<<<<<< HEAD
+=======
+<div class="row d-flex align-items-baseline">
+    <div class="col-4">
+        <a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
+    </div>
+    
+   
+    <div class="col-8 d-flex justify-content-end">
+        <form autocomplete="off" action="{{ path('product_searched_show') }}" method="post">
+          <div class="autocomplete" style="width:300px;">
+            <input id="myInput" type="search" name="search" placeholder="Produit" aria-label="search">
+            <input class="btn btn-secondary" type="submit">
+          </div>
+        </form>
+    </div>
+    
+
+</div>
+>>>>>>> 4a54c2583e3abf4faa960e9cac39f913df3f3d21
 
 <table class="table table-hover table-striped">
     <thead>
