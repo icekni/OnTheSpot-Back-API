@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}404{% endblock %}
+
+{% block body %}
+<div class="error">
+  <img class="error-picture" src="{{ asset('assets/images/1349.jpg') }}" alt="">
+
+  <div class="error-message">
+    <h1>{{ block('title') }} <span class="error-type">La ressource n'existe pas</span></h1>
+    <p>Rien à voir par ici !</p>
+    <a href="{{ app.request.headers.get('referer') }}"><p>Retour à la page précédente ?</p></a>
+  </div>
+  <a class="reference-img" href="http://www.freepik.com">Designed by upklyak / Freepik</a>
+</div>
+
+{% endblock %}
