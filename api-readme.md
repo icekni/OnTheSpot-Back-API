@@ -21,13 +21,13 @@
 
 **Accessing the API**
 ----
-Server Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public
+Server Base URI (HTTPS) : https://back.onthespot.link/
 
-Server Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public
+Server Base URI (HTTP) : http://back.onthespot.link/
 
-API Base URI (HTTPS) : https://onthespot.apotheoz.tech/back/public/api
+API Base URI (HTTPS) : https://api.onthespot.link/api
 
-API Base URI (HTTP) : http://onthespot.apotheoz.tech/back/public/api
+API Base URI (HTTP) : http://api.onthespot.link/api
 
 **Image path**
 ----
