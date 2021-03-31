@@ -436,7 +436,6 @@ So you should concatenate from the Server Base URI to have the absolute URL of t
    ```json
    {
      "deliveryTime": "2021-03-22T18:10:07+01:00",
-     "user": 148,
      "deliveryPoint": 154,
      "orderProducts": [
        {
