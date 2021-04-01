@@ -87,12 +87,29 @@ class OrderController extends AbstractController
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
 
+        
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
             $jsonContent,
             Order::class,
             'json'
         );
+
+        // We isolate the orderProduct property from the order
+        $orderProducts = $order->getOrderProducts();
+
+        // If one orderProducts has a quantity inferior to 0, the request send an error 422
+        foreach ($orderProducts as $orderProduct) {
+            if ($orderProduct->getQuantity() < 1) {
+                $message = [
+                    'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                    'error' => 'La quantité doit être supérieure à 0.',
+                ];
+    
+                // We set a custom message and a HTTP 422 status code
+                return $this->json($message, Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
 
         // We get the connected user's id
         $connectedUser = $security->getUser();
