@@ -25,7 +25,7 @@
     </thead>
     <tbody>
         {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
-        <tr>
+        <tr class="order-row" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
             <td class="d-none d-xl-table-cell">{{ order.id }}</td>
             <td>
                 {% if order.status == 0 %}
@@ -34,7 +34,7 @@
                 {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
                 {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
             </td>
-            <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}<a></td>
+            <td class="position-relative">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td>
             <td>{{ order.deliveryPoint.city }} - {{ order.deliveryPoint.name }}</td>
             <td class="d-none d-xl-table-cell">{{ order.user.firstname }} {{ order.user.lastname }}</td>
             {# <td>test</td> #}

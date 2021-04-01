@@ -1,3 +1,7 @@
+.order-row { 
+  cursor: pointer; 
+}
+
 html {
   font-size: 2rem;
 }
