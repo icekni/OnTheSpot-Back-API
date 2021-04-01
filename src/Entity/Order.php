@@ -56,6 +56,7 @@ class Order
      * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="relatedToOrder", orphanRemoval=true, cascade={"persist"})
      * 
      * @Groups("api_order_read_one")
+     * @Assert\Valid
      */
     private $orderProducts;
 
