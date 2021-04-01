@@ -63,7 +63,6 @@ class MainController extends AbstractController
         // Change the status to true (= active)
         $user->setStatus(true);
 
-        dd($user->getUsername() . " a verifié son compte");
-        // TODO redirect to the front
+        return $this->render('back/main/confirm.html.twig');
     }
 }
