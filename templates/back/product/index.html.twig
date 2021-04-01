@@ -38,10 +38,10 @@
             </thead>
             <tbody>
                 {% for product in products|sort((a, b) => a.name <=> b.name) %}
-                <tr>
+                <tr class="order-row" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">
                     <td>{{ product.id }}</td>
                     <td><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
-                    <td class="position-relative"><a href="{{ path('product_show', {'id': product.id}) }}" class=" stretched-link">{{ product.name }}<a></td>
+                    <td class="position-relative">{{ product.name }}</td>
                     <td class="d-none d-xl-table-cell">{{ product.price }} €</td>
                     <td class="d-none d-xl-table-cell">
                             {{ product.availability ? 'En stock' : 'Hors stock' }}
