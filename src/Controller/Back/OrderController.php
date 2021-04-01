@@ -26,36 +26,9 @@ class OrderController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="order_new", methods={"GET","POST"})
-     */
-    // public function new(Request $request): Response
-    // {
-    //     $order = new Order();
-    //     $form = $this->createForm(OrderType::class, $order);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->persist($order);
-    //         $entityManager->flush();
-
-    //         $this->addFlash(
-    //             'success',
-    //             'Your changes were saved!'
-    //         );
-
-    //         return $this->redirectToRoute('order_index');
-    //     }
-
-    //     return $this->render('back/order/new.html.twig', [
-    //         'order' => $order,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 
     /**
-     * @Route("/{id}", name="order_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="order_show", methods={"GET"})
      * @Entity("order", expr="repository.findOne(id)")
      */
     public function show(Order $order): Response
@@ -66,7 +39,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="order_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="order_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Order $order): Response
     {
@@ -90,7 +63,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="order_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="order_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Order $order): Response
     {

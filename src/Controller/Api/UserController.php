@@ -22,25 +22,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * Useless and dangerous route, for debug only
-     * 
-     * @Route("/api/users", name="api_user_browse", methods="GET")
-     */
-    public function browse(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
-
-        return $this->json(
-            $users,
-            200,
-            [],
-            ['groups' => [
-                'api_user_browse_and_read'
-            ]]
-        );
-    }
-
-    /**
      * Registering of a user
      * 
      * @Route("/api/users", name="api_user_add", methods="POST")

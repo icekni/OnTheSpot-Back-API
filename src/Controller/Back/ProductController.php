@@ -61,7 +61,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="product_show", methods={"GET"})
      */
     public function show(Product $product): Response
     {
@@ -88,7 +88,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="product_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Product $product, FileUploader $fileUploader): Response
     {
@@ -128,7 +128,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="product_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Product $product): Response
     {
