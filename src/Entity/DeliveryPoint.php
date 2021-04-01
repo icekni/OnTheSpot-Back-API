@@ -18,6 +18,7 @@ class DeliveryPoint
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"api_delivery_point"})
      */
     private $id;
 
