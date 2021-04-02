@@ -64,7 +64,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
 
         # API
-        - { path: ^/api/user/([0-9]+|reset), roles: ROLE_USER }
+        - { path: ^/api/user/([0-9]+|reset)?, roles: ROLE_USER }
         - { path: ^/api/orders(/[0-9]+)?, roles: ROLE_USER }
         - { path: ^/(login|logout|confirm|api), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }

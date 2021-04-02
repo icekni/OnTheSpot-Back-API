@@ -147,6 +147,15 @@ class UserController extends AbstractController
         Security $security
     ): Response {
         $user = $security->getUser();
+
+        if (null === $user) {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
         // We get the id of the user we want to see the details
         $idUserToDetail = $user->getId();
         // We get the connected user's id
