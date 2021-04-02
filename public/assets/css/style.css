@@ -1,3 +1,15 @@
+.table thead th {
+  vertical-align: middle;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.order-row { 
+  cursor: pointer; 
+}
+
 html {
   font-size: 2rem;
 }

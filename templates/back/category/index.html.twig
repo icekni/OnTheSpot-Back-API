@@ -15,21 +15,19 @@
             <th>#</th>
             <th></th>
             <th>Nom</th>
-            <th>
-                <div class="d-flex justify-content-end">actions</div>
-            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for category in categories|sort((a, b) => a.title <=> b.title) %}
-        <tr>
+        <tr class="order-row" onclick="window.location='{{ path('category_show', {'id': category.id}) }}';">
             <td>{{ category.id }}</td>
             <td>
                 {% if category.thumbnail is not empty %}
                 <img src="{{ asset(category.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ category.title}}">
                 {% endif %}
             </td>
-            <td class="position-relative"><a href="{{ path('category_show', {'id': category.id}) }}" class=" stretched-link">{{ category.title }}</td><a></td>
+            <td class="position-relative">{{ category.title }}</td></td>
 
             <td>
                 <div class="d-flex justify-content-end">

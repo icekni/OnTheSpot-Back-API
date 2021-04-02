@@ -26,6 +26,7 @@ class OrderProduct
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $quantity;
 

@@ -16,16 +16,16 @@
             <th>Ville</th>
             <th>Point de retrait</th>
             <th>
-                <div class="d-flex justify-content-end">actions</div>
+                <div class="d-flex justify-content-end"></div>
             </th>
         </tr>
     </thead>
     <tbody>
         {% for deliveryPoint in delivery_points|sort((a, b) => a.city <=> b.city) %}
-        <tr>
+        <tr class="order-row" onclick="window.location='{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}';">
             <td>{{ deliveryPoint.id }}</td>
             <td>{{ deliveryPoint.city }}</td>
-            <td class="position-relative"><a href="{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}" class="stretched-link">{{ deliveryPoint.name }}<a></td>
+            <td class="position-relative">{{ deliveryPoint.name }}</td>
             <td>
                 <div class="d-flex justify-content-end">
                     <a type="button" href="{{ path('delivery_point_edit', {'id': deliveryPoint.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
