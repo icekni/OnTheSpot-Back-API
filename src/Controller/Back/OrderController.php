@@ -71,7 +71,8 @@ class OrderController extends AbstractController
                     ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
                     ->to('pedr1ferre@gmail.com')
                     ->subject('Changement de statut de votre commande')
-                    ->text('Re-bonjour ' . $order->getUser()->getFirstname() . ',
+                    ->text('
+                    Re-bonjour ' . $order->getUser()->getFirstname() . ',
                     
                     Votre commande a changé de statut, elle est maintenant : ' . $message . '.
                     
