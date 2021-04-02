@@ -91,7 +91,6 @@
     let marker;
     let ordersNumber;
 </script>
-{% dump(markers) %}
 {% for marker in markers|sort((b, a) => a.orderCount <=> b.orderCount)  %}
 <script>
     marker = "{{ marker.location|json_encode|trim('\"') }}".split(', ');
