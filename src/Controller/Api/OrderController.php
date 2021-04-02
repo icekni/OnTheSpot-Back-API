@@ -32,6 +32,7 @@ class OrderController extends AbstractController
 
         return $this->json($orders, 200, [], ['groups' => [
             'api_order_browse',
+            'api_order_read_one'
         ]]);
     }
 
