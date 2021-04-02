@@ -91,18 +91,17 @@
     let marker;
     let ordersNumber;
 </script>
-
-{% for marker in markers  %}
+{% for marker in markers|sort((b, a) => a.orderCount <=> b.orderCount)  %}
 <script>
     marker = "{{ marker.location|json_encode|trim('\"') }}".split(', ');
-    ordersNumber = "{{ marker['1'] }}";
+    ordersNumber = "{{ marker.orderCount }}";
 
     L.circle(marker, {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: 100 * ordersNumber
-    }).bindPopup("<h5>{{ marker.name }}</h5><p>{{ marker[1] }} commandes</p><a href='{{ path('back_main', {id: marker.id}) }}'>Voir les commandes</a>").addTo(map);
+    }).bindPopup("<h5>{{ marker.name }}</h5><p>{{ marker.orderCount }} commandes</p><a href='{{ path('back_main', {id: marker.id}) }}'>Voir les commandes</a>").addTo(map);
 </script>
 {% endfor %}
 
