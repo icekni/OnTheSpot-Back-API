@@ -66,10 +66,13 @@ class OrderController extends AbstractController
                     $message = "arrivée à destination";
                 }
 
+                // We change the order status
+                $order->setStatus($newStatus);
+
                 // Then we send an email no notify the user
                 $email = (new Email())
                     ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
-                    ->to('pedr1ferre@gmail.com')
+                    ->to($order->getUser()->getEmail())
                     ->subject('Changement de statut de votre commande')
                     ->text('
                     Re-bonjour ' . $order->getUser()->getFirstname() . ',
