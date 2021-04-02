@@ -141,23 +141,12 @@ class UserController extends AbstractController
     /**
      * Read user's details 
      * 
-     * @Route("/api/users/{id<\d+>}", name="api_user_read", methods="GET")
+     * @Route("/api/users", name="api_user_read", methods="GET")
      */
     public function read(
-        Security $security,
-        User $user = null
+        Security $security
     ): Response {
-        // We send a custom message if order not found (404)
-        if ($user === null) {
-
-            $message = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'error' => 'Utilisateur non existant.',
-            ];
-
-            return $this->json($message, Response::HTTP_NOT_FOUND);
-        }
-
+        $user = $security->getUser();
         // We get the id of the user we want to see the details
         $idUserToDetail = $user->getId();
         // We get the connected user's id
