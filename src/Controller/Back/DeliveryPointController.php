@@ -66,7 +66,7 @@ class DeliveryPointController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delivery_point_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="delivery_point_show", methods={"GET"})
      */
     public function show(DeliveryPoint $deliveryPoint): Response
     {
@@ -76,7 +76,7 @@ class DeliveryPointController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="delivery_point_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="delivery_point_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, DeliveryPoint $deliveryPoint): Response
     {
@@ -114,7 +114,7 @@ class DeliveryPointController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delivery_point_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="delivery_point_delete", methods={"DELETE"})
      */
     public function delete(Request $request, DeliveryPoint $deliveryPoint): Response
     {

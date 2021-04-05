@@ -18,6 +18,8 @@ class OrderProduct
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $id;
 
@@ -26,6 +28,7 @@ class OrderProduct
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotBlank
+     * @Assert\Positive
      */
     private $quantity;
 

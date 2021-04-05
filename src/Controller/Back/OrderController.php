@@ -4,8 +4,11 @@ namespace App\Controller\Back;
 
 use App\Entity\Order;
 use App\Form\OrderType;
+use Symfony\Component\Mime\Email;
 use App\Repository\OrderRepository;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -26,36 +29,9 @@ class OrderController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="order_new", methods={"GET","POST"})
-     */
-    // public function new(Request $request): Response
-    // {
-    //     $order = new Order();
-    //     $form = $this->createForm(OrderType::class, $order);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->persist($order);
-    //         $entityManager->flush();
-
-    //         $this->addFlash(
-    //             'success',
-    //             'Your changes were saved!'
-    //         );
-
-    //         return $this->redirectToRoute('order_index');
-    //     }
-
-    //     return $this->render('back/order/new.html.twig', [
-    //         'order' => $order,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 
     /**
-     * @Route("/{id}", name="order_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="order_show", methods={"GET"})
      * @Entity("order", expr="repository.findOne(id)")
      */
     public function show(Order $order): Response
@@ -66,14 +42,50 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="order_edit", methods={"GET","POST"})
+     * @Route("/{id<\d+>}/edit", name="order_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Order $order): Response
+    public function edit(Request $request, Order $order, MailerInterface $mailer): Response
     {
         $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // We get the initial status and the new Status
+            $currentStatus = $order->getStatus();
+            $newStatus = $form->get('status')->getData();
+
+            // If the status has changed
+            if ($currentStatus !== $newStatus) {
+
+                if ($newStatus === 1) {
+                    $message = 'en préparation';
+                } elseif ($newStatus === 2) {
+                    $message = 'en livraison';
+                } elseif ($newStatus === 3) {
+                    $message = "arrivée à destination";
+                }
+
+                // We change the order status
+                $order->setStatus($newStatus);
+
+                // Then we send an email no notify the user
+                $email = (new Email())
+                    ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
+                    ->to($order->getUser()->getEmail())
+                    ->subject('Changement de statut de votre commande')
+                    ->text('
+                    Re-bonjour ' . $order->getUser()->getFirstname() . ',
+                    
+                    Votre commande a changé de statut, elle est maintenant : ' . $message . '.
+                    
+                    Merci
+                    
+                    Yann Demor, OnTheSpot CEO');
+                
+                $mailer->send($email);
+            }        
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash(
@@ -90,7 +102,7 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="order_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="order_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Order $order): Response
     {

@@ -20,23 +20,23 @@
             <th>Heure de livraison</th>
             <th>Point de RDV</th>
             <th class="d-none d-xl-table-cell mb-0">Client</th>
-            <th>actions</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
-        <tr>
-            <td class="d-none d-xl-table-cell">{{ order.id }}</td>
-            <td>
+        <tr class="order-row">
+            <td class="d-none d-xl-table-cell" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.id }}</td>
+            <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
                 {% if order.status == 0 %}
                 <span class="badge badge-danger">En attente</span>{% endif %}
                 {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>{% endif %}
                 {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
                 {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
             </td>
-            <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}<a></td>
-            <td>{{ order.deliveryPoint.city }} - {{ order.deliveryPoint.name }}</td>
-            <td class="d-none d-xl-table-cell">{{ order.user.firstname }} {{ order.user.lastname }}</td>
+            <td class="position-relative" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td>
+            <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryPoint.city }} - {{ order.deliveryPoint.name }}</td>
+            <td class="d-none d-xl-table-cell" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.user.firstname }} {{ order.user.lastname }}</td>
             {# <td>test</td> #}
             <td>
                 <div class="d-flex">

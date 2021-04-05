@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
-                <tr>
+                <tr class="order-row" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
                     <td>
                         {% if order.status == 0 %}
                         <span class="badge badge-danger">En attente</span>{% endif %}
@@ -36,7 +36,7 @@
                         {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
                         {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
                     </td>
-                    <td class="position-relative"><a href="{{ path('order_show', {'id': order.id}) }}" class="stretched-link">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
+                    <td class="position-relative">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
                         <td>{{ order.deliveryPoint.name }}</td>
                         <td class="d-flex">
                             <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
@@ -91,18 +91,17 @@
     let marker;
     let ordersNumber;
 </script>
-
-{% for marker in markers  %}
+{% for marker in markers|sort((b, a) => a.orderCount <=> b.orderCount)  %}
 <script>
     marker = "{{ marker.location|json_encode|trim('\"') }}".split(', ');
-    ordersNumber = "{{ marker['1'] }}";
+    ordersNumber = "{{ marker.orderCount }}";
 
     L.circle(marker, {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: 100 * ordersNumber
-    }).bindPopup("<h5>{{ marker.name }}</h5><p>{{ marker[1] }} commandes</p><a href='{{ path('back_main', {id: marker.id}) }}'>Voir les commandes</a>").addTo(map);
+    }).bindPopup("<h5>{{ marker.name }}</h5><p>{{ marker.orderCount }} commandes</p><a href='{{ path('back_main', {id: marker.id}) }}'>Voir les commandes</a>").addTo(map);
 </script>
 {% endfor %}
 

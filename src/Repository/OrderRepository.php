@@ -62,7 +62,7 @@ class OrderRepository extends ServiceEntityRepository
             ->select('d.name')
             ->addSelect('d.id')
             ->addSelect('d.location')
-            ->addselect('COUNT(o.id)')
+            ->addselect('COUNT(o.id) AS orderCount')
             ->where('o.status < 3')
             ->groupBy('o.deliveryPoint')
             ->orderBy('COUNT(o.id)')

@@ -19,6 +19,24 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    /**
+     * Find the product typed in the search bar
+     * 
+     * @return Products[] Returns an array of Product objects
+     */
+    public function findProduct($search = null)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            WHERE p.name = :search'
+        )->setParameter('search', $search);
+
+        return $query->getSingleResult();
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

@@ -2,11 +2,11 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ deliveryPoint.id) }}">
 
-    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="far fa-trash-alt"></i>
-    </button>
+    </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <button class="dropdown-item">Confirmer</button>
+        <button type="submit" class="dropdown-item">Confirmer</button>
         <a class="dropdown-item" data-toggle="dropdown">Annuler</a>
     </div>
 </form>

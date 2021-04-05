@@ -61,7 +61,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_show", methods={"GET"})
+     * @Route("/{id<\d+>}", name="product_show", methods={"GET"})
      */
     public function show(Product $product): Response
     {
@@ -71,7 +71,24 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
+     * 
+     * @Route("/search", name="product_searched_show", methods="POST")
+     */
+    public function showSearched(ProductRepository $productRepository, Request $request): Response
+    {
+        // We get the result of the request search bar form 
+        $search = $request->request->get('search');
+
+        // We get the requested object with our custom request
+        $product = $productRepository->findProduct($search);
+
+        return $this->render('back/product/show.html.twig', [
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @Route("/{id<\d+>}/edit", name="product_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Product $product, FileUploader $fileUploader): Response
     {
@@ -111,7 +128,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_delete", methods={"DELETE"})
+     * @Route("/{id<\d+>}", name="product_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Product $product): Response
     {

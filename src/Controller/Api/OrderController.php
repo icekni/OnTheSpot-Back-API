@@ -32,6 +32,7 @@ class OrderController extends AbstractController
 
         return $this->json($orders, 200, [], ['groups' => [
             'api_order_browse',
+            'api_order_read_one'
         ]]);
     }
 
@@ -87,6 +88,7 @@ class OrderController extends AbstractController
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
 
+        
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
             $jsonContent,

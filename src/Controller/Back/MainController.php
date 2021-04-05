@@ -60,10 +60,9 @@ class MainController extends AbstractController
             dd("Aucun utilisateur ne correspond a ce token.");
         }
 
-        // Change the status to true (= active)
-        $user->setStatus(true);
+        // Change the status to 1 (= active)
+        $user->setStatus(1);
 
-        dd($user->getUsername() . " a verifié son compte");
-        // TODO redirect to the front
+        return $this->render('back/main/confirm.html.twig');
     }
 }
