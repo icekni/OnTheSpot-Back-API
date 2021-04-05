@@ -11,15 +11,21 @@ use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
+    }
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
     }
 
     public function load(ObjectManager $manager)
