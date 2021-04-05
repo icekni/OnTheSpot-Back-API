@@ -39,9 +39,12 @@ class SmokeTest extends WebTestCase
     {
         yield ['/'];
         yield ['/product/'];
+        yield ['/product/1'];
         yield ['/order/'];
         yield ['/category/'];
+        yield ['/category/1'];
         yield ['/deliverypoint/'];
+        yield ['/deliverypoint/1'];
     }
 
     /**
@@ -65,9 +68,12 @@ class SmokeTest extends WebTestCase
     {
         yield ['/'];
         yield ['/product/'];
+        yield ['/product/1'];
         yield ['/order/'];
         yield ['/category/'];
+        yield ['/category/1'];
         yield ['/deliverypoint/'];
+        yield ['/deliverypoint/1'];
     }
 
     /**
@@ -91,8 +97,11 @@ class SmokeTest extends WebTestCase
     {
         yield ['/'];
         yield ['/product/'];
+        yield ['/product/1'];
         yield ['/order/'];
         yield ['/category/'];
+        yield ['/category/1'];
         yield ['/deliverypoint/'];
+        yield ['/deliverypoint/1'];
     }
 }
