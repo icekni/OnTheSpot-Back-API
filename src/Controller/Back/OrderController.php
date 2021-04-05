@@ -106,6 +106,7 @@ class OrderController extends AbstractController
      */
     public function delete(Request $request, Order $order): Response
     {
+        $oldId = $order->getId();
         if ($this->isCsrfTokenValid('delete' . $order->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($order);
@@ -113,7 +114,7 @@ class OrderController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Suppression de la commande #' . $order->getId() . ' effectuée.'
+                'Suppression de la commande #' . $oldId . ' effectuée.'
             );
         }
 
