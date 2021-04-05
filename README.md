@@ -2,13 +2,22 @@
 
 ## Sommaire
 
-## Contexte
+- [**Contexte**](Contexte)
+- [**Technologies utilisées**](Technologies utilisées)
+- [**Installation**](Installation)
+  - [**Prérequis**](Prérequis)
+  - [**Installation**](Installation)
+- [**Tester l'application**](Tester l'application)
+
+**Contexte**
+===============
 
 OnTheSpot est une application web permettant à des vacanciers profitant de la plage de pouvoir commander leur glaces, beignet, chouchou... depuis leur serviette.
 A mi chemin entre la borne de reservation McDo et uber eat, il permettra aux vacanciers de ne plus avoir a attendre de longues heures sans savoir si un vendeur ambulant passera et aura les produits désirés.
 Mais il sera surtout d'une grande aide pour le vendeur pour savoir qui souhaite acheter quoi, à quelle heure et à quel endroit. Facilitant ainsi sa tournée des plages.
 
-## Technologies utilisées
+**Technologies utilisées**
+===============
 
 Pour faire fonctionner notre Backend, nous avons utilisé le framework PHP Symfony en version 5.2 connecté à une base de données MySQL / MariaDB via Doctrine.
 Il fonctionne en mode classique (template twig) pour le Back Office, et en mode API Rest pour la liaison avec le front.
@@ -22,15 +31,18 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
 - Slack & Discord pour communiquer
 - Insomnia pour tester les requetes de l'API
 
-## Installation
+**Installation**
+===============
 
-### Prérequis
+**Prérequis**
+----
 
 - Un serveur Web
 - 'Composer' installé
 - Une base de données
 
-### Installation
+**Installation**
+----
 
 - Telecharger ou cloner ce dépot GitHub
 -<details>
@@ -96,7 +108,8 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
 - Acceder au Back Office
 - Enjoy...
 
-## Tester l'application
+**Tester l'application**
+===============
 
 Un scrit bash qui lance les smoke tests, tests unitaires et fonctionnels a été créé à la racine du projet.
 Ce script créé une base de données dédiée à l'environnement de test (à parametrer dans le `.env.test.local`)
