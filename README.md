@@ -2,12 +2,12 @@
 
 ## Sommaire
 
-- [**Contexte**](Contexte)
-- [**Technologies utilisées**](Technologies utilisées)
-- [**Installation**](Installation)
-  - [**Prérequis**](Prérequis)
-  - [**Installation**](Installation)
-- [**Tester l'application**](Tester l'application)
+- [**Contexte**](#contexte)
+- [**Technologies utilisées**](#technologies-utilisées)
+- [**Installation**](#installation)
+  - [**Prérequis**](#prérequis)
+  - [**Configuration**](#configuration)
+- [**Tester l'application**](#tester-l'application)
 
 **Contexte**
 ===============
@@ -41,7 +41,7 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
 - 'Composer' installé
 - Une base de données
 
-**Installation**
+**Configuration**
 ----
 
 - Telecharger ou cloner ce dépot GitHub
