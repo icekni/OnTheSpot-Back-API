@@ -45,7 +45,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * 
      * Min 1 uppercase, 1 lowercase, 1 digit, 1 special character and at least 8 chars in total
-     * @Assert\Regex("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_\.!\?\-@~$€£µ,;:+\/])[a-zA-Z0-9_\.!\?\-@~$€£µ,;:+\/]{8,}/")
+     * @Assert\Regex("/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[_\.!\?@~$€£µ,;:+\/\-])[a-zA-Z0-9_\.!\?\-@~$€£µ,;:+\/]{8,}/")
      * @Assert\NotCompromisedPassword
      */
     private $password;
