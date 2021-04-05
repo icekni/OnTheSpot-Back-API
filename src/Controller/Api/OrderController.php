@@ -88,14 +88,12 @@ class OrderController extends AbstractController
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
 
-        
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
             $jsonContent,
             Order::class,
             'json'
         );
-
         // We get the connected user's id
         $connectedUser = $security->getUser();
 
