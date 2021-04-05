@@ -19,17 +19,12 @@
 **Usage**
 ===============
 
-**Accessing the API**
-----
-
 ## API Base URI 
-----
 HTTPS : https://api.onthespot.link/api
 
 HTTP : http://api.onthespot.link/api
 
 ## Image Path :
-----
 HTTPS : https://img.onthespot.link/
 
 HTTP : http://img.onthespot.link/
