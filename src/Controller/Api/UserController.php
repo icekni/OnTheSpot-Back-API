@@ -182,12 +182,12 @@ class UserController extends AbstractController
         // In case of error
         if (count($errors) > 0) {
             // Send a json containing all errors
-            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY, ['Access-Control-Allow-Methods' => 'PATCH']);
         }
 
         // Then we can save the details in the database
         $entityManager->flush();
 
-        return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK);
+        return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK, ['Access-Control-Allow-Methods' => 'PATCH']);
     }
 }
