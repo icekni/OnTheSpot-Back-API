@@ -1,43 +1,45 @@
 **Table of contents**
 ===============
 - [**Table of contents**](#table-of-contents)
-- [**Usage**](#Usage)
-  - [**Accessing the API**](#accessing-the-API)
-  - [**Image path**](#image-path)
-- [**Routes**](#api)
-  - [**Login**](#login)
-  - [**Registering**](#registering)
-  - [**Delete User**](#delete-user)
-  - [**Browse Categories**](#browse-categories)
-  - [**Browse Products**](#browse-products)
-  - [**Read Product**](#read-product)
-  - [**Browse DeliveryPoints**](#browse-deliverypoints)
-  - [**Post Orders**](#post-orders)
-  - [**Browse Orders**](#browse-orders)
-  - [**Read Orders**](#read-orders)
+- [**Usage**](#usage)
+  - [API Base URI](#api-base-uri)
+  - [Image path](#image-path)
+- [**Routes**](#routes)
+  - [Login](#login)
+  - [Registering](#registering)
+  - [Delete User](#delete-user)
+  - [Browse Categories](#browse-categories)
+  - [Browse Products](#browse-products)
+  - [Read Product](#read-product)
+  - [Browse DeliveryPoints](#browse-deliverypoints)
+  - [Post Orders](#post-orders)
+  - [Browse Orders](#browse-orders)
+  - [Read Orders](#read-orders)
 
 **Usage**
 ===============
 
 **Accessing the API**
 ----
-Server Base URI (HTTPS) : https://back.onthespot.link/
 
-Server Base URI (HTTP) : http://back.onthespot.link/
-
-API Base URI (HTTPS) : https://api.onthespot.link/api
-
-API Base URI (HTTP) : http://api.onthespot.link/api
-
-**Image path**
+## API Base URI 
 ----
-For example, an image could be at : https://onthespot.apotheoz.tech/back/public/assets/images/beignet-choconoisette.png
+HTTPS : https://api.onthespot.link/api
 
-Here, the `picture` property is `assets/images/beignet-choconoisette.png`
+HTTP : http://api.onthespot.link/api
 
-The picture property is a relative path from the Server Base URI
+## Image Path :
+----
+HTTPS : https://img.onthespot.link/
 
-So you should concatenate from the Server Base URI to have the absolute URL of the picture to display.
+HTTP : http://img.onthespot.link/
+<details>
+  <summary>Exemple</summary>
+	
+  ```
+  https://img.onthespot.link/fusee.png
+  ```
+</details>
 
 **Routes**
 ===============
