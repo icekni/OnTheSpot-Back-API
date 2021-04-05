@@ -18,13 +18,14 @@ class DeliveryPoint
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"api_delivery_point"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=128)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $name;
@@ -32,7 +33,7 @@ class DeliveryPoint
     /**
      * @ORM\Column(type="text")
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $description;
@@ -40,7 +41,7 @@ class DeliveryPoint
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups("api_order_read_one")
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      * @Assert\NotBlank
      */
     private $location;
@@ -61,11 +62,9 @@ class DeliveryPoint
     private $orders;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="deliveryPoints")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      * 
-     * @Groups("api_order_read_one")
-     * @Assert\NotBlank
+     * @Groups({"api_order_read_one", "api_delivery_point"})
      */
     private $city;
 
@@ -170,12 +169,12 @@ class DeliveryPoint
         return $this;
     }
 
-    public function getCity(): ?City
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity(?City $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 

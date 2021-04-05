@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block product %}active{% endblock %}
+
+{% block body %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('product_index') }}" class="h6">Retour à la liste des produits</a></h1>
+
+    <a type="button" href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i> Modifier</a>
+
+    <div class="row mt-3">
+        <div class="col-4">
+            <img src="{{ asset(product.picture) }}" alt="Image de {{ product.name}}" style="max-width: 200px;" class="mx-auto d-block">
+        </div>
+        <div class="col-8 border-left">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nom</th>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ product.description }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Prix</th>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Disponibilité</th>
+                        <td>{{ product.availability ? 'En stock' : 'Hors stock' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}

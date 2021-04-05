@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande #{{ order.id }}{% endblock %}
+
+{% block order %}active{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('order_index') }}" class="h6">Retour à la liste des commandes</a></h1>
+</div>
+
+<div class="row">
+
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 80vh;">
+    </div>
+
+    <div class="col col-lg-8 row">
+        <div class="col-lg-5">
+
+            <div class="col">
+                <table class="table table-borderless border-left">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Statut</th>
+                            <td>
+                                {% if order.status == 0 %}En attente{% endif %}
+                                {% if order.status == 1 %}En préparation{% endif %}
+                                {% if order.status == 2 %}En livraison{% endif %}
+                                {% if order.status == 3 %}Livrée{% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Heure de livraison</th>
+                            <td>{{ order.deliveryTime|date("d-m-Y - H:i") }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Point de retrait</th>
+                            <td>{{ order.deliveryPoint.city }} - {{ order.deliveryPoint.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Client</th>
+                            <td>{{ order.user.firstname }} {{ order.user.lastname }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning mb-3">
+                <i class="far fa-edit"></i> Modifier
+            </a>
+        </div>
+
+        <div class="col">
+
+            <table class="table table-borderless border-left">
+                <thead>
+                    <tr>
+                        <th>Produits</th>
+                        <th>Quantité</th>
+                        <th>Prix unit.</th>
+                        <th>Prix Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for orderLine in order.orderProducts %}
+                    <tr>
+                        <td>{{ orderLine.product.name }}</td>
+                        <td>{{ orderLine.quantity }}</td>
+                        <td>{{ orderLine.product.price }}</td>
+                        <td>{{ orderLine.product.price|format_number * orderLine.quantity|format_number }}</td>
+                        {% set total = total + orderLine.quantity|format_number * orderLine.product.price|format_number %}
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <th>Total</th>
+                        <th>{{ total }}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{# Carte Leaflet #}
+<script>
+    //Appel et configuration carte
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+            maxZoom: 18,
+            attribution: osmAttrib
+        });
+
+    var rotation = Math.PI / 4;
+    var map = L
+        .map('map')
+        .setView("{{ order.deliveryPoint.location|json_encode|trim('\"') }}".split(', '), window.innerHeight / 80)
+        .addLayer(osm)
+    ;
+
+    var marker = L.marker("{{ order.deliveryPoint.location|json_encode|trim('\"') }}".split(', ')).bindPopup("<p class='font-weight-bold'>Commande #{{ order.id }}</p><p>{{ order.deliveryPoint.name }}</p>").addTo(map).openPopup();
+
+    // map.on('mousemove', logMouse);
+
+    // Fonds de carte
+
+    // Ajout marqueurs
+    var plages = new L.LayerGroup();
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+{% endblock %}

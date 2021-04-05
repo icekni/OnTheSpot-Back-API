@@ -21,4 +21,9 @@ class UserEntityListener
             ->setPassword($this->encoder->encodePassword($user, $user->getPassword()))
         ;
     }
+
+    public function update(User $user, LifecycleEventArgs $event)
+    {
+        $user->setUpdatedAt(new \datetime());
+    }
 }

@@ -56,6 +56,9 @@ class Order
      * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="relatedToOrder", orphanRemoval=true, cascade={"persist"})
      * 
      * @Groups("api_order_read_one")
+     * @Assert\Count(
+     *      min = 1
+     * )
      */
     private $orderProducts;
 
@@ -64,7 +67,7 @@ class Order
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups("api_order_read_one")
-     * @Assert\NotBlank
+     * @Assert\NotNull
      */
     private $deliveryPoint;
 

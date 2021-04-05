@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\City;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Product;
@@ -12,7 +11,6 @@ use App\Entity\OrderProduct;
 use App\Entity\DeliveryPoint;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -27,91 +25,143 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr-FR');
-        
+
         // We use the fixtures in the dev version of the application to avoid having to load them on each developer's computer
 
         // Filling of the database with the data given by the product owner 
         $catalog = [
             "Glaces" => [
-                "Magnum Vanille",
-                "Magnum Chocolat",
-                "Magnum Amande",
-                "Cornet Vanille",
-                "Cornet Chocolat",
-                "Calipso Citron",
-                "Fusée",
-                "Glace en pot",
+                "products" => [
+                    "Magnum Vanille" => [
+                        "picture" => "magnum-vanille"
+                    ],
+                    "Magnum Chocolat" => [
+                        "picture" => "magnum-chocolat"
+                    ],
+                    "Magnum Amande" => [
+                        "picture" => "magnum-amande"
+                    ],
+                    "Cornet Vanille" => [
+                        "picture" => "cornet-vanille"
+                    ],
+                    "Cornet Chocolat" => [
+                        "picture" => "cornet-chocolat"
+                    ],
+                    "Cornet Vanille-Chocolat" => [
+                        "picture" => "cornet-vanille-chocolat"
+                    ],
+                    "Calipso Citron" => [
+                        "picture" => "calipo-citron"
+                    ],
+                    "Fusée" => [
+                        "picture" => "fusee"
+                    ],
+                    "Glace en pot" => [
+                        "picture" => "glace-pot"
+                    ],
+                ],
+                "picture" => "categorie-glace",
             ],
             "Snack" => [
-                "Beignet Pomme",
-                "Beignet Cocholat-Noisette",
-                "Beignet Sucre",
-                "Chouchou/pralines",
+                "products" => [
+                    "Beignet Pomme" => [
+                        "picture" => "beignet-pomme"
+                    ],
+                    "Beignet Cocholat-Noisette" => [
+                        "picture" => "beignet-choconoisette"
+                    ],
+                    "Beignet Sucre" => [
+                        "picture" => "beignet-sucre"
+                    ],
+                    "Chouchou/pralines" => [
+                        "picture" => "praline"
+                    ],
+                ],
+                "picture" => "categorie-snack",
             ],
             "Boissons" => [
-                "Coca Cola 33cL",
-                "Orangina 33cL",
-                "Sprite 33cL",
-                "Fanta 33cL",
-                "Pepsi 33cL",
-                "Perrier 33cL",
-                "Vittel 50cL",
+                "products" => [
+                    "Coca Cola 33cL" => [
+                        "picture" => "can-coca"
+                    ],
+                    "Orangina 33cL" => [
+                        "picture" => "can-orangina"
+                    ],
+                    "Sprite 33cL" => [
+                        "picture" => "can-sprite"
+                    ],
+                    "Fanta 33cL" => [
+                        "picture" => "can-fanta"
+                    ],
+                    "Pepsi 33cL" => [
+                        "picture" => "can-pepsi"
+                    ],
+                    "Perrier 33cL" => [
+                        "picture" => "can-perrier"
+                    ],
+                    "Vittel 50cL" => [
+                        "picture" => "bouteille-eau"
+                    ],
+                ],
+                "picture" => "categorie-boisson",
             ],
         ];
 
         $meetingPoints = [
             "Seignosses" => [
-                "Plage des Casernes",
-                "Plage de Lagreou",
-                "Plage du Penou",
-                "Plage des Bourdaines-Nord",
-                "Plage des Bourdaines-Sud",
-                "Plage des Estagnots",
+                "Plage des Casernes" => "43.72361165179431, -1.432630019417613",
+                "Plage de Lagreou" => "43.712451317216235, -1.4350826442892204",
+                "Plage du Penon" => "43.70953930898296, -1.4366136613003513",
+                "Plage des Bourdaines-Nord" => "43.69785017286851, -1.4392117801825937",
+                "Plage des Bourdaines-Sud" => "43.69461227541181, -1.4398114441658492",
+                "Plage des Estagnots" => "43.68740581040465, -1.4408497733984424",
             ],
             "Hossegor" => [
-                "Plage des culs Nuls",
-                "Plage Hossegor La Nord",
-                "Plage Hossegor la Centrale",
-                "Plage Hossegor La Sud",
-                "Plage Hossegor Notre Dame",
+                "Plage des culs Nuls" => "43.680159017323774, -1.4405783656418432",
+                "Plage Hossegor La Nord" => "43.673992938118744, -1.4408603808962261",
+                "Plage Hossegor la Centrale" => "43.66783271771156, -1.4417445211966518",
+                "Plage Hossegor La Sud" => "43.66191141632739, -1.4442080885322892",
+                "Plage Hossegor Notre Dame" => "43.659953393680404, -1.4454350587472817",
             ],
             "Cap Breton" => [
-                "Plage de l'Estacade",
-                "Plage du Prévent",
-                "Plage du Santocha",
-                "Plage de la Piste",
-                "Plage des Océanides",
-                "Plage de la Pointe",
+                "Plage de l'Estacade" => "43.65486900205929, -1.4454652786890418",
+                "Plage du Prévent" => "43.65002695464368, -1.44611033054185",
+                "Plage du Santocha" => "43.64654214106528, -1.4452473292332608",
+                "Plage de la Piste" => "43.639024694104016, -1.4476847749852522",
+                "Plage des Océanides" => "43.63619852971307, -1.4492846813513702",
+                "Plage de la Pointe" => "43.62504717766695, -1.4528466549311978",
             ],
             "Labenne" => [
-                "Plage Centrale",
-                "Plage Casanova",
+                "Plage Centrale" => "43.599928389547934, -1.4724902051007294",
+                "Plage Casanova" => "43.594662130566554, -1.4753794215477962",
             ]
         ];
 
         // Creation of the catalog
-        foreach ($catalog as $categoryName => $products) {
+        foreach ($catalog as $categoryName => $categoryDetails) {
             // Creation of a category
             $category = new Category();
-            $category->setTitle($categoryName);
-            
+            $category->setTitle($categoryName)
+                ->setPicture('assets/images/' . $categoryDetails['picture'])
+                ->setThumbnail('assets/images/' . $categoryDetails['picture'] . '_th.png');
+
             $manager->persist($category);
 
             $productsList = [];
-            foreach ($products as $productName) {
+            foreach ($categoryDetails['products'] as $productName => $productDetails) {
                 // Creation of a product
                 $product = new Product();
                 $product->setName($productName)
                     ->setDescription($faker->unique()->sentence())
-                    ->setPicture("https://baconmockup.com/300/200")
+                    ->setPicture('assets/images/' . $productDetails['picture'] . '.png')
+                    ->setThumbnail('assets/images/' . $productDetails['picture'] . '_th.png')
                     ->setPrice(mt_rand(0, 10))
                     ->setAvailability(
                         round(
-                            mt_rand(0,1)
+                            mt_rand(0, 1)
                         )
                     )
-                    ->setCategory($category)
-                ;
+                    ->setCategory($category);
 
                 $productsList[] = $product;
 
@@ -127,8 +177,7 @@ class AppFixtures extends Fixture
             ->setEmail("admin@mail.com")
             ->setPassword("admin")
             ->setTelNumber("0000000000")
-            ->setRoles(["ROLE_ADMIN"])
-        ;
+            ->setRoles(["ROLE_ADMIN"]);
 
         $manager->persist($admin);
 
@@ -139,22 +188,20 @@ class AppFixtures extends Fixture
             ->setEmail("user@mail.com")
             ->setPassword("user")
             ->setTelNumber("0000000000")
-            ->setRoles(["ROLE_USER"])
-        ;
+            ->setRoles(["ROLE_USER"]);
 
         $manager->persist($user);
 
         // Creation of a few random user
         $usersList = [];
-        for ($i=0; $i < 15; $i++) { 
+        for ($i = 0; $i < 15; $i++) {
             $user = new User();
             $user->setFirstname($faker->unique()->firstname())
                 ->setLastname($faker->unique()->lastname())
                 ->setEmail($faker->unique()->email())
                 ->setPassword("password")
                 ->setTelNumber($faker->unique()->phoneNumber())
-                ->setRoles(["ROLE_USER"])
-            ;
+                ->setRoles(["ROLE_USER"]);
 
             $usersList[] = $user;
 
@@ -164,23 +211,13 @@ class AppFixtures extends Fixture
         // Creation of all the delivery points
         $deliveryPointsList = [];
         foreach ($meetingPoints as $cityName => $deliveryPoints) {
-            // Creation of a city
-            $city = new City();
-            $city->setName($cityName);
-
-            $manager->persist($city);
-
-            foreach ($deliveryPoints as $deliveryPointName) {
+            foreach ($deliveryPoints as $deliveryPointName => $deliveryPointlocation) {
                 // Creation of a delivery point
                 $deliveryPoint = new DeliveryPoint();
                 $deliveryPoint->setName($deliveryPointName)
-                    ->setCity($city)
+                    ->setCity($cityName)
                     ->setDescription($faker->unique()->sentence())
-                    ->setLocation(
-                        $faker->unique()->latitude() . 
-                        ", " . 
-                        $faker->unique()->longitude())
-                ;
+                    ->setLocation($deliveryPointlocation);
 
                 $deliveryPointsList[] = $deliveryPoint;
 
@@ -189,22 +226,43 @@ class AppFixtures extends Fixture
         }
 
         // fake orders
-        for ($i=0; $i < 50; $i++) { 
+        for ($i = 0; $i < 50; $i++) {
             $order = new Order();
-            
-            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks'))
+
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks', '-1 days'))
                 ->setUser($usersList[array_rand($usersList)])
                 ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
-            ;
+                ->setStatus(3);
 
             // Add a random amount of product
-            for ($j=0; $j < mt_rand(1,10); $j++) { 
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
                 $orderLine = new OrderProduct();
-                $orderLine->setQuantity(mt_rand(1,5))
-                    ->setProduct($productsList[array_rand($productsList)])
-                ;
+                $orderLine->setQuantity(mt_rand(1, 5))
+                    ->setProduct($productsList[array_rand($productsList)]);
 
                 $order->addOrderProduct($orderLine);
+                    
+            }
+
+            $manager->persist($order);
+        }
+        // Fake non delivered order
+        for ($i = 0; $i < 30; $i++) {
+            $order = new Order();
+
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 hours'))
+                ->setUser($usersList[array_rand($usersList)])
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+                ->setStatus(mt_rand(0,2));
+
+            // Add a random amount of product
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
+                $orderLine = new OrderProduct();
+                $orderLine->setQuantity(mt_rand(1, 5))
+                    ->setProduct($productsList[array_rand($productsList)]);
+
+                $order->addOrderProduct($orderLine);
+                    
             }
 
             $manager->persist($order);

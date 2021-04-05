@@ -3,46 +3,42 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
     /**
-     * Useless and dangerous route, for debug only
-     * 
-     * @Route("/api/users", name="api_user_browse", methods="GET")
-     */
-    public function browse(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
-
-        return $this->json(
-            $users, 
-            200
-        );
-    }
-
-    /**
      * Registering of a user
      * 
      * @Route("/api/users", name="api_user_add", methods="POST")
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, UserPasswordEncoderInterface $encoder): Response
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, ValidatorInterface $validator, MailerInterface $mailer): Response
     {
         // Read the content of the request
         $jsonContent = $request->getContent();
 
         // Turn it into an object User
         $user = $serializer->deserialize($jsonContent, User::class, 'json');
+
+        // We need a random token to confirm user email
+        $token = bin2hex(random_bytes(10));
+        // Store the token in $user
+        $user->setToken($token);
+        $user->setRoles(["ROLE_USER"]);
 
         // Validation
         $errors = $validator->validate($user);
@@ -53,7 +49,55 @@ class UserController extends AbstractController
             return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
         
-        // TODO send a confirmation email
+        // Send a confirmation email
+        $email = (new Email())
+            ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
+            ->to($user->getEmail())
+            ->subject('Confirmation d\'inscription sur le site OnTheSpot')
+            ->text('Bonjour ' . $user->getFirstname() . ',
+            Nous sommes heureux de vous compter parmi notre client. Pour confirmer votre adresse email, merci de cliquer sur le lien suivant :
+            https://onthespot.link/back/public/confirm/' . $token . '
+            
+            Si vous avez des questions, n\'hésitez pas à nous contacter en reponse a cet email.
+            
+            Merci
+            
+            Yann Demor, OnTheSpot CEO')
+            ->html('<!DOCTYPE html>
+            <html lang="fr">
+            
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Confirmation de votre email</title>
+            </head>
+            
+            <body style="font-family: Arial, Helvetica, sans-serif; max-width: 576px; margin: auto;">
+                <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 1rem;">
+                    <h1 style="margin: auto;">Bonjour ' . $user->getFirstname() . '</h1>
+            
+                    <p style="margin: 1rem auto;">Nous sommes heureux de vous compter parmi notre client. Pour confirmer votre adresse email, merci de cliquer sur le bouton suivant :</p>
+            
+                <a href="https://onthespot.link/back/public/confirm/' . $token . '" style="margin: auto; padding: 1rem 2rem; background-color: #348eda; color: #fff;">Confirmez votre adresse email</a>
+                </div>
+            
+                <p>Ou copiez collez le lien suivant dans la barre d\'adresse de votre navigateur : <a href="https://onthespot.link/back/public/confirm/' . $token . '">https://onthespot.link/back/public/confirm/' . $token . '</a></p>
+            
+                <p>Si vous avez des questions, n\'hésitez pas à nous contacter en reponse à cet email.</p>
+            
+                <p>Merci</p>
+                <p>Yann Demor, OnTheSpot CEO</p>
+            
+            </body>
+            
+            </html>');
+        
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // $user->setStatus(true);
+        }
         
         // Saving into DB
         $entityManager->persist($user);
@@ -92,5 +136,115 @@ class UserController extends AbstractController
         $manager->flush();
 
         return $this->json($user, Response::HTTP_OK);
+    }
+
+    /**
+     * Read user's details 
+     * 
+     * @Route("/api/users", name="api_user_read", methods="GET")
+     */
+    public function read(
+        Security $security
+    ): Response {
+        $user = $security->getUser();
+
+        if (null === $user) {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
+        // We get the id of the user we want to see the details
+        $idUserToDetail = $user->getId();
+        // We get the connected user's id
+        $connectedUser = $security->getUser();
+        $userId = $connectedUser->getId();
+
+        // If the connected user's id is the same than one from the user we want to see the details 
+        if ($userId === $idUserToDetail) {
+            return $this->json(
+                $user,
+                200,
+                [],
+                ['groups' => [
+                    'api_user_browse_and_read'
+                ]]
+            );
+        } else {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
+    }
+
+
+    /**
+     * Edit User's details
+     *
+     * @Route("/api/users/{id<\d+>}", name="api_user_edit", methods={"PATCH"})
+     */
+    public function edit(
+        Security $security,
+        User $user = null,
+        Request $request,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator,
+        EntityManagerInterface $entityManager
+    ): Response {
+        // We send a custom message if order not found (404)
+        if ($user === null) {
+
+            $message = [
+                'status' => Response::HTTP_NOT_FOUND,
+                'error' => 'Utilisateur non existant.',
+            ];
+
+            return $this->json($message, Response::HTTP_NOT_FOUND);
+        }
+
+        // Getting the JSON content of the request
+        $jsonContent = $request->getContent();
+
+        $serializer->deserialize(
+            $jsonContent,
+            User::class,
+            'json',
+            // We indicate the serializer which entity to modify
+            [AbstractNormalizer::OBJECT_TO_POPULATE => $user]
+        );
+
+        // Validation   
+        $errors = $validator->validate($user);
+        // In case of error
+        if (count($errors) > 0) {
+            // Send a json containing all errors
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // We get the id of the user we want to modify
+        $idUserToModify = $user->getId();
+        // We get the connected user's id
+        $connectedUser = $security->getUser();
+        $userId = $connectedUser->getId();
+
+        // If the connected user's id is the same than one from the user we want to modify 
+        if ($userId === $idUserToModify) {
+            // Then we can save the details in the database
+            $entityManager->flush();
+
+            return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK);
+        } else {
+            $message = [
+                'status' => Response::HTTP_FORBIDDEN,
+                'error' => 'Action réservée à l\'utilisateur',
+            ];
+
+            return $this->json($message, Response::HTTP_FORBIDDEN);
+        }
     }
 }

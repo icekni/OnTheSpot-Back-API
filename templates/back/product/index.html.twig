@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les produits{% endblock %}
+
+{% block product %}active{% endblock %}
+
+{% block body %}
+<h1>{{ block('title') }}</h1>
+
+<div class="row d-flex align-items-baseline">
+    <div class="col-4">
+        <a type="button" href="{{ path('product_new') }}" class="btn btn-success m-3">Nouveau produit</a>
+    </div>
+    
+   
+    <div class="col-8 d-flex justify-content-end">
+        <form autocomplete="off" action="{{ path('product_searched_show') }}" method="post">
+          <div class="autocomplete">
+            <input class="autocomplete-results" id="myInput" type="search" name="search" placeholder="Produit" aria-label="search">
+            <input class="btn btn-secondary" type="submit">
+          </div>
+        </form>
+    </div>    
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th></th>
+                    <th>Nom</th>
+                    <th class="d-none d-xl-table-cell">Prix</th>
+                    <th class="d-none d-xl-table-cell">Disponibilité</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products|sort((a, b) => a.name <=> b.name) %}
+                <tr class="order-row" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">
+                    <td>{{ product.id }}</td>
+                    <td><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
+                    <td class="position-relative">{{ product.name }}</td>
+                    <td class="d-none d-xl-table-cell">{{ product.price }} €</td>
+                    <td class="d-none d-xl-table-cell">
+                            {{ product.availability ? 'En stock' : 'Hors stock' }}
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                            <a type="button" href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+        
+                            <div class="dropdown mx-2">
+                                {{ include('back/product/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10">Aucun produit trouvé</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

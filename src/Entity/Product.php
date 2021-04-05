@@ -16,49 +16,57 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=128)
      * 
-     * @Groups("api_order_read_one")
      * @Assert\NotBlank
+     * 
+     * @Groups("api_order_read_one")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+     * 
+     * @Groups("api_order_read_one")
      */
     private $description;
 
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @ORM\Column(type="string")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
      * 
-     * @Groups("api_order_read_one")
      * @Assert\NotBlank
-     * @Assert\Regex("/[0-9.]+/")
-     * @Assert\Positive
+     * @Assert\Regex("/^[0-9]{1,4}([,.][0-9]{0,2})?$/") 
      * 
+     * @Groups("api_order_read_one")
      */
     private $price;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
      * @Assert\Type("bool")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $availability;
 
     /**
      * @ORM\Column(type="string", length=128)
+     * 
+     * @Groups("api_order_read_one")
      */
     private $slug;
 
@@ -76,9 +84,17 @@ class Product
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
-     * @Assert\Type("integer")
+     * 
+     * @Groups("api_order_read_one")
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups("api_order_read_one")
+     */
+    private $thumbnail;
 
     public function __construct()
     {
@@ -194,6 +210,18 @@ class Product
     public function setCategory($category)
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getThumbnail(): ?string
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(string $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }

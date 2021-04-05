@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.title }}{% endblock %}
+
+{% block category %}active{% endblock %}
+
+{% block body %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('category_index') }}" class="h6">Retour à la liste des catégories</a></h1>
+
+    <a type="button" href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i> Modifier</a>
+
+    <div class="row mt-3">
+        <div class="col-4">
+            {% if category.picture is not empty %}
+            <img src="{{ asset(category.picture) }}" alt="Image de {{ category.title}}" class="mx-auto d-block">
+            {% else %}
+            Pas d'image
+            {% endif %}
+        </div>
+        <div class="col-8 border-left">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nom</th>
+                        <td>{{ category.title }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+<a href="{{ path('category_index') }}">Retour à l'accueil</a>
+
+{% endblock %}
