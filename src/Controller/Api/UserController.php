@@ -155,7 +155,7 @@ class UserController extends AbstractController
     /**
      * Edit User's details
      *
-     * @Route("/api/users", name="api_user_edit", methods={"PATCH"})
+     * @Route("/api/users", name="api_user_edit", methods={"PUT"})
      */
     public function edit(
         Security $security,
@@ -182,12 +182,12 @@ class UserController extends AbstractController
         // In case of error
         if (count($errors) > 0) {
             // Send a json containing all errors
-            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY, ['Access-Control-Allow-Methods' => 'PATCH']);
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // Then we can save the details in the database
         $entityManager->flush();
 
-        return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK, ['Access-Control-Allow-Methods' => 'PATCH']);
+        return $this->json(['message' => 'Utilisateur modifié.'], Response::HTTP_OK);
     }
 }
