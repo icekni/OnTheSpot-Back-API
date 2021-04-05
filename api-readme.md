@@ -29,7 +29,7 @@ HTTPS : https://img.onthespot.link/
 
 HTTP : http://img.onthespot.link/
 <details>
-  <summary>Exemple</summary>
+  <summary>Example</summary>
 	
   ```
   https://img.onthespot.link/fusee.png
