@@ -159,7 +159,7 @@ HTTP : http://img.onthespot.link/
 
 **Delete User**
 ----
-  Delete your account 
+  Delete current user's account
   
 * **Access to**
   
@@ -183,7 +183,6 @@ HTTP : http://img.onthespot.link/
     **Content:** 
     ```json
     {
-        "id": <id>,
         "email": "sample@mail.com",
         "username": "sample@mail.com",
         ...
@@ -233,7 +232,7 @@ HTTP : http://img.onthespot.link/
             "slug": "Glaces",
             "createdAt": "2021-03-24T01:46:51+01:00",
             "updatedAt": null,
-            "picture": "..\/assets\/images\/products\/categorie-glace"
+            "picture": "categorie-glace"
         },
         ...
     ]
@@ -279,7 +278,8 @@ HTTP : http://img.onthespot.link/
             "id": 81,
             "name": "Magnum Vanille",
             "description": "Ea provident fugit illum quasi.",
-            "picture": "..\/assets\/images\/products\/magnum-vanille",
+            "picture": "magnum-vanille.png",
+            "thumbnail": "magnum-vanille_th.png",
             "price": "7.00",
             "availability": false,
             "slug": "Magnum-Vanille",
@@ -338,7 +338,8 @@ HTTP : http://img.onthespot.link/
         "id": 81,
         "name": "Magnum Vanille",
         "description": "Ea provident fugit illum quasi.",
-        "picture": "..\/assets\/images\/products\/magnum-vanille",
+        "picture": "magnum-vanille.png",
+        "picture": "magnum-vanille_th.png",
         "price": "7.00",
         "availability": false,
         "slug": "Magnum-Vanille",
@@ -350,7 +351,8 @@ HTTP : http://img.onthespot.link/
             "slug": "Glaces",
             "createdAt": "2021-03-24T01:46:51+01:00",
             "updatedAt": null,
-            "picture": "..\/assets\/images\/products\/categorie-glace",
+            "picture": "categorie-glace.png",
+            "thumbnail": "categorie-glace_th.png",
             "__initializer__": null,
             "__cloner__": null,
             "__isInitialized__": true
@@ -432,7 +434,7 @@ HTTP : http://img.onthespot.link/
    **required:**
    ```json
    {
-     "deliveryTime": "2021-03-22T18:10:07+01:00",
+     "deliveryTime": "08:00",
      "deliveryPoint": 154,
      "orderProducts": [
        {
@@ -453,7 +455,7 @@ HTTP : http://img.onthespot.link/
     **Content:** 
     ```json
     {
-      "deliveryTime": "2021-03-22T18:10:07+01:00",
+      "deliveryTime": "2021-03-22T08:00:00+01:00",
       "status": 0,
       "user": 2,
       "deliveryPoint": 12,
