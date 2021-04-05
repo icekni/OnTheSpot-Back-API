@@ -7,7 +7,7 @@
 - [**Installation**](#installation)
   - [**Prérequis**](#prérequis)
   - [**Configuration**](#configuration)
-- [**Usage de l'API** (lien externe)](api-readme.md)
+- [**Usage de l'API** (lien vers une autre page)](api-readme.md)
 - [**Tester l'application**](#tester-l'application)
 
 **Contexte**
