@@ -34,8 +34,57 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
 
 - Telecharger ou cloner ce dépot GitHub
 - Installer les dépendances
-- Parametrer le fichier .env.local selon votre configuration (acces base de données et passphrase JWT)
+- Parametrer le fichier `.env.local` selon votre configuration (acces base de données, acces SMTP et passphrase JWT)
+-<details>
+  <summary>exemple de configuration</summary>
+  
+  ```
+  DATABASE_URL="mysql://identifiant_bdd:mot_de_passe_bdd@127.0.0.1:3306/nom_bdd?serverVersion=mariadb-10.4.18"
+
+  MAILER_DSN=smtp://identifiant_SMTP:mot_de_passe_SMTP@serveur_SMTP
+  
+  JWT_PASSPHRASE=phrase_secrete_au_libre_choix
+  ```  
+</details>
+
 - Créer et parametrer la base de données
+-<details>
+  <summary>Comment faire</summary>
+  
+  (en terminal, depuis la racine du projet)
+  
+  Creation de la base de données
+  ```
+  bin/console doctrine:database:create
+  ```
+  
+  Creation des tables, champs et relations (application des migrations)
+  ```
+  bin/console doctrine:migrations:migrate
+  ```  
+</details>
+
 - (optionnel) Charger des données grace aux fixtures
+-<details>
+  <summary>Comment faire</summary>
+  
+  (en terminal, depuis la racine du projet)
+  
+  Creation de la base de données
+  ```
+  bin/console doctrine:fixtures:load
+  ```  
+</details>
+
 - Acceder au Back Office
 - Enjoy...
+
+## Tester l'application
+
+Un scrit bash qui lance les smoke tests, tests unitaires et fonctionnels a été créé à la racine du projet.
+Ce script créé une base de données dédiée à l'environnement de test (à parametrer dans le `.env.test.local`)
+Charge des fixtures (fausses données) spécifiques
+et execute les tests.
+
+Pour le lancer :
+`sh runTest.sh`
