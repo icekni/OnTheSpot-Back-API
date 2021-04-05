@@ -38,12 +38,12 @@
             </thead>
             <tbody>
                 {% for product in products|sort((a, b) => a.name <=> b.name) %}
-                <tr class="order-row" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">
-                    <td>{{ product.id }}</td>
-                    <td><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
-                    <td class="position-relative">{{ product.name }}</td>
-                    <td class="d-none d-xl-table-cell">{{ product.price }} €</td>
-                    <td class="d-none d-xl-table-cell">
+                <tr class="order-row">
+                    <td onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">{{ product.id }}</td>
+                    <td onclick="window.location='{{ path('product_show', {'id': product.id}) }}';"><img src="{{ asset(product.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ product.name}}"></td>
+                    <td class="position-relative" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">{{ product.name }}</td>
+                    <td class="d-none d-xl-table-cell" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">{{ product.price }} €</td>
+                    <td class="d-none d-xl-table-cell" onclick="window.location='{{ path('product_show', {'id': product.id}) }}';">
                             {{ product.availability ? 'En stock' : 'Hors stock' }}
                     </td>
                     <td>
