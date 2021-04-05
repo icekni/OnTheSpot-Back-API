@@ -33,7 +33,26 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
 ### Installation
 
 - Telecharger ou cloner ce dépot GitHub
+-<details>
+  <summary>Comment faire</summary>
+  
+  Clonage depuis le depot GitHub
+  (en terminal, depuis la racine du projet)
+  ```
+  git clone git@github.com:O-clock-Oz/apo-OnTheSpot-back.git
+  ```
+</details>
+
 - Installer les dépendances
+-<details>
+  <summary>Comment faire</summary>
+  
+  (en terminal, depuis la racine du projet)
+  ```
+  composer install
+  ```
+</details>
+
 - Parametrer le fichier `.env.local` selon votre configuration (acces base de données, acces SMTP et passphrase JWT)
 -<details>
   <summary>exemple de configuration</summary>
@@ -69,8 +88,6 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
   <summary>Comment faire</summary>
   
   (en terminal, depuis la racine du projet)
-  
-  Creation de la base de données
   ```
   bin/console doctrine:fixtures:load
   ```  
