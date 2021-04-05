@@ -143,52 +143,12 @@ class UserController extends AbstractController
      * 
      * @Route("/api/users", name="api_user_read", methods="GET")
      */
-<<<<<<< HEAD
     public function read(Security $security): Response
     {
         $user = $security->getUser();
         return $this->json($user, 200, [], ['groups' => [
             'api_user_edit_and_read',
         ]]);
-=======
-    public function read(
-        Security $security
-    ): Response {
-        $user = $security->getUser();
-
-        if (null === $user) {
-            $message = [
-                'status' => Response::HTTP_FORBIDDEN,
-                'error' => 'Action réservée à l\'utilisateur',
-            ];
-
-            return $this->json($message, Response::HTTP_FORBIDDEN);
-        }
-        // We get the id of the user we want to see the details
-        $idUserToDetail = $user->getId();
-        // We get the connected user's id
-        $connectedUser = $security->getUser();
-        $userId = $connectedUser->getId();
-
-        // If the connected user's id is the same than one from the user we want to see the details 
-        if ($userId === $idUserToDetail) {
-            return $this->json(
-                $user,
-                200,
-                [],
-                ['groups' => [
-                    'api_user_browse_and_read'
-                ]]
-            );
-        } else {
-            $message = [
-                'status' => Response::HTTP_FORBIDDEN,
-                'error' => 'Action réservée à l\'utilisateur',
-            ];
-
-            return $this->json($message, Response::HTTP_FORBIDDEN);
-        }
->>>>>>> 24ae0b7b7cd077187cefefe7758454fcb385bd23
     }
 
 
