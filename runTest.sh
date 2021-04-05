@@ -31,3 +31,15 @@ echo "----------------"
 echo " Running Functionnal tests on our BackOffice Controllers"
 echo "----------------"
 APP_ENV=test ./bin/phpunit tests/Back/Controller/DeliveryPointController.php
+
+echo ""
+echo "----------------"
+echo " Running Smoke tests on the API"
+echo "----------------"
+APP_ENV=test ./bin/phpunit tests/Api/SmokeTest.php
+
+echo ""
+echo "----------------"
+echo " Running Functionnal tests on our API Controllers"
+echo "----------------"
+APP_ENV=test ./bin/phpunit tests/Api/Controller/UserController.php
