@@ -25,7 +25,6 @@ class OrderType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'Statut',
-                'mapped' => false,
                 'choices' => [
                     'En attente' => 0,
                     'En préparation' => 1,

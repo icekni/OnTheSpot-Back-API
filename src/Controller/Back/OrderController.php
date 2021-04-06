@@ -47,13 +47,14 @@ class OrderController extends AbstractController
     public function edit(Request $request, Order $order, MailerInterface $mailer): Response
     {
         $form = $this->createForm(OrderType::class, $order);
+        $currentStatus = $order->getStatus();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             // We get the initial status and the new Status
-            $currentStatus = $order->getStatus();
-            $newStatus = (int) $form->get('status')->getData();
+            $newStatus = $order->getStatus();
 
             dump($currentStatus, $newStatus);
 
