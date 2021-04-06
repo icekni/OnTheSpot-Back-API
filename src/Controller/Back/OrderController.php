@@ -55,6 +55,8 @@ class OrderController extends AbstractController
             $currentStatus = $order->getStatus();
             $newStatus = (int) $form->get('status')->getData();
 
+            dump($currentStatus, $newStatus);
+
             // If the status has changed
             if ($currentStatus !== $newStatus) {
 
