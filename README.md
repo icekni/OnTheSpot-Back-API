@@ -95,6 +95,7 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
   bin/console doctrine:migrations:migrate
   ```  
 </details>
+
 - Créer les clés de cryptage pour JWT
 -<details>
   <summary>Comment faire</summary>
