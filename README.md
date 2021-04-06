@@ -95,6 +95,17 @@ En dehors du Website Skeleton Symfony, nous avons utilisé :
   bin/console doctrine:migrations:migrate
   ```  
 </details>
+- Créer les clés de cryptage pour JWT
+-<details>
+  <summary>Comment faire</summary>
+  
+  (en terminal, depuis la racine du projet)
+  ```
+  bin/console lexik:jwt:generate-keypair
+  ```
+  
+  (optionnel) deplacer la passphrase JWT presente dans .env et la mettre dans .env.local
+</details>
 
 - (optionnel) Charger des données grace aux fixtures
 -<details>
