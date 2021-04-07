@@ -56,8 +56,6 @@ class OrderController extends AbstractController
             // We get the initial status and the new Status
             $newStatus = $order->getStatus();
 
-            dump($currentStatus, $newStatus);
-
             // If the status has changed
             if ($currentStatus !== $newStatus) {
 
