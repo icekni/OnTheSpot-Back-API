@@ -28,27 +28,21 @@
             </thead>
             <tbody>
                 {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
-                <tr class="order-row" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
-                    <td>
+                <tr class="order-row">
+                    <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
                         {% if order.status == 0 %}
                         <span class="badge badge-danger">En attente</span>{% endif %}
                         {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>{% endif %}
                         {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
                         {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
                     </td>
-                    <td class="position-relative">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
-                        <td>{{ order.deliveryPoint.name }}</td>
+                    <td class="position-relative" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
+                        <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryPoint.name }}</td>
                         <td class="d-flex">
                             <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
 
                             <div class="dropdown mx-2">
-                                <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ path('order_delete', {'id': order.id}) }}">Confirmer</a>
-                                    <a class="dropdown-item" href="#">Annuler</a>
-                                </div>
+                                {{ include('back/order/_delete_form.html.twig') }}
                             </div>
                         </td>
                 </tr>

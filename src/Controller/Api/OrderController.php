@@ -5,8 +5,11 @@ namespace App\Controller\Api;
 use App\Entity\Order;
 use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -74,7 +77,7 @@ class OrderController extends AbstractController
             ];
 
             return $this->json($message, Response::HTTP_NOT_FOUND);
-        }      
+        }
     }
 
 
@@ -83,12 +86,12 @@ class OrderController extends AbstractController
      * 
      * @Route("/api/orders", name="api_order_create", methods={"POST"})
      */
-    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security, ValidatorInterface $validator, UserRepository $userRepository)
+    public function add(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager, Security $security, ValidatorInterface $validator, MailerInterface $mailer)
     {
         // Getting the JSON content of the request
         $jsonContent = $request->getContent();
 
-        
+
         // Transforming the JSON in Order entity with the serializer
         $order = $serializer->deserialize(
             $jsonContent,
@@ -118,13 +121,28 @@ class OrderController extends AbstractController
             $entityManager->flush();
         } catch (NotNullConstraintViolationException $e) {
             return $this->json($e->getMessage());
-        }            
+        }
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('onthespot@apotheoz.tech', 'OnTheSpot'))
+            ->to($order->getUser()->getEmail())
+            ->subject('Votre commande a été recue!')
+
+            // path of the Twig template to render
+            ->htmlTemplate('email/confirm-order.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'order' => $order
+            ]);
+
+        $mailer->send($email);
 
         // After the creation, we redirect to the route "api_order_read_one" of the created order
         return $this->redirectToRoute(
             'api_order_read_one',
             ['id' => $order->getId()],
             Response::HTTP_CREATED
-        );    
+        );
     }
 }
