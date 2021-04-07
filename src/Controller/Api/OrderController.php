@@ -138,11 +138,8 @@ class OrderController extends AbstractController
 
         $mailer->send($email);
 
-        // After the creation, we redirect to the route "api_order_read_one" of the created order
-        return $this->redirectToRoute(
+        return $this->json($order, Response::HTTP_CREATED, [], ['groups' => [
             'api_order_read_one',
-            ['id' => $order->getId()],
-            Response::HTTP_CREATED
-        );
+        ]]);
     }
 }
