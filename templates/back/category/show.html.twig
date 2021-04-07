@@ -12,7 +12,7 @@
     <div class="row mt-3">
         <div class="col-4">
             {% if category.picture is not empty %}
-            <img src="{{ asset(category.picture) }}" alt="Image de {{ category.title}}" class="mx-auto d-block">
+            <img src="{{ asset(category.picture) }}" alt="Image de {{ category.title}}" style="max-width: 200px;" class="mx-auto d-block">
             {% else %}
             Pas d'image
             {% endif %}
