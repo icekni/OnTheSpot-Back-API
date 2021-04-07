@@ -23,6 +23,7 @@ Mais il sera surtout d'une grande aide pour le vendeur pour savoir qui souhaite 
 Pour faire fonctionner notre Backend, nous avons utilisé le framework PHP Symfony en version 5.2 connecté à une base de données MySQL / MariaDB via Doctrine.
 Il fonctionne en mode classique (template twig) pour le Back Office, et en mode API Rest pour la liaison avec le front.
 En dehors du Website Skeleton Symfony, nous avons utilisé :
+- PHP & Symfony 5.2
 - Bootstrap pour le CSS du Back Office
 - JS pour l'interactivité du Back Office
 - Leaflet pour l'affichage des commandes sur une carte
