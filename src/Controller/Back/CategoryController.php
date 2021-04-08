@@ -48,7 +48,7 @@ class CategoryController extends AbstractController
             // Same for the thumbnail
             $thumbnail = $form->get('thumbnail')->getData();
             if ($thumbnail) {
-                $newThumbnail = $fileUploader->upload($picture);
+                $newThumbnail = $fileUploader->upload($thumbnail);
                 $category->setThumbnail($newThumbnail);
             }
 
@@ -100,7 +100,7 @@ class CategoryController extends AbstractController
             // Same for the thumbnail
             $thumbnail = $form->get('thumbnail')->getData();
             if ($thumbnail) {
-                $newThumbnail = $fileUploader->upload($picture);
+                $newThumbnail = $fileUploader->upload($thumbnail);
                 $category->setThumbnail($newThumbnail);
             }
 

@@ -38,6 +38,7 @@ class OrderProduct
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotBlank
+     * @Assert\Valid
      */
     private $product;
 

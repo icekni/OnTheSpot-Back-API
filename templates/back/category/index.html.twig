@@ -20,14 +20,14 @@
     </thead>
     <tbody>
         {% for category in categories|sort((a, b) => a.title <=> b.title) %}
-        <tr class="order-row" onclick="window.location='{{ path('category_show', {'id': category.id}) }}';">
-            <td>{{ category.id }}</td>
-            <td>
+        <tr class="order-row">
+            <td onclick="window.location='{{ path('category_show', {'id': category.id}) }}';">{{ category.id }}</td>
+            <td onclick="window.location='{{ path('category_show', {'id': category.id}) }}';">
                 {% if category.thumbnail is not empty %}
                 <img src="{{ asset(category.thumbnail) }}" style="max-width: 77px;" alt="Image de {{ category.title}}">
                 {% endif %}
             </td>
-            <td class="position-relative">{{ category.title }}</td></td>
+            <td class="position-relative" onclick="window.location='{{ path('category_show', {'id': category.id}) }}';">{{ category.title }}</td></td>
 
             <td>
                 <div class="d-flex justify-content-end">

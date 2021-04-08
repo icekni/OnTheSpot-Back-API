@@ -59,6 +59,7 @@ class Order
      * @Assert\Count(
      *      min = 1
      * )
+     * @Assert\Valid
      */
     private $orderProducts;
 
@@ -68,6 +69,7 @@ class Order
      * 
      * @Groups("api_order_read_one")
      * @Assert\NotNull
+     * @Assert\Valid
      */
     private $deliveryPoint;
 

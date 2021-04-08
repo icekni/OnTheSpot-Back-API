@@ -22,22 +22,16 @@
     </thead>
     <tbody>
         {% for deliveryPoint in delivery_points|sort((a, b) => a.city <=> b.city) %}
-        <tr class="order-row" onclick="window.location='{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}';">
-            <td>{{ deliveryPoint.id }}</td>
-            <td>{{ deliveryPoint.city }}</td>
-            <td class="position-relative">{{ deliveryPoint.name }}</td>
+        <tr class="order-row">
+            <td onclick="window.location='{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}';">{{ deliveryPoint.id }}</td>
+            <td onclick="window.location='{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}';">{{ deliveryPoint.city }}</td>
+            <td class="position-relative" onclick="window.location='{{ path('delivery_point_show', {'id': deliveryPoint.id}) }}';">{{ deliveryPoint.name }}</td>
             <td>
                 <div class="d-flex justify-content-end">
                     <a type="button" href="{{ path('delivery_point_edit', {'id': deliveryPoint.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
 
                     <div class="dropdown mx-2">
-                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ path('delivery_point_delete', {'id': deliveryPoint.id}) }}">Confirmer</a>
-                            <a class="dropdown-item" href="#">Annuler</a>
-                        </div>
+                        {{ include('back/delivery_point/_delete_form.html.twig') }}
                     </div>
                 </div>
             </td>
