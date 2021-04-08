@@ -132,3 +132,4 @@ et execute les tests.
 
 Pour le lancer :
 `sh runTest.sh`
+
