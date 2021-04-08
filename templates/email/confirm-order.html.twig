@@ -227,6 +227,7 @@
                                 </td>
                             </tr>
                             {% set total = 0 %}
+                            {% set products = 0 %}
                             {% for line in order.orderProducts %}
 
                             <tr>
@@ -253,6 +254,7 @@
                                                     <p style="font-size:18px; color:#bc0101; margin:0; font-family:'Roboto', Arial !important;text-align:center;font-weight:bold;text-align: right;">
                                                         {{ line.product.price * line.quantity }}
                                                         {% set total = total + (line.quantity * line.product.price) %}
+                                                        {% set products = products + line.quantity %}
                                                     </p>
                                                 </td>
                                             </tr>
@@ -269,7 +271,7 @@
                                             <tr>
                                                 <td align="right" style="padding-bottom:15px; font-family:'Roboto', Arial !important">
                                                     <p style="font-size:18px; color:#000; font-weight:900; margin:0; font-family:'Roboto', Arial !important">
-                                                        Total ({{ order.orderProducts|length }} produits):
+                                                        Total ({{ products }} produits):
                                                     </p>
                                                 </td>
                                                 <td align="right" style="padding-bottom:15px; font-family:'Roboto', Arial !important">
