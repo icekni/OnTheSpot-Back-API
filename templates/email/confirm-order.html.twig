@@ -37,7 +37,7 @@
 
 <body style="margin: 0; padding: 0;background-color:#EEEEEE;">
     <div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
-        Contactez nous au +33 (0)6 94 44 77 44 ou par reponse à cet email pour toutes questions relative à votre commande
+        Contactez nous au +33 (0)6 94 44 77 44 ou par reponse à cet email pour toutes questions relatives à votre commande
     </div>
     <table cellspacing="0" style="margin:0 auto; width:100%; border-collapse:collapse; background-color:#EEEEEE; font-family:'Roboto', Arial !important">
         <tbody>
@@ -83,7 +83,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td width="255" style="background-color:#008AF1; color: #fff; text-align:center; border-radius:5px; vertical-align:middle; padding:13px 0">
-                                                                    <a href="https://onthespot.link/commande/{{ order.id }}">Suivi de commande</a>
+                                                                    <a href="https://onthespot.link/commandes">Suivi de commande</a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -269,7 +269,7 @@
                                             <tr>
                                                 <td align="right" style="padding-bottom:15px; font-family:'Roboto', Arial !important">
                                                     <p style="font-size:18px; color:#000; font-weight:900; margin:0; font-family:'Roboto', Arial !important">
-                                                        Total (8 produits):
+                                                        Total ({{ order.orderProducts|length }} produits):
                                                     </p>
                                                 </td>
                                                 <td align="right" style="padding-bottom:15px; font-family:'Roboto', Arial !important">
@@ -297,7 +297,7 @@
                                             <tr>
                                                 <td align="center" style="vertical-align:middle; padding:22px 0; font-family:'Roboto', Arial !important">
                                                     <p style="color:#FFF; font-size:18px; margin:0; font-family:'Roboto', Arial !important">
-                                                        Contactez nous au <a href="tel:+4942219447744" target="_blank" style="text-decoration:none; color:#FFF; font-weight:bold;outline:0;">+33 (0)6 94 44 77 44</a> ou par reposne a cet email pour toutes questions relative à votre commande
+                                                        Contactez nous au <a href="tel:+4942219447744" target="_blank" style="text-decoration:none; color:#FFF; font-weight:bold;outline:0;">+33 (0)6 94 44 77 44</a> ou par reponse à cet email pour toutes questions relatives à votre commande
                                                     </p>
                                                 </td>
                                             </tr>
