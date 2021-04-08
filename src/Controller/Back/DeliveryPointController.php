@@ -95,12 +95,17 @@ class DeliveryPointController extends AbstractController
             $coord = explode(', ', $deliveryPoint->getLocation());
             // Call to an gouv API
             $result = file_get_contents('https://api-adresse.data.gouv.fr/reverse/?lon=' . $coord[1] . '&lat=' . $coord[0] . '');
-            $deliveryPoint->setCity(
-                json_decode($result)
-                    ->features[0]
-                    ->properties
-                    ->city
-            );
+            $data = json_decode($result);
+
+            if (isset($data->features[0])) {
+                $deliveryPoint->setCity(
+                    $data->features[0]
+                        ->properties
+                        ->city
+                );
+            } else {
+                $deliveryPoint->setCity("Ville inconnue");
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
