@@ -30,7 +30,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr-FR');
+        $faker = Factory::create('fr_FR');
 
         // We use the fixtures in the dev version of the application to avoid having to load them on each developer's computer
 
@@ -56,7 +56,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
                     "Cornet Vanille-Chocolat" => [
                         "picture" => "cornet-vanille-chocolat"
                     ],
-                    "Calipso Citron" => [
+                    "Calippo Citron" => [
                         "picture" => "calipo-citron"
                     ],
                     "Fusée" => [
@@ -73,7 +73,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
                     "Beignet Pomme" => [
                         "picture" => "beignet-pomme"
                     ],
-                    "Beignet Cocholat-Noisette" => [
+                    "Beignet Chocolat-Noisette" => [
                         "picture" => "beignet-choconoisette"
                     ],
                     "Beignet Sucre" => [
@@ -235,7 +235,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
         for ($i = 0; $i < 50; $i++) {
             $order = new Order();
 
-            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks', '-1 days'))
+            $order->setDeliveryTime($faker->dateTimeBetween('-3 weeks', 'now'))
                 ->setUser($usersList[array_rand($usersList)])
                 ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
                 ->setStatus(3);
@@ -252,14 +252,14 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
             $manager->persist($order);
         }
-        // Fake non delivered order
-        for ($i = 0; $i < 30; $i++) {
+        // Fake order with status "en attente"
+        for ($i = 0; $i < 10; $i++) {
             $order = new Order();
 
-            $order->setDeliveryTime($faker->dateTimeBetween('-3 hours'))
+            $order->setDeliveryTime($faker->dateTimeBetween('now', '+3 hours'))
                 ->setUser($usersList[array_rand($usersList)])
                 ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
-                ->setStatus(mt_rand(0,2));
+                ->setStatus(0);
 
             // Add a random amount of product
             for ($j = 0; $j < mt_rand(1, 10); $j++) {
@@ -268,7 +268,27 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
                     ->setProduct($productsList[array_rand($productsList)]);
 
                 $order->addOrderProduct($orderLine);
-                    
+            }
+
+            $manager->persist($order);
+        }
+
+        // Fake order with status "en preparation" or "en livraison"
+        for ($i = 0; $i < 50; $i++) {
+            $order = new Order();
+
+            $order->setDeliveryTime($faker->dateTimeBetween('now', '+1 hours'))
+                ->setUser($usersList[array_rand($usersList)])
+                ->setDeliveryPoint($deliveryPointsList[array_rand($deliveryPointsList)])
+                ->setStatus(mt_rand(1, 2));
+
+            // Add a random amount of product
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
+                $orderLine = new OrderProduct();
+                $orderLine->setQuantity(mt_rand(1, 5))
+                    ->setProduct($productsList[array_rand($productsList)]);
+
+                $order->addOrderProduct($orderLine);
             }
 
             $manager->persist($order);
