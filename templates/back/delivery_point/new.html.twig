@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau point de retrait{% endblock %}
+
+{% block delivery_point %}active{% endblock %}
+
+{% block body %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('delivery_point_index') }}" class="h6">Retour à la liste des produits</a></h1>
+
+<div class="row">
+
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 80vh;">
+    </div>
+
+    <div class="col col-lg-8 row">
+        <div class="col-12">
+
+
+            {{ include('back/delivery_point/_form.html.twig') }}
+        </div>
+
+    </div>
+</div>
+
+{# Carte Leaflet #}
+<script>
+    //Appel et configuration carte
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+            maxZoom: 18,
+            attribution: osmAttrib
+        });
+
+    var map = L
+        .map('map')
+        .setView([43.67876671584565, -1.4413976669311523], 13)
+        .addLayer(osm);
+
+    var marker = L.marker([43.67876671584565, -1.4413976669311523], {
+        draggable: true
+    }).on('drag', function(e) {
+        document.getElementById('delivery_point_location').value = e.latlng.lat + ', ' + e.latlng.lng;
+    }).addTo(map);
+</script>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock %}
+
+{% block javascripts %}
+{# <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script> #}
+
+<script src="{{ asset('assets/js/leaflet-src.js') }}"></script>
+{% endblock %}

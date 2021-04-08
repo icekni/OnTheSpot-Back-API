@@ -1,0 +1,13 @@
+<form method="post" action="{{ path('delivery_point_delete', {'id': deliveryPoint.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ deliveryPoint.id) }}">
+
+    <a class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="far fa-trash-alt"></i>
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <button type="submit" class="dropdown-item">Confirmer</button>
+        <a class="dropdown-item" data-toggle="dropdown">Annuler</a>
+    </div>
+</form>
+

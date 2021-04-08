@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification commande #{{ order.id }}{% endblock %}
+
+{% block order %}active{% endblock %}
+
+{% block body %}
+<div class="row">
+    {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+    <h1 class='mx-auto'>{{ block('title') }} <a href="{{ referer }}" class="h6">Retour</a></h1>
+    
+</div>
+
+<div class="row">
+
+    <div id="map" class="d-none d-lg-block col-lg-12 col-xl-4">
+    </div>
+    <div class="row col col-xl-8">
+        {{ include('back/order/_form.html.twig') }}
+    </div>
+    
+</div>
+
+{# Carte Leaflet #}
+<script>
+    //Appel et configuration carte
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+            maxZoom: 18,
+            attribution: osmAttrib
+        });
+
+    var rotation = Math.PI / 4;
+    var map = L
+        .map('map')
+        .setView("{{ order.deliveryPoint.location|json_encode|trim('\"') }}".split(', '), window.innerHeight / 80)
+        .addLayer(osm)
+    ;
+
+    var marker = L.marker("{{ order.deliveryPoint.location|json_encode|trim('\"') }}".split(', ')).bindPopup("<p class='font-weight-bold'>Commande #{{ order.id }}</p><p>{{ order.deliveryPoint.name }}</p>").addTo(map).openPopup();
+
+    // map.on('mousemove', logMouse);
+
+    // Fonds de carte
+
+    // Ajout marqueurs
+    var plages = new L.LayerGroup();
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+{% endblock %}

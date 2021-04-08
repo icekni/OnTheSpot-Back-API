@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau produit{% endblock %}
+
+{% block product %}active{% endblock %}
+
+{% block body %}
+<h1 class='mx-auto'>{{ block('title') }} <a href="{{ path('product_index') }}" class="h6">Retour à la liste des produits</a></h1>
+
+    {{ include('back/product/_form.html.twig') }}
+
+    {% set referer = app.request.server.get('HTTP_REFERER')|default('/') %}
+    <a href="{{ referer }}">Retour</a>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block main %}active{% endblock %}
+
+{% block body %}
+<div class="row">
+
+    <div id="map" class="d-none d-lg-block col-lg-4" style="height: 90vh;">
+    </div>
+
+    <div class="col border-left m-3">
+        {% if deliveryPoint is defined %}
+        <h1 class="pt-1">{{ deliveryPoint.name }}</h1>
+        {% else %}
+        <h1 class="pt-1">Toutes les commandes</h1>
+        {% endif %}
+
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Statut</th>
+                    <th>Heure de livraison</th>
+                    <th>Point de RDV</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders|sort((b, a) => a.deliveryTime <=> b.deliveryTime) %}
+                <tr class="order-row">
+                    <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">
+                        {% if order.status == 0 %}
+                        <span class="badge badge-danger">En attente</span>{% endif %}
+                        {% if order.status == 1 %}<span class="badge badge-warning">En préparation</span>{% endif %}
+                        {% if order.status == 2 %}<span class="badge badge-primary">En livraison</span>{% endif %}
+                        {% if order.status == 3 %}<span class="badge badge-success">Livrée</span>{% endif %}
+                    </td>
+                    <td class="position-relative" onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryTime|date("d-m-Y - H:i") }}</td><a></td>
+                        <td onclick="window.location='{{ path('order_show', {'id': order.id}) }}';">{{ order.deliveryPoint.name }}</td>
+                        <td class="d-flex">
+                            <a type="button" href="{{ path('order_edit', {'id': order.id}) }}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+
+                            <div class="dropdown mx-2">
+                                {{ include('back/order/_delete_form.html.twig') }}
+                            </div>
+                        </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{# Carte Leaflet #}
+<script>
+    //Appel et configuration carte
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+            maxZoom: 18,
+            attribution: osmAttrib
+        });
+
+    var rotation = Math.PI / 4;
+    var map = L
+        .map('map')
+        .setView([43.67876671584565, -1.4413976669311523], 12)
+        .addLayer(osm)
+    // .setBearing("90")
+    ;
+    // map.on('mousemove', logMouse);
+
+    // Fonds de carte
+
+    // Ajout marqueurs
+    var plages = new L.LayerGroup();
+
+    let marker;
+    let ordersNumber;
+</script>
+{% for marker in markers|sort((b, a) => a.orderCount <=> b.orderCount)  %}
+<script>
+    marker = "{{ marker.location|json_encode|trim('\"') }}".split(', ');
+    ordersNumber = "{{ marker.orderCount }}";
+
+    L.circle(marker, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 100 * ordersNumber
+    }).bindPopup("<h5>{{ marker.name }}</h5><p>{{ marker.orderCount }} commandes</p><a href='{{ path('back_main', {id: marker.id}) }}'>Voir les commandes</a>").addTo(map);
+</script>
+{% endfor %}
+
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+{% endblock %}
