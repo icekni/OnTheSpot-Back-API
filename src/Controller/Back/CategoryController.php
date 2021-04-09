@@ -88,8 +88,6 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump("coucou");
-
             // Handling the picture
             $picture = $form->get('picture')->getData();
             // If a picture has been send
